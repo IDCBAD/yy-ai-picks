@@ -46,4 +46,26 @@ describe("ScenarioService", () => {
     await expect(createService().getRecommendationCount("build-agent")).resolves.toBe(7);
     await expect(createService().getRecommendationCount("missing")).resolves.toBe(0);
   });
+
+  it("derives the tool summary from scenario steps", async () => {
+    const data = structuredClone(contentData);
+    data.scenarios[0].recommendationIds = ["rec-claude"];
+    const service = new ScenarioService({
+      scenarios: new LocalScenarioRepository(data),
+      recommendations: new LocalRecommendationRepository(data),
+    });
+
+    const result = await service.getUniqueRecommendations("ai-website");
+
+    expect(result.map((item) => item.slug)).toEqual([
+      "claude",
+      "chatgpt",
+      "figma",
+      "excalidraw",
+      "claude-code",
+      "cursor",
+      "supabase",
+      "vercel",
+    ]);
+  });
 });

@@ -89,7 +89,7 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 - `RecommendationService`：公开列表、精选、最近更新、分类/标签数量、关联对象、项目状态分组和全站最新日期。
 - `SearchService`：推荐、场景、项目和文章四类本地搜索结果。
 - `FilterService`：分类、关系、定价、开源、自托管、平台和多标签交集筛选，以及四种排序。
-- `ScenarioService`：场景步骤的首选/替代工具解析、去重汇总和工具数量。
+- `ScenarioService`：场景步骤的首选/替代工具解析，并直接从步骤去重计算工具汇总和数量，不依赖手工统计。
 
 ## 搜索实现
 

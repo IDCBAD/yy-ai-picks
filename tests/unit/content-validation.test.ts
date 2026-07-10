@@ -147,6 +147,32 @@ describe("validateContentData", () => {
     expect(() => validateContentData(input)).toThrow(/primary and alternative.+overlap/i);
   });
 
+  it("requires scenario recommendation summaries to match step tools", () => {
+    const input = createValidContentData();
+    input.recommendations.push({
+      ...structuredClone(input.recommendations[0]),
+      id: "rec-two",
+      slug: "tool-two",
+      name: "Tool Two",
+      featured: false,
+      relatedScenarioIds: [],
+      relatedProjectIds: [],
+    });
+    Reflect.deleteProperty(input.recommendations[1], "featuredOrder");
+    input.scenarios[0].steps[0].alternativeRecommendationIds = ["rec-two"];
+
+    expect(() => validateContentData(input)).toThrow(
+      /scenario recommendation summary.+step tools/i,
+    );
+  });
+
+  it("requires recommendation and scenario relations to be bidirectional", () => {
+    const input = createValidContentData();
+    input.recommendations[0].relatedScenarioIds = [];
+
+    expect(() => validateContentData(input)).toThrow(/missing reciprocal scenario relation/i);
+  });
+
   it("rejects image paths outside the public asset convention", () => {
     const input = createValidContentData();
     input.recommendations[0].logo = "https://example.com/logo.png";

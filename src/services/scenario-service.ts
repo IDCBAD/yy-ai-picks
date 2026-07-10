@@ -25,6 +25,22 @@ function resolveIds(ids: string[], byId: Map<string, Recommendation>): Recommend
   });
 }
 
+function collectStepRecommendationIds(scenario: Scenario): string[] {
+  const seen = new Set<string>();
+  const ids: string[] = [];
+
+  for (const step of scenario.steps) {
+    for (const id of [...step.primaryRecommendationIds, ...step.alternativeRecommendationIds]) {
+      if (!seen.has(id)) {
+        seen.add(id);
+        ids.push(id);
+      }
+    }
+  }
+
+  return ids;
+}
+
 export class ScenarioService {
   constructor(private readonly dependencies: ScenarioServiceDependencies) {}
 
@@ -39,7 +55,7 @@ export class ScenarioService {
 
     return {
       scenario,
-      recommendations: resolveIds(scenario.recommendationIds, byId),
+      recommendations: resolveIds(collectStepRecommendationIds(scenario), byId),
       steps: scenario.steps.map((step) => ({
         step,
         primaryRecommendations: resolveIds(step.primaryRecommendationIds, byId),

@@ -155,5 +155,5 @@
 - [x] Update the exact implemented fields, enums, relationships and rules in `DATA_MODEL.md`.
 - [x] Mark only Phase 2 complete in `ROADMAP.md` and update Phase 2 acceptance coverage.
 - [x] Update README content-authoring and troubleshooting instructions.
-- [ ] Run `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run test:e2e`, and `npm run build`; all must exit 0.
-- [ ] Confirm `rg --files src/app src/components` shows no new business route or Phase 3 component.
+- [x] Run `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run test:e2e`, and `npm run build`; all must exit 0.
+- [x] Confirm `rg --files src/app src/components` shows no new business route or Phase 3 component.

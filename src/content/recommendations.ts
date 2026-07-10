@@ -471,6 +471,7 @@ export const recommendations: Recommendation[] = [
     relatedScenarioIds: [
       "scenario-ai-website",
       "scenario-automation",
+      "scenario-media-production",
       "scenario-indie-inspiration",
     ],
     relatedRecommendationIds: ["rec-figma"],

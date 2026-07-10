@@ -60,6 +60,8 @@ export function validateContentData(input: unknown): ContentData {
   const scenarioIds = new Set(data.scenarios.map((item) => item.id));
   const projectIds = new Set(data.projects.map((item) => item.id));
   const articleIds = new Set(data.articles.map((item) => item.id));
+  const recommendationsById = new Map(data.recommendations.map((item) => [item.id, item]));
+  const scenariosById = new Map(data.scenarios.map((item) => [item.id, item]));
   const featuredOrders = new Set<number>();
 
   for (const recommendation of data.recommendations) {
@@ -87,6 +89,10 @@ export function validateContentData(input: unknown): ContentData {
       if (!scenarioIds.has(scenarioId)) {
         issues.push(
           `Recommendation ${recommendation.id} references unknown scenario: ${scenarioId}`,
+        );
+      } else if (!scenariosById.get(scenarioId)?.recommendationIds.includes(recommendation.id)) {
+        issues.push(
+          `Recommendation ${recommendation.id} has a scenario relation not present in ${scenarioId}`,
         );
       }
     }
@@ -132,6 +138,7 @@ export function validateContentData(input: unknown): ContentData {
   for (const scenario of data.scenarios) {
     collectDuplicateValues(scenario.recommendationIds, "scenario recommendation relation", issues);
     const stepOrders = new Set<number>();
+    const stepRecommendationIds: string[] = [];
 
     for (const recommendationId of scenario.recommendationIds) {
       if (!recommendationIds.has(recommendationId)) {
@@ -168,6 +175,7 @@ export function validateContentData(input: unknown): ContentData {
         ...step.primaryRecommendationIds,
         ...step.alternativeRecommendationIds,
       ]) {
+        stepRecommendationIds.push(recommendationId);
         if (!recommendationIds.has(recommendationId)) {
           issues.push(
             `Scenario ${scenario.id} step ${step.id} references unknown recommendation: ${recommendationId}`,
@@ -180,6 +188,22 @@ export function validateContentData(input: unknown): ContentData {
       if (overlap.length > 0) {
         issues.push(
           `Primary and alternative recommendations overlap in ${scenario.id}/${step.id}: ${overlap.join(", ")}`,
+        );
+      }
+    }
+
+    const summaryIds = new Set(scenario.recommendationIds);
+    const stepIds = new Set(stepRecommendationIds);
+    if (
+      summaryIds.size !== stepIds.size ||
+      [...summaryIds].some((recommendationId) => !stepIds.has(recommendationId))
+    ) {
+      issues.push(`Scenario recommendation summary for ${scenario.id} must match step tools`);
+    }
+    for (const recommendationId of stepIds) {
+      if (!recommendationsById.get(recommendationId)?.relatedScenarioIds.includes(scenario.id)) {
+        issues.push(
+          `Recommendation ${recommendationId} is missing reciprocal scenario relation: ${scenario.id}`,
         );
       }
     }
