@@ -1,0 +1,58 @@
+import type { Project } from "@/types";
+
+const createdAt = "2026-07-10T00:00:00.000Z";
+
+export const projects: Project[] = [
+  {
+    id: "project-personal-blog",
+    slug: "personal-blog",
+    name: "个人博客",
+    shortDescription: "记录技术探索、项目开发和思考的个人空间。",
+    problem: "需要一个长期保存和组织个人公开内容的空间。",
+    coreFeatures: ["文章发布", "主题归档", "项目记录"],
+    techStack: ["Next.js", "MDX", "Vercel"],
+    status: "launched",
+    publishStatus: "published",
+    createdAt,
+    updatedAt: createdAt,
+  },
+  {
+    id: "project-agent-analysis",
+    slug: "agent-session-analysis",
+    name: "Agent 会话分析工具",
+    shortDescription: "用于观察 Agent 对话流程、工具调用和运行结果。",
+    problem: "复杂 Agent 会话难以快速定位流程和工具调用问题。",
+    coreFeatures: ["会话查看", "工具调用分析", "流程可视化"],
+    techStack: ["React", "LangGraph", "D3.js"],
+    status: "iterating",
+    publishStatus: "published",
+    createdAt,
+    updatedAt: "2026-07-09T00:00:00.000Z",
+  },
+  {
+    id: "project-recommendation-list",
+    slug: "ai-recommendation-list",
+    name: "推荐清单",
+    shortDescription: "基于真实使用关系组织工具、场景和项目的推荐清单。",
+    problem: "普通工具目录缺少使用关系、选择理由和限制说明。",
+    coreFeatures: ["分类浏览", "场景工作流", "推荐关系"],
+    techStack: ["Next.js", "TypeScript", "Vitest"],
+    status: "iterating",
+    publishStatus: "published",
+    createdAt,
+    updatedAt: "2026-07-10T00:00:00.000Z",
+  },
+  {
+    id: "project-automation-templates",
+    slug: "automation-workflow-templates",
+    name: "自动化工作流模板库",
+    shortDescription: "整理可复用的 n8n 与 Dify 工作流模板。",
+    problem: "重复搭建相似自动化流程成本较高。",
+    coreFeatures: ["模板分类", "配置说明", "复用示例"],
+    techStack: ["n8n", "Dify"],
+    status: "prototype",
+    publishStatus: "published",
+    createdAt,
+    updatedAt: "2026-07-08T00:00:00.000Z",
+  },
+];
