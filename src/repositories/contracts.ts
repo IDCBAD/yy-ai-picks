@@ -1,4 +1,4 @@
-import type { ArticleReference, Category, Project, Recommendation, Scenario } from "@/types";
+import type { ArticleReference, Category, Project, Recommendation, Scenario, Tag } from "@/types";
 
 export interface RecommendationRepository {
   getAllPublished(): Promise<Recommendation[]>;
@@ -26,4 +26,9 @@ export interface ProjectRepository {
 export interface ArticleRepository {
   getAll(): Promise<ArticleReference[]>;
   getById(id: string): Promise<ArticleReference | null>;
+}
+
+export interface TagRepository {
+  getAllVisible(): Promise<Tag[]>;
+  getById(id: string): Promise<Tag | null>;
 }

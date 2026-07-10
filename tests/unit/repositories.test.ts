@@ -7,6 +7,7 @@ import {
   LocalProjectRepository,
   LocalRecommendationRepository,
   LocalScenarioRepository,
+  LocalTagRepository,
 } from "@/repositories";
 
 describe("LocalRecommendationRepository", () => {
@@ -85,6 +86,18 @@ describe("other local repositories", () => {
     await expect(repository.getAll()).resolves.toHaveLength(4);
     await expect(repository.getById("article-remotion-docs")).resolves.toMatchObject({
       title: "Remotion 文档",
+    });
+    await expect(repository.getById("missing")).resolves.toBeNull();
+  });
+
+  it("returns visible tags and supports ID lookup", async () => {
+    const repository = new LocalTagRepository(contentData);
+
+    const result = await repository.getAllVisible();
+
+    expect(result.length).toBeGreaterThan(20);
+    await expect(repository.getById("tag-open-source")).resolves.toMatchObject({
+      slug: "open-source",
     });
     await expect(repository.getById("missing")).resolves.toBeNull();
   });

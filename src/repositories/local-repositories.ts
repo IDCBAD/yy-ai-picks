@@ -6,6 +6,7 @@ import type {
   Project,
   Recommendation,
   Scenario,
+  Tag,
 } from "@/types";
 
 import type {
@@ -14,6 +15,7 @@ import type {
   ProjectRepository,
   RecommendationRepository,
   ScenarioRepository,
+  TagRepository,
 } from "./contracts";
 
 export class LocalRecommendationRepository implements RecommendationRepository {
@@ -93,5 +95,17 @@ export class LocalArticleRepository implements ArticleRepository {
 
   async getById(id: string): Promise<ArticleReference | null> {
     return this.data.articles.find((item) => item.id === id) ?? null;
+  }
+}
+
+export class LocalTagRepository implements TagRepository {
+  constructor(private readonly data: ContentData = contentData) {}
+
+  async getAllVisible(): Promise<Tag[]> {
+    return this.data.tags.filter((item) => item.visible);
+  }
+
+  async getById(id: string): Promise<Tag | null> {
+    return this.data.tags.find((item) => item.id === id) ?? null;
   }
 }
