@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  parseRecommendationQuery,
-  serializeRecommendationQuery,
-} from "@/services/query-params";
+import { parseRecommendationQuery, serializeRecommendationQuery } from "@/services/query-params";
 
 describe("recommendation query parameters", () => {
   it("parses all supported parameters", () => {
@@ -74,7 +71,9 @@ describe("recommendation query parameters", () => {
 
     const encoded = serializeRecommendationQuery(query);
 
-    expect(encoded.toString()).toContain("q=%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86");
+    expect(encoded.toString()).toContain(
+      "q=%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86",
+    );
     expect(parseRecommendationQuery(encoded)).toEqual(query);
   });
 

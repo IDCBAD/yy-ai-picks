@@ -23,19 +23,9 @@ describe("FilterService", () => {
       service
         .apply(contentData.recommendations, { relationship: "daily-use" })
         .map((item) => item.slug),
-    ).toEqual([
-      "claude",
-      "claude-code",
-      "vercel",
-      "n8n",
-      "obsidian",
-      "figma",
-      "rsshub",
-    ]);
+    ).toEqual(["claude", "claude-code", "vercel", "n8n", "obsidian", "figma", "rsshub"]);
     expect(
-      service
-        .apply(contentData.recommendations, { pricing: "paid" })
-        .map((item) => item.slug),
+      service.apply(contentData.recommendations, { pricing: "paid" }).map((item) => item.slug),
     ).toEqual(["claude-code", "midjourney"]);
   });
 
@@ -54,12 +44,7 @@ describe("FilterService", () => {
       tagIds: ["tag-open-source", "tag-self-hostable"],
     });
 
-    expect(result.map((item) => item.slug)).toEqual([
-      "supabase",
-      "dify",
-      "n8n",
-      "rsshub",
-    ]);
+    expect(result.map((item) => item.slug)).toEqual(["supabase", "dify", "n8n", "rsshub"]);
   });
 
   it("combines different filters with intersection semantics", () => {
@@ -74,12 +59,12 @@ describe("FilterService", () => {
   });
 
   it("sorts by recently updated and recently added dates", () => {
-    expect(
-      service.apply(contentData.recommendations, { sort: "recently-updated" })[0].slug,
-    ).toBe("claude");
-    expect(
-      service.apply(contentData.recommendations, { sort: "recently-added" })[0].slug,
-    ).toBe("remotion");
+    expect(service.apply(contentData.recommendations, { sort: "recently-updated" })[0].slug).toBe(
+      "claude",
+    );
+    expect(service.apply(contentData.recommendations, { sort: "recently-added" })[0].slug).toBe(
+      "remotion",
+    );
   });
 
   it("sorts featured items by configured order before other items", () => {

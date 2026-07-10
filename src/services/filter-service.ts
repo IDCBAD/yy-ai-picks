@@ -64,6 +64,8 @@ export class FilterService {
     });
 
     const { sort } = criteria;
-    return sort ? filtered.sort((left, right) => compareRecommendations(left, right, sort)) : filtered;
+    return sort
+      ? filtered.sort((left, right) => compareRecommendations(left, right, sort))
+      : filtered;
   }
 }

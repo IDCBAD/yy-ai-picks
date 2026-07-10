@@ -1,9 +1,4 @@
-import {
-  PLATFORM_TYPES,
-  PRICING_TYPES,
-  RECOMMENDATION_RELATIONSHIPS,
-  SORT_OPTIONS,
-} from "@/types";
+import { PLATFORM_TYPES, PRICING_TYPES, RECOMMENDATION_RELATIONSHIPS, SORT_OPTIONS } from "@/types";
 import type { RecommendationQuery } from "@/types";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

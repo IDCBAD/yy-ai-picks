@@ -19,7 +19,9 @@ describe("local content", () => {
       contentData.recommendations.map((recommendation) => recommendation.categoryId),
     );
 
-    expect(coveredCategoryIds).toEqual(new Set(contentData.categories.map((category) => category.id)));
+    expect(coveredCategoryIds).toEqual(
+      new Set(contentData.categories.map((category) => category.id)),
+    );
   });
 
   it("contains no placeholder URLs or unreviewed personal claims", () => {

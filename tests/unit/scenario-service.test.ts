@@ -20,9 +20,7 @@ describe("ScenarioService", () => {
       "chatgpt",
       "ollama",
     ]);
-    expect(result?.steps[1].primaryRecommendations.map((item) => item.slug)).toEqual([
-      "langgraph",
-    ]);
+    expect(result?.steps[1].primaryRecommendations.map((item) => item.slug)).toEqual(["langgraph"]);
   });
 
   it("returns null for an invalid scenario slug", async () => {

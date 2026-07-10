@@ -45,10 +45,7 @@ describe("RecommendationService", () => {
 
     expect(result?.category.slug).toBe("ai-coding");
     expect(result?.tags.map((item) => item.slug)).toContain("code-generation");
-    expect(result?.scenarios.map((item) => item.slug)).toEqual([
-      "ai-website",
-      "indie-inspiration",
-    ]);
+    expect(result?.scenarios.map((item) => item.slug)).toEqual(["ai-website", "indie-inspiration"]);
     expect(result?.projects.map((item) => item.slug)).toEqual(["ai-recommendation-list"]);
     await expect(service.getBySlugWithRelations("missing")).resolves.toBeNull();
   });

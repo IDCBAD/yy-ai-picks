@@ -33,10 +33,7 @@ describe("SearchService", () => {
   it("ignores English case and trims surrounding whitespace", async () => {
     const result = await createService().search("  CLAUDE  ");
 
-    expect(result.recommendations.map(({ item }) => item.slug)).toEqual([
-      "claude",
-      "claude-code",
-    ]);
+    expect(result.recommendations.map(({ item }) => item.slug)).toEqual(["claude", "claude-code"]);
   });
 
   it("searches recommendation names and URL domains", async () => {
