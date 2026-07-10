@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "reference/about.html",
+  "entry": "reference/about.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-10T11:03:29.331Z",
+  "updatedAt": "2026-07-10T11:03:29.331Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

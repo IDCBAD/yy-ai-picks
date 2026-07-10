@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor — 推荐详情 · 余一的推荐清单</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* ═══════════════════════════════════════════════════════
+   推荐详情页专属样式
+   ═══════════════════════════════════════════════════════ */
+
+/* ─────────────── Detail Header ─────────────── */
+.detail-header {
+  padding: 40px 0 32px;
+}
+.detail-header-card {
+  padding: 32px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.detail-logo {
+  width: 96px;
+  height: 96px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 3rem;
+  color: var(--fg);
+}
+.detail-header-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.detail-header-info h1 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.detail-header-info .detail-tagline {
+  font-size: 1.125rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.detail-header-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.detail-header-properties {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.detail-prop {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.detail-prop strong { color: var(--fg); font-weight: 600; }
+.detail-header-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+@media (max-width: 768px) {
+  .detail-header-card { flex-direction: column; }
+  .detail-header-actions { flex-direction: row; width: 100%; }
+  .detail-header-actions .btn { flex: 1; justify-content: center; }
+}
+
+/* ─────────────── Detail Sections ─────────────── */
+.detail-section { padding: 32px 0; }
+.detail-section h2 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.detail-section h2 .section-num {
+  font-family: var(--mono-font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 1.5px solid var(--fg);
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+
+/* ─────────────── Editorial Card (推荐理由) ─────────────── */
+.editorial-card {
+  padding: 28px 32px;
+  position: relative;
+}
+.editorial-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 4px 0 0 4px;
+}
+.editorial-card .editorial-label {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.editorial-card p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--fg);
+}
+
+/* ─────────────── Usage Timeline (怎么使用) ─────────────── */
+.usage-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.usage-step {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  position: relative;
+}
+.usage-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 52px;
+  bottom: -16px;
+  width: 2px;
+  background: var(--border);
+}
+.usage-step-num {
+  width: 40px;
+  height: 40px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono-font);
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.usage-step-body h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.usage-step-body p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─────────────── Who Tags (适合谁/不适合谁) ─────────────── */
+.who-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.who-tag {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.who-tag.negative {
+  border-color: var(--muted);
+  color: var(--muted);
+  background: var(--bg);
+}
+.who-tag.negative svg { color: var(--muted); }
+
+/* ─────────────── Pros & Cons ─────────────── */
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.pros-cons-col {
+  padding: 24px;
+}
+.pros-cons-col h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pros-cons-col ul { display: flex; flex-direction: column; gap: 10px; }
+.pros-cons-col li {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--fg);
+  padding-left: 24px;
+  position: relative;
+}
+.pros-cons-col.pros li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 14px; height: 14px;
+  background: var(--accent);
+  border: 1.5px solid var(--fg);
+  border-radius: 4px;
+}
+.pros-cons-col.cons li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 14px; height: 2px;
+  background: var(--fg);
+  top: 14px;
+}
+@media (max-width: 768px) {
+  .pros-cons { grid-template-columns: 1fr; }
+}
+
+/* ─────────────── Related Scenarios ─────────────── */
+.related-scenarios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.related-scenario-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.related-scenario-card .rs-icon {
+  width: 40px; height: 40px;
+  border: 2px solid var(--fg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+}
+.related-scenario-card .rs-icon svg { width: 22px; height: 22px; }
+.related-scenario-card h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 2px;
+}
+.related-scenario-card p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+@media (max-width: 768px) {
+  .related-scenarios { grid-template-columns: 1fr; }
+}
+
+/* ─────────────── Alternatives ─────────────── */
+.alternatives-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.alt-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.alt-card h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.alt-card .alt-diff {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.alt-card .alt-when {
+  font-size: 0.75rem;
+  color: var(--accent-ink);
+  font-family: var(--mono-font);
+  font-weight: 600;
+}
+@media (max-width: 1024px) {
+  .alternatives-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .alternatives-grid { grid-template-columns: 1fr; }
+}
+
+/* ─────────────── Related Articles ─────────────── */
+.related-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.article-item {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.article-item .article-info { flex: 1; }
+.article-item h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+.article-item .article-meta {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ─────────────── Update Timeline ─────────────── */
+.update-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.update-item {
+  display: flex;
+  gap: 20px;
+  padding: 12px 0;
+  position: relative;
+}
+.update-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 28px;
+  bottom: -12px;
+  width: 2px;
+  background: var(--border);
+}
+.update-dot {
+  width: 14px; height: 14px;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 4px;
+  z-index: 1;
+}
+.update-date {
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--fg);
+  white-space: nowrap;
+  min-width: 100px;
+}
+.update-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div id="nav-mount"></div>
+
+<div class="container">
+
+  <!-- 面包屑 -->
+  <nav class="breadcrumb" aria-label="面包屑导航">
+    <a href="index.html">首页</a>
+    <span class="separator">/</span>
+    <a href="category.html?cat=ai-coding">AI 编程与开发</a>
+    <span class="separator">/</span>
+    <span class="current">Cursor</span>
+  </nav>
+
+  <!-- ───────── 详情头部 ───────── -->
+  <header class="detail-header" data-od-id="detail-header">
+    <div class="clip-card detail-header-card">
+      <div class="detail-logo">C</div>
+      <div class="detail-header-info">
+        <h1>Cursor</h1>
+        <p class="detail-tagline">基于代码库上下文进行编辑和生成的 AI 代码编辑器。</p>
+        <div class="detail-header-meta">
+          <span class="status-badge dark"><span class="status-dot"></span>项目用过</span>
+          <span class="tag">AI 编程与开发</span>
+          <span class="tag muted">#AI-IDE</span>
+          <span class="tag muted">#代码生成</span>
+          <span class="tag muted">#付费</span>
+        </div>
+        <div class="detail-header-properties">
+          <span class="detail-prop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg> <strong>免费 + 付费</strong></span>
+          <span class="detail-prop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> <strong>macOS / Windows / Linux</strong></span>
+          <span class="detail-prop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> <strong>非开源</strong></span>
+          <span class="detail-prop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 最后检查 <strong>2026-07-10</strong></span>
+        </div>
+      </div>
+      <div class="detail-header-actions">
+        <a href="https://cursor.com" target="_blank" rel="noopener" class="btn primary">访问官网 ↗</a>
+        <a href="index.html" class="btn dark">返回清单</a>
+      </div>
+    </div>
+  </header>
+
+</div>
+
+<main class="container-sm">
+
+  <!-- ───────── 1. 我为什么推荐 ───────── -->
+  <section class="detail-section" data-od-id="why-recommend">
+    <h2><span class="section-num">01</span> 我为什么推荐</h2>
+    <div class="clip-card editorial-card">
+      <div class="editorial-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        个人判断，不是官网介绍
+      </div>
+      <p>Cursor 把 AI 深度集成进了编辑器的核心交互——不是在边上加个聊天框，而是让你能用自然语言直接指挥编辑器修改代码。它的代码库索引能力让 AI 能理解整个项目的上下文，不只是当前文件。在真实项目中，我用它完成了多次跨文件重构和功能开发，生成质量明显高于传统补全工具。如果你是一个经常需要快速理解陌生代码库或做原型开发的人，它会显著提升你的效率。</p>
+    </div>
+  </section>
+
+  <!-- ───────── 2. 我怎么使用 ───────── -->
+  <section class="detail-section" data-od-id="how-use">
+    <h2><span class="section-num">02</span> 我怎么使用</h2>
+    <div class="usage-timeline">
+      <div class="usage-step">
+        <div class="usage-step-num">01</div>
+        <div class="usage-step-body">
+          <h4>打开项目并等待索引</h4>
+          <p>首次打开项目时，Cursor 会自动索引代码库。等待索引完成后，AI 就能理解全项目上下文。</p>
+        </div>
+      </div>
+      <div class="usage-step">
+        <div class="usage-step-num">02</div>
+        <div class="usage-step-body">
+          <h4>用 Cmd+K 写指令修改代码</h4>
+          <p>选中一段代码，按 Cmd+K 输入修改需求，Cursor 会基于上下文生成修改后的代码，你可以直接接受或修改。</p>
+        </div>
+      </div>
+      <div class="usage-step">
+        <div class="usage-step-num">03</div>
+        <div class="usage-step-body">
+          <h4>用 Cmd+L 做跨文件对话</h4>
+          <p>遇到需要理解全局逻辑的问题，打开侧边对话，引用多个文件，让 AI 帮你分析整个功能模块。</p>
+        </div>
+      </div>
+      <div class="usage-step">
+        <div class="usage-step-num">04</div>
+        <div class="usage-step-body">
+          <h4>审查生成的 diff</h4>
+          <p>每次修改后 Cursor 会展示 diff 视图，我习惯逐条审查，确保生成的代码符合预期。这一步不能省。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 3. 适合谁 ───────── -->
+  <section class="detail-section" data-od-id="who-suitable">
+    <h2><span class="section-num">03</span> 适合谁</h2>
+    <div class="who-tags">
+      <span class="who-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>独立开发者</span>
+      <span class="who-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>AI 编程初学者</span>
+      <span class="who-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>前端开发者</span>
+      <span class="who-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>需要快速阅读陌生项目的人</span>
+      <span class="who-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>经常做原型开发的人</span>
+    </div>
+  </section>
+
+  <!-- ───────── 4. 不适合谁 ───────── -->
+  <section class="detail-section" data-od-id="who-not-suitable">
+    <h2><span class="section-num">04</span> 不适合谁</h2>
+    <div class="who-tags">
+      <span class="who-tag negative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>完全不检查 AI 生成代码的人</span>
+      <span class="who-tag negative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>对代码隐私有严格要求且未配置本地模型的人</span>
+      <span class="who-tag negative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>需要完全离线开发的人</span>
+      <span class="who-tag negative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>预算紧张且只需要简单补全的人</span>
+    </div>
+  </section>
+
+  <!-- ───────── 5. 优点与限制 ───────── -->
+  <section class="detail-section" data-od-id="pros-cons">
+    <h2><span class="section-num">05</span> 优点与限制</h2>
+    <div class="pros-cons">
+      <div class="clip-card pros-cons-col pros">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          值得推荐的地方
+        </h3>
+        <ul>
+          <li>代码库级别的上下文理解，跨文件修改质量高</li>
+          <li>Cmd+K 内联编辑体验流畅，不需要切换到聊天窗口</li>
+          <li>支持多种 AI 模型（GPT-4、Claude 等），可按需切换</li>
+          <li>生成的 diff 清晰可审查，不会悄悄改一堆东西</li>
+          <li>对 TypeScript 和 React 项目支持特别好</li>
+        </ul>
+      </div>
+      <div class="clip-card pros-cons-col cons">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          使用前需要知道
+        </h3>
+        <ul>
+          <li>付费版价格不低，免费额度有限</li>
+          <li>大型项目首次索引可能需要几分钟</li>
+          <li>偶尔会生成不符合项目代码风格的代码，需要手动修正</li>
+          <li>对非 JS/TS 语言的支持相对弱一些</li>
+          <li>代码隐私：默认会上传代码到 AI 模型，需手动配置隐私模式</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 6. 推荐使用场景 ───────── -->
+  <section class="detail-section" data-od-id="related-scenarios">
+    <h2><span class="section-num">06</span> 推荐使用场景</h2>
+    <div class="related-scenarios">
+      <a href="scenario.html?s=ai-website" class="clip-card related-scenario-card" data-od-id="rs-card-1">
+        <div class="rs-icon" style="background:var(--accent);color:var(--accent-ink)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></div>
+        <div>
+          <h4>用 AI 做一个网站</h4>
+          <p>从需求到部署的全流程工具组合</p>
+        </div>
+      </a>
+      <a href="scenario.html?s=knowledge-base" class="clip-card related-scenario-card" data-od-id="rs-card-2">
+        <div class="rs-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div>
+          <h4>阅读陌生代码库</h4>
+          <p>用 AI 快速理解项目结构和逻辑</p>
+        </div>
+      </a>
+      <a href="scenario.html?s=automation" class="clip-card related-scenario-card" data-od-id="rs-card-3">
+        <div class="rs-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg></div>
+        <div>
+          <h4>快速搭建原型</h4>
+          <p>用 AI 加速从设计到代码的转化</p>
+        </div>
+      </a>
+      <a href="scenario.html?s=build-agent" class="clip-card related-scenario-card" data-od-id="rs-card-4">
+        <div class="rs-icon" style="background:var(--fg);color:var(--bg)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></div>
+        <div>
+          <h4>修复现有项目问题</h4>
+          <p>基于上下文定位和修复 bug</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ───────── 7. 同类替代 ───────── -->
+  <section class="detail-section" data-od-id="alternatives">
+    <h2><span class="section-num">07</span> 同类替代</h2>
+    <div class="alternatives-grid">
+      <a href="detail.html?tool=Claude%20Code" class="clip-card alt-card" data-od-id="alt-card-1">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:36px;height:36px;border:2px solid var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--bg);font-weight:900;font-size:1rem;">C</div>
+          <h4>Claude Code</h4>
+        </div>
+        <p class="alt-diff">终端 Agent，理解全项目上下文，适合多文件修改和复杂任务。</p>
+        <span class="alt-when">更适合 CLI 工作流</span>
+      </a>
+      <a href="detail.html?tool=GitHub%20Copilot" class="clip-card alt-card" data-od-id="alt-card-2">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:36px;height:36px;border:2px solid var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--bg);font-weight:900;font-size:1rem;">G</div>
+          <h4>GitHub Copilot</h4>
+        </div>
+        <p class="alt-diff">IDE 插件式补全，更轻量，不需要切换编辑器。</p>
+        <span class="alt-when">更适合轻量补全</span>
+      </a>
+      <a href="detail.html?tool=v0" class="clip-card alt-card" data-od-id="alt-card-3">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:36px;height:36px;border:2px solid var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);font-weight:900;font-size:1rem;">v</div>
+          <h4>v0</h4>
+        </div>
+        <p class="alt-diff">从描述直接生成 UI 组件，不需要手动编码。</p>
+        <span class="alt-when">更适合 UI 生成</span>
+      </a>
+      <a href="detail.html?tool=Codex" class="clip-card alt-card" data-od-id="alt-card-4">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:36px;height:36px;border:2px solid var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--fg);color:var(--bg);font-weight:900;font-size:1rem;">C</div>
+          <h4>Codex</h4>
+        </div>
+        <p class="alt-diff">OpenAI 的 CLI Agent，适合自动化代码任务和多文件修改。</p>
+        <span class="alt-when">更适合自动化任务</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ───────── 8. 相关文章与项目 ───────── -->
+  <section class="detail-section" data-od-id="related-articles">
+    <h2><span class="section-num">08</span> 相关文章与项目</h2>
+    <div class="related-articles">
+      <a href="#" class="clip-card article-item" data-od-id="article-1">
+        <div class="article-info">
+          <h4>用 Cursor 完成一个全栈项目的真实记录</h4>
+          <div class="article-meta">个人博客 · 2026-06-15 · 15 分钟阅读</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#" class="clip-card article-item" data-od-id="article-2">
+        <div class="article-info">
+          <h4>AI 编程工具对比：Cursor vs Claude Code vs Copilot</h4>
+          <div class="article-meta">个人博客 · 2026-05-20 · 12 分钟阅读</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="projects.html" class="clip-card article-item" data-od-id="article-3">
+        <div class="article-info">
+          <h4>Agent 会话分析工具 — 开发记录</h4>
+          <div class="article-meta">项目开发记录 · 2026-07-01 · 持续更新</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ───────── 9. 更新记录 ───────── -->
+  <section class="detail-section" data-od-id="update-log">
+    <h2><span class="section-num">09</span> 更新记录</h2>
+    <div class="update-timeline">
+      <div class="update-item">
+        <div class="update-dot"></div>
+        <div class="update-date">2026-07-10</div>
+        <div class="update-desc">更新推荐理由和使用场景，补充与 Claude Code 的对比</div>
+      </div>
+      <div class="update-item">
+        <div class="update-dot" style="background:var(--surface);"></div>
+        <div class="update-date">2026-06-20</div>
+        <div class="update-desc">首次收录，标注为「项目用过」</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<div id="footer-mount"></div>
+<div id="backtop-mount"></div>
+
+<script src="common.js"></script>
+<script>
+document.getElementById('nav-mount').innerHTML = renderNav('home');
+document.getElementById('footer-mount').innerHTML = renderFooter();
+document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+</script>
+</body>
+</html>

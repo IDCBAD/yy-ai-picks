@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类浏览 — AI 编程与开发 · 余一的推荐清单</title>
+  <meta name="description" content="余一的推荐清单 — 分类浏览 AI 编程与开发工具，包含代码生成、调试、部署和组件库等推荐工具。">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* ─────────────── Category Page Specific ─────────────── */
+    .cat-hero {
+      padding: 32px 0 48px;
+    }
+    .cat-hero-card {
+      background: var(--surface);
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-stack);
+      padding: 40px 44px;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-hero-card::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 180px;
+      height: 180px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .cat-hero-icon {
+      flex-shrink: 0;
+      width: 88px;
+      height: 88px;
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg);
+      box-shadow: var(--hard-shadow);
+      position: relative;
+      z-index: 1;
+    }
+    .cat-hero-icon svg {
+      width: 44px;
+      height: 44px;
+    }
+    .cat-hero-body {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .cat-hero-title {
+      font-family: var(--display-font);
+      font-weight: 900;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+    .cat-hero-desc {
+      font-size: 1.0625rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 640px;
+    }
+    .cat-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cat-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono-font);
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    .cat-meta-item strong {
+      color: var(--fg);
+      font-weight: 700;
+    }
+    .cat-meta-divider {
+      width: 1px;
+      height: 14px;
+      background: var(--border);
+    }
+
+    /* ─── Sub-tag Filter ─── */
+    .sub-filter-section {
+      padding: 0 0 40px;
+    }
+    .sub-filter-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .sub-filter-head h2 {
+      font-family: var(--display-font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .sub-filter-head .filter-icon {
+      color: var(--accent-ink);
+    }
+    .sub-filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sub-filter-bar .pill {
+      font-size: 0.8125rem;
+      padding: 6px 16px;
+    }
+
+    /* ─── Tools Grid ─── */
+    .tools-section {
+      padding: 0 0 64px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .tool-card {
+      background: var(--surface);
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-stack);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .tool-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+    }
+    .tool-card-top {
+      padding: 24px 24px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .tool-logo {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border: 2.5px solid var(--fg);
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display-font);
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--fg);
+      box-shadow: 3px 3px 0 var(--fg);
+    }
+    .tool-card-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .tool-card-name {
+      font-family: var(--display-font);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .tool-card-cat {
+      font-family: var(--mono-font);
+      font-size: 0.6875rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tool-card-body {
+      padding: 16px 24px 0;
+      flex: 1;
+    }
+    .tool-card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .tool-card-status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .tool-card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+    .tool-card-footer {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-top: 1.5px solid var(--border);
+      margin-top: 16px;
+    }
+    .tool-card-footer .btn {
+      flex: 1;
+      justify-content: center;
+      font-size: 0.8125rem;
+      padding: 8px 14px;
+    }
+    .tool-visit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--body-font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border: 2px solid var(--fg);
+      border-radius: 9999px;
+      background: var(--surface);
+      color: var(--fg);
+      transition: all 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .tool-visit-btn:hover {
+      background: var(--bg);
+      transform: translateY(-1px);
+    }
+    .tool-visit-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ─── Related Scenarios ─── */
+    .scenarios-section {
+      padding: 32px 0 64px;
+    }
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .scenario-card {
+      background: var(--surface);
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-stack);
+      padding: 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .scenario-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+    }
+    .scenario-card-icon {
+      width: 48px;
+      height: 48px;
+      border: 2.5px solid var(--fg);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg);
+      box-shadow: 3px 3px 0 var(--fg);
+    }
+    .scenario-card-icon svg { width: 26px; height: 26px; }
+    .scenario-card-title {
+      font-family: var(--display-font);
+      font-weight: 800;
+      font-size: 1.1875rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .scenario-card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .scenario-card-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--mono-font);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-ink);
+      margin-top: 4px;
+    }
+    .scenario-card-arrow svg { width: 14px; height: 14px; }
+
+    /* ─── Loading / Error ─── */
+    .cat-loading {
+      padding: 120px 24px;
+      text-align: center;
+    }
+    .cat-loading p {
+      font-family: var(--mono-font);
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ─── No tools state ─── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+    }
+    .empty-state h3 {
+      font-family: var(--display-font);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .empty-state p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      .cat-hero-card {
+        padding: 28px 24px;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .cat-hero-icon {
+        width: 64px;
+        height: 64px;
+      }
+      .cat-hero-icon svg {
+        width: 32px;
+        height: 32px;
+      }
+      .cat-hero-meta {
+        gap: 10px;
+      }
+      .cat-meta-divider {
+        display: none;
+      }
+      .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .scenarios-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .tool-card-footer {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tool-card-footer .btn,
+      .tool-visit-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <div id="nav-mount"><div class="cat-loading"><p>加载中...</p></div></div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="cat-loading"><p>正在加载分类内容...</p></div>
+  </main>
+
+  <!-- Footer Mount -->
+  <div id="footer-mount"></div>
+  <div id="backtop-mount"></div>
+
+  <script src="common.js"></script>
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       Category Page Logic
+       ═══════════════════════════════════════════════════════ */
+
+    (function() {
+      // ── SVG icon helpers ──
+      const SVG = {
+        chevronRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+        arrowRight: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+        external: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+        filter: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
+        eye: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+        clock: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        layers: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
+      };
+
+      // ── Get current category from URL ──
+      function getCatParam() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('cat') || 'ai-coding';
+      }
+
+      // ── Find category data ──
+      function getCategory(catId) {
+        return SITE_DATA.categories.find(c => c.id === catId) || SITE_DATA.categories[0];
+      }
+
+      // ── Get tools for category ──
+      function getToolsByCat(catId) {
+        return SITE_DATA.tools.filter(t => t.cat === catId);
+      }
+
+      // ── Extract unique tags from tools ──
+      function getUniqueTags(tools) {
+        const tagSet = new Set();
+        tools.forEach(t => {
+          if (t.tags) t.tags.forEach(tag => tagSet.add(tag));
+        });
+        return Array.from(tagSet);
+      }
+
+      // ── Get related scenarios (match by icon heuristics) ──
+      function getRelatedScenarios(catId) {
+        // Map category to likely scenario icons
+        const catScenarioMap = {
+          'ai-assistant': ['knowledge', 'website'],
+          'ai-coding': ['website', 'automation'],
+          'agent-automation': ['agent', 'automation'],
+          'knowledge': ['knowledge'],
+          'content-creation': ['media', 'website'],
+          'indie': ['indie']
+        };
+        const targetIcons = catScenarioMap[catId] || [];
+        let related = SITE_DATA.scenarios.filter(s => targetIcons.includes(s.icon));
+        // If not enough, fill with others
+        if (related.length < 3) {
+          const others = SITE_DATA.scenarios.filter(s => !targetIcons.includes(s.icon));
+          related = related.concat(others.slice(0, 3 - related.length));
+        }
+        return related.slice(0, 4);
+      }
+
+      // ── Generate logo placeholder initials ──
+      function getLogoInitials(name) {
+        if (!name) return '?';
+        // For English names take first letters of first two words
+        const parts = name.trim().split(/\s+/);
+        if (/^[a-zA-Z]/.test(name)) {
+          if (parts.length >= 2) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+          }
+          return name.substring(0, 2).toUpperCase();
+        }
+        // For Chinese names take first 1-2 chars
+        return name.substring(0, 2);
+      }
+
+      // ── Render Breadcrumb ──
+      function renderBreadcrumb(catName) {
+        return `
+          <div class="container">
+            <nav class="breadcrumb" aria-label="面包屑导航">
+              <a href="index.html">首页</a>
+              <span class="separator">${SVG.chevronRight}</span>
+              <a href="category.html">分类浏览</a>
+              <span class="separator">${SVG.chevronRight}</span>
+              <span class="current">${catName}</span>
+            </nav>
+          </div>`;
+      }
+
+      // ── Render Category Hero ──
+      function renderCatHero(cat, toolCount) {
+        const icon = getCatIcon(cat.icon);
+        const updateTime = '2026-07-10';
+        return `
+          <section class="cat-hero">
+            <div class="container">
+              <div class="cat-hero-card">
+                <div class="cat-hero-icon">
+                  ${icon}
+                </div>
+                <div class="cat-hero-body">
+                  <h1 class="cat-hero-title">${cat.name}</h1>
+                  <p class="cat-hero-desc">${cat.desc}</p>
+                  <div class="cat-hero-meta">
+                    <span class="cat-meta-item">
+                      ${SVG.layers}
+                      收录 <strong>${toolCount}</strong> 个工具
+                    </span>
+                    <span class="cat-meta-divider"></span>
+                    <span class="cat-meta-item">
+                      ${SVG.clock}
+                      最后更新 <strong>${updateTime}</strong>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Render Sub-tag Filter ──
+      function renderSubFilter(tags, activeTag) {
+        const allPill = `<button class="pill ${activeTag === 'all' ? 'active' : ''}" data-tag="all">全部<span class="pill-count">${tags.length}</span></button>`;
+        const tagPills = tags.map(tag => {
+          return `<button class="pill ${activeTag === tag ? 'active' : ''}" data-tag="${tag}">${tag}</button>`;
+        }).join('');
+        return `
+          <section class="sub-filter-section">
+            <div class="container">
+              <div class="sub-filter-head">
+                <span class="filter-icon">${SVG.filter}</span>
+                <h2>细分标签筛选</h2>
+              </div>
+              <div class="sub-filter-bar" id="sub-filter-bar">
+                ${allPill}
+                ${tagPills}
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Render Tool Card ──
+      function renderToolCard(tool, catName) {
+        const initials = getLogoInitials(tool.name);
+        const statusClass = getStatusClass(tool.status);
+        const tagsHtml = (tool.tags || []).slice(0, 3).map(tag => {
+          return `<span class="tag">${tag}</span>`;
+        }).join('');
+        const visitUrl = tool.url && tool.url !== '—' ? `https://${tool.url}` : '#';
+        const visitDisabled = tool.url === '—' || !tool.url;
+        const visitHtml = visitDisabled
+          ? `<span class="tool-visit-btn" style="opacity:0.45;cursor:default">暂无官网</span>`
+          : `<a href="${visitUrl}" target="_blank" rel="noopener noreferrer" class="tool-visit-btn">${SVG.external}访问官网</a>`;
+        return `
+          <article class="tool-card">
+            <div class="tool-card-top">
+              <div class="tool-logo">${initials}</div>
+              <div class="tool-card-info">
+                <h3 class="tool-card-name">${tool.name}</h3>
+                <span class="tool-card-cat">${catName}</span>
+              </div>
+            </div>
+            <div class="tool-card-body">
+              <p class="tool-card-desc">${tool.desc}</p>
+              <div class="tool-card-status-row">
+                <span class="status-badge ${statusClass}">
+                  <span class="status-dot"></span>
+                  ${tool.status}
+                </span>
+              </div>
+              <div class="tool-card-tags">${tagsHtml}</div>
+            </div>
+            <div class="tool-card-footer">
+              <button class="btn sm" onclick="alert('「${tool.name}」详情页即将上线')">
+                ${SVG.eye}查看详情
+              </button>
+              ${visitHtml}
+            </div>
+          </article>`;
+      }
+
+      // ── Render Tools Section ──
+      function renderToolsSection(tools, catName, activeTag) {
+        const filtered = activeTag === 'all' ? tools : tools.filter(t => (t.tags || []).includes(activeTag));
+        const cardsHtml = filtered.length > 0
+          ? filtered.map(t => renderToolCard(t, catName)).join('')
+          : `<div class="empty-state">
+              <h3>没有找到匹配的工具</h3>
+              <p>尝试选择其他标签或查看全部工具。</p>
+            </div>`;
+        return `
+          <section class="tools-section" id="tools-section">
+            <div class="container">
+              <div class="section-header">
+                <h2>推荐工具</h2>
+                <span class="section-meta">${filtered.length} / ${tools.length} 个工具</span>
+              </div>
+              <div class="tools-grid" id="tools-grid">
+                ${cardsHtml}
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Render Related Scenarios ──
+      function renderScenariosSection(scenarios) {
+        const cards = scenarios.map(s => {
+          const icon = getCatIcon(s.icon);
+          return `
+            <a href="scenario.html#${s.id}" class="scenario-card">
+              <div class="scenario-card-icon">${icon}</div>
+              <h3 class="scenario-card-title">${s.title}</h3>
+              <p class="scenario-card-desc">${s.desc}</p>
+              <span class="scenario-card-arrow">
+                查看场景 ${SVG.arrowRight}
+              </span>
+            </a>`;
+        }).join('');
+        return `
+          <section class="scenarios-section">
+            <div class="container">
+              <div class="section-header">
+                <h2>相关场景清单</h2>
+                <span class="section-meta">${scenarios.length} 个场景</span>
+              </div>
+              <div class="scenarios-grid">
+                ${cards}
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Render Other Category Quick Links ──
+      function renderCatSwitcher(currentCatId) {
+        const pills = SITE_DATA.categories.map(c => {
+          const isActive = c.id === currentCatId;
+          return `<a href="category.html?cat=${c.id}" class="pill ${isActive ? 'active' : ''}">${c.name}<span class="pill-count">${c.count}</span></a>`;
+        }).join('');
+        return `
+          <section style="padding: 0 0 48px;">
+            <div class="container">
+              <div class="sub-filter-head" style="margin-bottom:16px;">
+                <span class="filter-icon">${SVG.layers}</span>
+                <h2 style="font-size:1.125rem;">切换其他分类</h2>
+              </div>
+              <div class="sub-filter-bar" style="flex-wrap:wrap;">
+                ${pills}
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Main Render ──
+      function renderPage() {
+        const catId = getCatParam();
+        const cat = getCategory(catId);
+        const tools = getToolsByCat(cat.id);
+        const tags = getUniqueTags(tools);
+        const scenarios = getRelatedScenarios(cat.id);
+
+        // Update document title
+        document.title = `分类浏览 — ${cat.name} · 余一的推荐清单`;
+
+        // Render nav
+        document.getElementById('nav-mount').innerHTML = renderNav('category');
+
+        // Render main content
+        const mainEl = document.getElementById('main-content');
+        mainEl.innerHTML =
+          renderBreadcrumb(cat.name) +
+          renderCatHero(cat, tools.length) +
+          renderSubFilter(tags, 'all') +
+          renderToolsSection(tools, cat.name, 'all') +
+          renderScenariosSection(scenarios) +
+          renderCatSwitcher(cat.id);
+
+        // Render footer
+        document.getElementById('footer-mount').innerHTML = renderFooter();
+        document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+
+        // Init shared interactions (mobile menu, back to top)
+        initShared();
+
+        // Init sub-tag filter
+        initSubFilter(tools, cat.name);
+      }
+
+      // ── Init Sub-tag Filter Interaction ──
+      function initSubFilter(tools, catName) {
+        const filterBar = document.getElementById('sub-filter-bar');
+        if (!filterBar) return;
+        filterBar.addEventListener('click', function(e) {
+          const pill = e.target.closest('.pill[data-tag]');
+          if (!pill) return;
+          const tag = pill.getAttribute('data-tag');
+          // Update active state
+          filterBar.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          // Re-render tools section
+          const toolsSection = document.getElementById('tools-section');
+          if (toolsSection) {
+            const newSection = document.createElement('div');
+            newSection.innerHTML = renderToolsSection(tools, catName, tag);
+            const newInner = newSection.firstElementChild;
+            toolsSection.replaceWith(newInner);
+            // Smooth scroll to tools section
+            setTimeout(() => {
+              newInner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+          }
+        });
+      }
+
+      // ── Run on DOM ready ──
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderPage);
+      } else {
+        renderPage();
+      }
+    })();
+  </script>
+</body>
+</html>

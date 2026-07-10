@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的项目 — 余一的推荐清单</title>
+  <meta name="description" content="余一的推荐清单 — 我自己正在构建和维护的产品，包括已上线、持续迭代和原型阶段的项目。">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       我的项目页专属样式
+       ═══════════════════════════════════════════════════════ */
+
+    /* ─────────────── Page Header ─────────────── */
+    .projects-hero {
+      padding: 32px 0 48px;
+    }
+    .projects-hero-card {
+      background: var(--surface);
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-stack);
+      padding: 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .projects-hero-card::before {
+      content: '';
+      position: absolute;
+      left: -40px;
+      top: -40px;
+      width: 160px;
+      height: 160px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .projects-hero-card::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      bottom: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .projects-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      border: 2px solid var(--fg);
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-family: var(--mono-font);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--accent-ink);
+      box-shadow: 2px 2px 0 var(--fg);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .projects-hero-eyebrow svg {
+      width: 16px;
+      height: 16px;
+    }
+    .projects-hero h1 {
+      font-family: var(--display-font);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .projects-hero h1 .accent-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .projects-hero h1 .accent-underline::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: var(--accent);
+      z-index: -1;
+      transform: skew(-3deg);
+      border-radius: 4px;
+    }
+    .projects-hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .projects-hero-subtitle strong {
+      color: var(--fg);
+      font-weight: 700;
+    }
+    .projects-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .projects-hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono-font);
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    .projects-hero-meta-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent-ink);
+    }
+    .projects-hero-meta-item strong {
+      color: var(--fg);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .projects-hero-meta-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    /* ─────────────── Status Groups ─────────────── */
+    .status-group {
+      padding: 0 0 56px;
+    }
+    .status-group:last-child {
+      padding-bottom: 0;
+    }
+    .status-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .status-group-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-group-icon {
+      width: 44px;
+      height: 44px;
+      border: var(--border-w) solid var(--fg);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 3px 3px 0 var(--fg);
+    }
+    .status-group-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+    .status-group-icon.launched { background: var(--accent); color: var(--accent-ink); }
+    .status-group-icon.iterating { background: var(--fg); color: var(--bg); }
+    .status-group-icon.prototype { background: var(--surface); color: var(--fg); }
+    .status-group-icon.experiment { background: var(--bg); color: var(--muted); border-style: dashed; }
+    .status-group-title h2 {
+      font-family: var(--display-font);
+      font-weight: 900;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    .status-group-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .status-group-count {
+      font-family: var(--mono-font);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: 4px 14px;
+      border: 2px solid var(--border);
+      border-radius: 9999px;
+    }
+
+    /* ─────────────── Project Cards (Horizontal Layout) ─────────────── */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: row;
+      background: var(--surface);
+      border: var(--border-w) solid var(--fg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-stack);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+      position: relative;
+    }
+    .project-card:nth-child(2n) { transform: rotate(0.3deg); }
+    .project-card:nth-child(3n) { transform: rotate(-0.2deg); }
+    .project-card:hover {
+      transform: translate(-2px, -2px) rotate(0deg);
+      box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26, 26, 26, 0.12);
+    }
+
+    /* Cover Section */
+    .project-cover {
+      flex-shrink: 0;
+      width: 260px;
+      min-height: 220px;
+      background: var(--bg);
+      border-right: var(--border-w) solid var(--fg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-cover-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image: repeating-linear-gradient(135deg, var(--fg) 0, var(--fg) 1px, transparent 1px, transparent 12px);
+    }
+    .project-cover-icon {
+      width: 72px;
+      height: 72px;
+      border: var(--border-w) solid var(--fg);
+      border-radius: 18px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 4px 4px 0 var(--fg);
+      position: relative;
+      z-index: 1;
+    }
+    .project-cover-icon svg {
+      width: 36px;
+      height: 36px;
+      color: var(--fg);
+    }
+    .project-cover-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      font-family: var(--mono-font);
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      z-index: 1;
+    }
+
+    /* Body Section */
+    .project-body {
+      flex: 1;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+    .project-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .project-name {
+      font-family: var(--display-font);
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    .project-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono-font);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: 1.5px solid var(--fg);
+      background: var(--surface);
+      color: var(--fg);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .project-status-badge.launched {
+      background: var(--accent);
+      color: var(--accent-ink);
+    }
+    .project-status-badge.iterating {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .project-status-badge.prototype {
+      background: var(--surface);
+      color: var(--fg);
+    }
+    .project-status-badge .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .project-desc {
+      font-size: 0.9375rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .project-desc-label {
+      display: inline-block;
+      font-family: var(--mono-font);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--accent-ink);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .project-stack .tag {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-width: 1.5px;
+    }
+    .project-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .project-actions .btn {
+      font-size: 0.875rem;
+      padding: 10px 22px;
+    }
+
+    /* ─────────────── Empty Group (no projects) ─────────────── */
+    .empty-group {
+      text-align: center;
+      padding: 48px 24px;
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+    }
+    .empty-group p {
+      font-family: var(--mono-font);
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ─────────────── Loading State ─────────────── */
+    .projects-loading {
+      padding: 120px 24px;
+      text-align: center;
+    }
+    .projects-loading p {
+      font-family: var(--mono-font);
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ─────────────── Responsive ─────────────── */
+    @media (max-width: 768px) {
+      .projects-hero-card {
+        padding: 32px 24px;
+      }
+      .project-card {
+        flex-direction: column;
+      }
+      .project-cover {
+        width: 100%;
+        min-height: 140px;
+        border-right: none;
+        border-bottom: var(--border-w) solid var(--fg);
+      }
+      .project-cover-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+      }
+      .project-cover-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+      .project-body {
+        padding: 24px 20px;
+      }
+      .project-name {
+        font-size: 1.25rem;
+      }
+      .project-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .project-actions {
+        flex-direction: column;
+      }
+      .project-actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .status-group {
+        padding-bottom: 40px;
+      }
+      .projects-hero-meta {
+        gap: 12px;
+      }
+      .projects-hero-meta-divider {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <div id="nav-mount"><div class="projects-loading"><p>加载中...</p></div></div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="projects-loading"><p>正在加载项目内容...</p></div>
+  </main>
+
+  <!-- Footer Mount -->
+  <div id="footer-mount"></div>
+  <div id="backtop-mount"></div>
+
+  <script src="common.js"></script>
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       我的项目页逻辑
+       ═══════════════════════════════════════════════════════ */
+
+    (function() {
+      // ── SVG icons ──
+      const SVG = {
+        chevronRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+        arrowRight: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+        external: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+        book: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+        rocket: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+        refresh: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+        flask: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6.5L4 18a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9.5V2"/><path d="M7 2h10"/><path d="M7 14h10"/></svg>',
+        boxes: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5 3-4.03-2.42z"/><path d="M7 16.5l-5-3"/><path d="M17 19V8.5l-5 3"/><path d="M12 13.5V19l4.97-2.42a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L13 7"/><path d="M16.5 7l3.03-2.42A2 2 0 0 1 22 6.63v3.24a2 2 0 0 1-.97 1.71L17 14"/></svg>',
+        layers: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+        clock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        code: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+        terminal: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>',
+        grid: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+        workflow: '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M10 6.5h4a3 3 0 0 1 3 3V14"/></svg>',
+        edit: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
+      };
+
+      // ── Status group config ──
+      const STATUS_GROUPS = [
+        {
+          status: '已上线',
+          iconKey: 'rocket',
+          iconClass: 'launched',
+          desc: '已经对外发布、有真实用户在用的产品',
+          badgeClass: 'launched'
+        },
+        {
+          status: '持续迭代',
+          iconKey: 'refresh',
+          iconClass: 'iterating',
+          desc: '已发布且仍在持续打磨和增加功能',
+          badgeClass: 'iterating'
+        },
+        {
+          status: '原型阶段',
+          iconKey: 'flask',
+          iconClass: 'prototype',
+          desc: '验证想法可行性的早期原型，功能不完整',
+          badgeClass: 'prototype'
+        },
+        {
+          status: '实验项目',
+          iconKey: 'boxes',
+          iconClass: 'experiment',
+          desc: '探索性实验，尚未确定方向或是否继续',
+          badgeClass: 'prototype'
+        }
+      ];
+
+      // ── Cover icons mapped by project name (fallback: generic) ──
+      const PROJECT_ICONS = {
+        '个人博客': 'edit',
+        'Agent 会话分析工具': 'grid',
+        '推荐清单': 'layers',
+        '自动化工作流模板库': 'workflow'
+      };
+
+      function getProjectIcon(name) {
+        const key = PROJECT_ICONS[name];
+        return key ? SVG[key] : SVG.code;
+      }
+
+      // ── Render Breadcrumb ──
+      function renderBreadcrumb() {
+        return `
+          <div class="container">
+            <nav class="breadcrumb" aria-label="面包屑导航">
+              <a href="index.html">首页</a>
+              <span class="separator">${SVG.chevronRight}</span>
+              <span class="current">我的项目</span>
+            </nav>
+          </div>`;
+      }
+
+      // ── Render Page Header ──
+      function renderHero(totalCount) {
+        const updateTime = '2026-07-10';
+        return `
+          <section class="projects-hero">
+            <div class="container">
+              <div class="projects-hero-card">
+                <span class="projects-hero-eyebrow">
+                  ${SVG.rocket}
+                  我的项目
+                </span>
+                <h1>我正在构建的<span class="accent-underline">产品</span></h1>
+                <p class="projects-hero-subtitle">
+                  这些不是第三方推荐，而是我自己正在<strong>构建和维护</strong>的产品。每个项目都解决我遇到的真实问题，也记录着从想法到落地的完整过程。
+                </p>
+                <div class="projects-hero-meta">
+                  <span class="projects-hero-meta-item">
+                    ${SVG.layers}
+                    共 <strong>${totalCount}</strong> 个项目
+                  </span>
+                  <span class="projects-hero-meta-divider"></span>
+                  <span class="projects-hero-meta-item">
+                    ${SVG.clock}
+                    最后更新 <strong>${updateTime}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Render Project Card ──
+      function renderProjectCard(project, badgeClass) {
+        const iconSvg = getProjectIcon(project.name);
+        const stackTags = (project.stack || []).map(tech => {
+          return `<span class="tag">${tech}</span>`;
+        }).join('');
+
+        const visitUrl = project.url && project.url !== '#' ? project.url : null;
+        const visitHtml = visitUrl
+          ? `<a href="${visitUrl}" target="_blank" rel="noopener noreferrer" class="btn primary">${SVG.external}访问项目</a>`
+          : `<span class="btn" style="opacity:0.5;cursor:not-allowed;box-shadow:3px 3px 0 var(--fg);">${SVG.external}暂未公开</span>`;
+
+        const logUrl = project.log && project.log !== '#' ? project.log : null;
+        const logHtml = logUrl
+          ? `<a href="${logUrl}" class="btn">${SVG.book}阅读开发记录</a>`
+          : `<button class="btn" onclick="alert('开发记录即将上线')">${SVG.book}阅读开发记录</button>`;
+
+        return `
+          <article class="project-card">
+            <div class="project-cover">
+              <div class="project-cover-pattern"></div>
+              <div class="project-cover-icon">
+                ${iconSvg}
+              </div>
+              <span class="project-cover-label">Project Cover</span>
+            </div>
+            <div class="project-body">
+              <div class="project-header-row">
+                <h3 class="project-name">${project.name}</h3>
+                <span class="project-status-badge ${badgeClass}">
+                  <span class="status-dot"></span>
+                  ${project.status}
+                </span>
+              </div>
+              <div>
+                <span class="project-desc-label">项目简介</span>
+                <p class="project-desc">${project.desc}</p>
+              </div>
+              <div class="project-stack">${stackTags}</div>
+              <div class="project-actions">
+                ${visitHtml}
+                ${logHtml}
+              </div>
+            </div>
+          </article>`;
+      }
+
+      // ── Render Status Group ──
+      function renderStatusGroup(group, projects) {
+        const filtered = projects.filter(p => p.status === group.status);
+
+        if (filtered.length === 0) {
+          return `
+            <section class="status-group">
+              <div class="container">
+                <div class="status-group-header">
+                  <div class="status-group-title">
+                    <div class="status-group-icon ${group.iconClass}">
+                      ${SVG[group.iconKey]}
+                    </div>
+                    <div>
+                      <h2>${group.status}</h2>
+                      <p class="status-group-desc">${group.desc}</p>
+                    </div>
+                  </div>
+                  <span class="status-group-count">0 个项目</span>
+                </div>
+                <div class="empty-group">
+                  <p>暂无${group.status}的项目，敬请期待。</p>
+                </div>
+              </div>
+            </section>`;
+        }
+
+        const cardsHtml = filtered.map(p => renderProjectCard(p, group.badgeClass)).join('');
+        return `
+          <section class="status-group">
+            <div class="container">
+              <div class="status-group-header">
+                <div class="status-group-title">
+                  <div class="status-group-icon ${group.iconClass}">
+                    ${SVG[group.iconKey]}
+                  </div>
+                  <div>
+                    <h2>${group.status}</h2>
+                    <p class="status-group-desc">${group.desc}</p>
+                  </div>
+                </div>
+                <span class="status-group-count">${filtered.length} 个项目</span>
+              </div>
+              <div class="project-list">
+                ${cardsHtml}
+              </div>
+            </div>
+          </section>`;
+      }
+
+      // ── Main Render ──
+      function renderPage() {
+        const projects = SITE_DATA.projects || [];
+        const totalCount = projects.length;
+
+        // Update document title
+        document.title = '我的项目 — 余一的推荐清单';
+
+        // Render nav
+        document.getElementById('nav-mount').innerHTML = renderNav('projects');
+
+        // Render main content
+        const mainEl = document.getElementById('main-content');
+        let content = renderBreadcrumb() + renderHero(totalCount);
+
+        // Render each status group
+        STATUS_GROUPS.forEach(group => {
+          content += renderStatusGroup(group, projects);
+        });
+
+        mainEl.innerHTML = content;
+
+        // Render footer
+        document.getElementById('footer-mount').innerHTML = renderFooter();
+        document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+
+        // Init shared interactions (mobile menu, back to top)
+        initShared();
+      }
+
+      // ── Run on DOM ready ──
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderPage);
+      } else {
+        renderPage();
+      }
+    })();
+  </script>
+</body>
+</html>

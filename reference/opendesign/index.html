@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>余一的推荐清单 — 个人 AI 工具与数字资源推荐</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* ═══════════════════════════════════════════════════════
+   首页专属样式
+   ═══════════════════════════════════════════════════════ */
+
+/* ─────────────── Hero ─────────────── */
+.hero {
+  padding: 72px 0 56px;
+  text-align: center;
+  position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  box-shadow: 2px 2px 0 var(--fg);
+  margin-bottom: 24px;
+  font-family: var(--mono-font);
+}
+.hero-eyebrow-dot {
+  width: 8px; height: 8px;
+  background: var(--accent-ink);
+  border-radius: 50%;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero-eyebrow-dot {
+  animation: pulse 2s ease-in-out infinite;
+}
+.hero h1 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
+.hero h1 .accent-word {
+  position: relative;
+  display: inline-block;
+}
+.hero h1 .accent-word::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  background: var(--accent);
+  z-index: -1;
+  transform: skew(-3deg);
+  border-radius: 4px;
+}
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 auto 8px;
+  line-height: 1.7;
+}
+.hero-tagline {
+  font-family: var(--mono-font);
+  font-size: 0.875rem;
+  color: var(--accent-ink);
+  margin-bottom: 32px;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.hero-meta-item {
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-meta-item strong {
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.hero-search-wrap {
+  max-width: 640px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+/* ─────────────── Section Spacing ─────────────── */
+.section { padding: 48px 0; }
+
+/* ─────────────── Recent Updates ─────────────── */
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.recent-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.recent-card:nth-child(2n) { transform: rotate(0.5deg); }
+.recent-card:nth-child(3n) { transform: rotate(-0.4deg); }
+.recent-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.recent-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.recent-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.recent-card-icon {
+  width: 40px;
+  height: 40px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.125rem;
+  color: var(--fg);
+}
+.recent-card-title-row { flex: 1; min-width: 0; }
+.recent-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.recent-card-cat {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.recent-card-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.recent-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.recent-card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.recent-card-tags .tag {
+  font-size: 0.625rem;
+  padding: 2px 8px;
+  border-width: 1px;
+}
+.recent-card-date {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ─────────────── Scenario Cards ─────────────── */
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.scenario-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+}
+.scenario-card:nth-child(4n+1) { transform: rotate(-0.3deg); }
+.scenario-card:nth-child(4n+2) { transform: rotate(0.4deg); }
+.scenario-card:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.scenario-card-icon {
+  width: 48px;
+  height: 48px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--fg);
+}
+.scenario-card-icon.accent { background: var(--accent); color: var(--accent-ink); }
+.scenario-card-icon svg { width: 26px; height: 26px; }
+.scenario-card h3 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.scenario-card p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  flex: 1;
+  line-height: 1.5;
+}
+.scenario-card-arrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--fg);
+  transition: gap 0.2s;
+}
+.scenario-card:hover .scenario-card-arrow { gap: 10px; }
+
+/* ─────────────── Category Tiles ─────────────── */
+.cat-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.cat-tile {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+}
+.cat-tile:nth-child(4n+1) { transform: rotate(-0.3deg); }
+.cat-tile:nth-child(4n+3) { transform: rotate(0.4deg); }
+.cat-tile:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.cat-tile-icon {
+  width: 48px;
+  height: 48px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cat-tile-icon svg { width: 26px; height: 26px; }
+.cat-tile h3 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
+}
+.cat-tile p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  flex: 1;
+}
+.cat-tile-count {
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cat-tile-count .arrow {
+  transition: transform 0.2s;
+}
+.cat-tile:hover .cat-tile-count .arrow {
+  transform: translateX(4px);
+}
+
+/* ─────────────── Featured (Long-term Use) ─────────────── */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.featured-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.featured-card:nth-child(2) { transform: rotate(0.6deg); }
+.featured-card:nth-child(3) { transform: rotate(-0.4deg); }
+.featured-card:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.featured-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.featured-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.featured-card-icon {
+  width: 48px;
+  height: 48px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--fg);
+}
+.featured-card-title-row { flex: 1; min-width: 0; }
+.featured-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.featured-card-cat {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.featured-card-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.featured-card-reason {
+  font-size: 0.8125rem;
+  color: var(--fg);
+  line-height: 1.5;
+  padding: 12px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+  border-radius: 0 8px 8px 0;
+}
+.featured-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+.featured-card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.featured-card-tags .tag {
+  font-size: 0.625rem;
+  padding: 2px 8px;
+  border-width: 1px;
+}
+.featured-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─────────────── All Recommendations ─────────────── */
+.all-grid-section { padding: 24px 0 48px; }
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.filter-bar-label {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.filter-bar-select {
+  font-family: var(--body-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 6px 32px 6px 14px;
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--fg);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.filter-more-btn {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: 2px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.filter-more-btn:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.reco-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.reco-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+.reco-card:nth-child(4n+1) { transform: rotate(-0.3deg); }
+.reco-card:nth-child(4n+2) { transform: rotate(0.5deg); }
+.reco-card:nth-child(4n+3) { transform: rotate(-0.2deg); }
+.reco-card:nth-child(4n+4) { transform: rotate(0.4deg); }
+.reco-card:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.reco-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.reco-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.reco-card-icon {
+  width: 44px;
+  height: 44px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.125rem;
+  color: var(--fg);
+}
+.reco-card-icon.accent { background: var(--accent); color: var(--accent-ink); }
+.reco-card-title-row { flex: 1; min-width: 0; }
+.reco-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.reco-card-cat {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.reco-card-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.reco-card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.reco-card-tags .tag {
+  font-size: 0.625rem;
+  padding: 2px 8px;
+  border-width: 1px;
+}
+.reco-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.reco-card-visit {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+.reco-card-visit:hover { gap: 8px; }
+
+/* ─────────────── Projects Section ─────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.project-card {
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.project-card:nth-child(2) { transform: rotate(0.3deg); }
+.project-card:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.project-card-cover {
+  width: 80px;
+  height: 80px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 2rem;
+  color: var(--fg);
+}
+.project-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.project-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.project-card h3 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+.project-card-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.project-card-stack {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.project-card-stack .tag {
+  font-size: 0.625rem;
+  padding: 2px 8px;
+  border-width: 1px;
+  border-color: var(--border);
+  color: var(--muted);
+}
+.project-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ─────────────── Responsive ─────────────── */
+@media (max-width: 1024px) {
+  .recent-grid { grid-template-columns: repeat(2, 1fr); }
+  .scenario-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-tiles-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .reco-grid { grid-template-columns: repeat(3, 1fr); }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .hero { padding: 48px 0 32px; }
+  .hero-meta { gap: 16px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { justify-content: center; }
+  .recent-grid { grid-template-columns: 1fr; }
+  .scenario-grid { grid-template-columns: 1fr; }
+  .cat-tiles-grid { grid-template-columns: 1fr; }
+  .featured-grid { grid-template-columns: 1fr; gap: 24px; }
+  .reco-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .recent-card:nth-child(n), .reco-card:nth-child(n),
+  .scenario-card:nth-child(n), .cat-tile:nth-child(n),
+  .featured-card:nth-child(n), .project-card:nth-child(n) {
+    transform: none !important;
+  }
+  .recent-card:hover, .reco-card:hover,
+  .scenario-card:hover, .cat-tile:hover,
+  .featured-card:hover, .project-card:hover {
+    transform: translate(-2px, -2px) !important;
+  }
+  .project-card { flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .reco-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div id="nav-mount"></div>
+
+<!-- ───────── 模块一：Hero 首屏 ───────── -->
+<header class="hero" data-od-id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      <span>持续更新 · 个人真实工作台</span>
+    </div>
+    <h1>余一的<span class="accent-word">推荐清单</span></h1>
+    <p class="hero-subtitle">收录我在 AI 编程、Agent 开发、自动化、知识管理和内容创作中，真正使用过、认真体验过或持续关注的工具与项目。</p>
+    <p class="hero-tagline">不是 AI 工具大全，而是我的真实工作台。</p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        <span><strong>42</strong> 个推荐</span>
+      </div>
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>最近更新 <strong>2026-07-10</strong></span>
+      </div>
+      <div class="hero-meta-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><strong>6</strong> 个分类</span>
+      </div>
+    </div>
+
+    <div class="hero-search-wrap search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" placeholder="搜索工具、使用场景、能力或标签……" id="hero-search" data-od-id="hero-search" aria-label="搜索推荐清单">
+    </div>
+
+    <div class="search-hot" id="hero-hot">
+      <span>热门搜索</span>
+      <a href="search.html?q=AI编程">AI 编程</a>
+      <a href="search.html?q=Agent">Agent</a>
+      <a href="search.html?q=知识库">知识库</a>
+      <a href="search.html?q=图像生成">图像生成</a>
+      <a href="search.html?q=自动化">自动化</a>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#all-recommendations" class="btn primary">
+        浏览全部推荐
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#scenarios" class="btn">
+        按使用场景查找
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="content">
+
+  <!-- ───────── 模块二：最近更新 ───────── -->
+  <section class="section" data-od-id="recent-updates">
+    <div class="section-header">
+      <h2>最近更新</h2>
+      <span class="section-meta">最近新增、重新体验或更新过的推荐</span>
+    </div>
+    <div class="recent-grid" id="recent-grid"></div>
+  </section>
+
+  <!-- ───────── 模块三：按使用场景进入 ───────── -->
+  <section class="section" id="scenarios" data-od-id="scenarios">
+    <div class="section-header">
+      <h2>你现在想做什么？</h2>
+      <span class="section-meta">从使用场景出发，找到工具组合</span>
+    </div>
+    <div class="scenario-grid" id="scenario-grid"></div>
+  </section>
+
+  <!-- ───────── 模块四：分类浏览 ───────── -->
+  <section class="section" id="categories" data-od-id="category-browse">
+    <div class="section-header">
+      <h2>按分类浏览</h2>
+      <span class="section-meta">6 个一级分类</span>
+    </div>
+    <div class="cat-tiles-grid" id="cat-tiles"></div>
+  </section>
+
+  <!-- ───────── 模块五：精选推荐（我长期在用） ───────── -->
+  <section class="section" id="featured" data-od-id="featured-longterm">
+    <div class="section-header">
+      <h2>我长期在用</h2>
+      <span class="section-meta">不是最新，也不一定最热门，但在我的工作流中经常出现</span>
+    </div>
+    <div class="featured-grid" id="featured-grid"></div>
+  </section>
+
+  <!-- ───────── 模块六：全部推荐 ───────── -->
+  <section class="all-grid-section" id="all-recommendations" data-od-id="all-recommendations">
+    <div class="section-header">
+      <h2>全部推荐</h2>
+      <span class="section-meta" id="grid-count">共 42 个</span>
+    </div>
+
+    <div class="filter-bar">
+      <span class="filter-bar-label">分类</span>
+      <div class="filter-pills" id="filter-pills" style="flex:1">
+        <button class="pill active" data-cat="all">全部</button>
+        <button class="pill" data-cat="ai-assistant">AI 助手与模型</button>
+        <button class="pill" data-cat="ai-coding">AI 编程与开发</button>
+        <button class="pill" data-cat="agent-automation">Agent 与自动化</button>
+        <button class="pill" data-cat="knowledge">知识与信息管理</button>
+        <button class="pill" data-cat="content-creation">内容与视觉创作</button>
+        <button class="pill" data-cat="indie">独立产品与灵感</button>
+      </div>
+      <select class="filter-bar-select" id="sort-select" aria-label="排序方式">
+        <option value="recent">最近更新</option>
+        <option value="newest">最近收录</option>
+        <option value="name">名称排序</option>
+      </select>
+      <button class="filter-more-btn" id="filter-more-btn">
+        更多筛选
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="reco-grid" id="reco-grid"></div>
+  </section>
+
+  <!-- ───────── 模块七：我的项目 ───────── -->
+  <section class="section" id="projects-section" data-od-id="projects-section">
+    <div class="section-header">
+      <h2>我的项目</h2>
+      <span class="section-meta">这些不是第三方推荐，而是我自己正在构建和维护的产品</span>
+    </div>
+    <div class="projects-grid" id="projects-grid"></div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<div id="footer-mount"></div>
+<div id="backtop-mount"></div>
+
+<!-- 筛选抽屉（移动端） -->
+<div class="filter-drawer-overlay" id="filter-overlay"></div>
+<div class="filter-drawer" id="filter-drawer" role="dialog" aria-label="筛选选项" aria-modal="true">
+  <div class="filter-drawer-handle"></div>
+  <h4>使用关系</h4>
+  <div class="filter-group">
+    <div class="filter-group-tags" id="drawer-status-tags">
+      <button class="pill" data-status="每天使用">每天使用</button>
+      <button class="pill" data-status="长期使用">长期使用</button>
+      <button class="pill" data-status="项目用过">项目用过</button>
+      <button class="pill" data-status="正在体验">正在体验</button>
+      <button class="pill" data-status="持续关注">持续关注</button>
+    </div>
+  </div>
+  <h4>产品属性</h4>
+  <div class="filter-group">
+    <div class="filter-group-tags" id="drawer-prop-tags">
+      <button class="pill" data-prop="免费">免费</button>
+      <button class="pill" data-prop="付费">付费</button>
+      <button class="pill" data-prop="开源">开源</button>
+      <button class="pill" data-prop="可自托管">可自托管</button>
+      <button class="pill" data-prop="国内可用">国内可用</button>
+      <button class="pill" data-prop="API">API</button>
+      <button class="pill" data-prop="桌面端">桌面端</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:20px;">
+    <button class="btn sm" id="drawer-reset">重置筛选</button>
+    <button class="btn primary sm" id="drawer-apply" style="flex:1">查看结果</button>
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script>
+// ─────────────── 注入导航和页脚 ───────────────
+document.getElementById('nav-mount').innerHTML = renderNav('home');
+document.getElementById('footer-mount').innerHTML = renderFooter();
+document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+
+// ─────────────── 最近更新数据 ───────────────
+const RECENT_UPDATES = [
+  { name: 'Claude Code', cat: 'AI 编程与开发', desc: 'Anthropic 的终端 Agent，理解全项目上下文。', status: '每天使用', date: '2026-07-10', tags: ['#CLI', '#Agent'], icon: 'C', statusType: 'new' },
+  { name: 'Browser Use', cat: 'Agent 与自动化', desc: '浏览器自动化 Agent，网页操作和表单填写。', status: '正在体验', date: '2026-07-08', tags: ['#浏览器', '#开源'], icon: 'B', statusType: 'new' },
+  { name: 'n8n', cat: 'Agent 与自动化', desc: '开源工作流自动化平台，节点丰富可自托管。', status: '每天使用', date: '2026-07-05', tags: ['#自动化', '#开源'], icon: 'n', statusType: 'updated' },
+  { name: 'Tana', cat: '知识与信息管理', desc: '超节点笔记，组合性极强的知识工具。', status: '正在体验', date: '2026-07-02', tags: ['#超节点'], icon: 'T', statusType: 'reassess' }
+];
+
+const STATUS_LABELS = {
+  new: '新发现',
+  updated: '已更新',
+  reassess: '重新评估',
+  proven: '项目实测',
+  longterm: '长期使用'
+};
+
+function renderRecent() {
+  const grid = document.getElementById('recent-grid');
+  grid.innerHTML = RECENT_UPDATES.map((r, i) => {
+    const statusLabel = STATUS_LABELS[r.statusType] || r.status;
+    const sClass = getStatusClass(r.status);
+    return `
+      <article class="clip-card recent-card" data-od-id="recent-card-${i+1}">
+        <div class="recent-card-body">
+          <div class="recent-card-top">
+            <div class="recent-card-icon">${r.icon}</div>
+            <div class="recent-card-title-row">
+              <h3>${r.name}</h3>
+              <div class="recent-card-cat">${r.cat}</div>
+            </div>
+          </div>
+          <p class="recent-card-desc">${r.desc}</p>
+          <div class="recent-card-footer">
+            <span class="status-badge ${sClass}"><span class="status-dot"></span>${statusLabel}</span>
+            <div class="recent-card-tags">${r.tags.map(t => `<span class="tag muted">${t}</span>`).join('')}</div>
+          </div>
+          <div class="recent-card-date">${r.date}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+// ─────────────── 场景卡片 ───────────────
+function renderScenarios() {
+  const grid = document.getElementById('scenario-grid');
+  grid.innerHTML = SITE_DATA.scenarios.map((s, i) => {
+    const iconClass = i % 3 === 1 ? 'accent' : '';
+    return `
+      <a class="clip-card scenario-card" data-od-id="scenario-card-${i+1}" href="scenario.html?s=${s.id}">
+        <div class="scenario-card-icon ${iconClass}">${getCatIcon(s.icon)}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+        <div class="scenario-card-arrow">
+          查看工具组合
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+// ─────────────── 分类瓦片 ───────────────
+function renderCatTiles() {
+  const grid = document.getElementById('cat-tiles');
+  grid.innerHTML = SITE_DATA.categories.map((c, i) => {
+    const isAccent = i % 3 === 1;
+    const bgStyle = isAccent ? 'background: var(--accent); color: var(--accent-ink);' : 'background: var(--fg); color: var(--bg);';
+    return `
+      <a class="clip-card cat-tile" data-od-id="cat-tile-${c.id}" href="category.html?cat=${c.id}">
+        <div class="cat-tile-icon" style="${bgStyle}">${getCatIcon(c.icon)}</div>
+        <h3>${c.name}</h3>
+        <p>${c.desc}</p>
+        <div class="cat-tile-count">
+          ${c.count} 个推荐
+          <span class="arrow">→</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+// ─────────────── 精选推荐（长期在用） ───────────────
+const FEATURED_TOOLS = [
+  { name: 'Claude Code', cat: 'AI 编程与开发', desc: 'Anthropic 的终端 Agent，理解全项目上下文。', status: '每天使用', reason: '我每天用它处理多文件修改、代码审查和重构。比 IDE 插件更适合完成完整任务。', tags: ['#CLI', '#Agent', '#多文件'], icon: 'C', url: 'claude.ai/code' },
+  { name: 'Obsidian', cat: '知识与信息管理', desc: '本地 Markdown 笔记，双链和插件生态强大。', status: '每天使用', reason: '所有笔记、日记、项目文档都在这里。本地存储+双链让我不用担心平台锁定。', tags: ['#笔记', '#双链', '#本地'], icon: 'O', url: 'obsidian.md' },
+  { name: 'n8n', cat: 'Agent 与自动化', desc: '开源工作流自动化平台，节点丰富可自托管。', status: '每天使用', reason: '自动化我的信息收集、数据处理和通知推送。自托管版本完全免费，隐私可控。', tags: ['#自动化', '#开源', '#自托管'], icon: 'n', url: 'n8n.io' }
+];
+
+function renderFeatured() {
+  const grid = document.getElementById('featured-grid');
+  grid.innerHTML = FEATURED_TOOLS.map((f, i) => {
+    const sClass = getStatusClass(f.status);
+    return `
+      <article class="clip-card featured-card" data-od-id="featured-card-${i+1}">
+        <div class="featured-card-body">
+          <div class="featured-card-top">
+            <div class="featured-card-icon">${f.icon}</div>
+            <div class="featured-card-title-row">
+              <h3>${f.name}</h3>
+              <div class="featured-card-cat">${f.cat}</div>
+            </div>
+          </div>
+          <p class="featured-card-desc">${f.desc}</p>
+          <div class="featured-card-reason">${f.reason}</div>
+          <div class="featured-card-footer">
+            <div class="featured-card-tags">
+              <span class="status-badge ${sClass}"><span class="status-dot"></span>${f.status}</span>
+              ${f.tags.map(t => `<span class="tag muted">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="featured-card-actions">
+            <a href="detail.html?tool=${encodeURIComponent(f.name)}" class="btn sm">查看详情</a>
+            <a href="https://${f.url}" target="_blank" rel="noopener" class="btn sm dark">访问官网 ↗</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+// ─────────────── 全部推荐 ───────────────
+let currentCat = 'all';
+let currentSort = 'recent';
+let activeStatusFilters = new Set();
+let activePropFilters = new Set();
+
+function renderRecommendations() {
+  const grid = document.getElementById('reco-grid');
+  let items = [...SITE_DATA.tools];
+
+  if (currentCat !== 'all') {
+    items = items.filter(r => r.cat === currentCat);
+  }
+
+  if (activeStatusFilters.size > 0) {
+    items = items.filter(r => activeStatusFilters.has(r.status));
+  }
+
+  if (activePropFilters.size > 0) {
+    items = items.filter(r => {
+      return [...activePropFilters].every(prop => {
+        if (prop === '开源') return r.openSource;
+        if (prop === '免费') return r.pricing && r.pricing.includes('免费');
+        if (prop === '付费') return r.pricing && r.pricing.includes('付费');
+        if (prop === '可自托管') return r.pricing && r.pricing.includes('自托管');
+        if (prop === '国内可用') return true; // placeholder
+        if (prop === 'API') return r.platform && r.platform.includes('API');
+        if (prop === '桌面端') return r.platform && (r.platform.includes('macOS') || r.platform.includes('Windows') || r.platform.includes('Linux'));
+        return false;
+      });
+    });
+  }
+
+  // Sort
+  if (currentSort === 'name') {
+    items.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+  }
+
+  document.getElementById('grid-count').textContent = `共 ${items.length} 个`;
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="no-results" style="grid-column:1/-1"><h3>没有找到匹配的推荐</h3><p>试试调整筛选条件或切换分类</p></div>';
+    return;
+  }
+
+  grid.innerHTML = items.map((r, i) => {
+    const catInfo = SITE_DATA.categories.find(c => c.id === r.cat);
+    const catName = catInfo ? catInfo.name : '其他';
+    const sClass = getStatusClass(r.status);
+    const displayTags = r.tags.slice(0, 3);
+    const extraTags = r.tags.length > 3 ? r.tags.length - 3 : 0;
+    return `
+      <article class="clip-card reco-card" data-od-id="reco-card-${i+1}" data-cat="${r.cat}">
+        <div class="reco-card-body">
+          <div class="reco-card-top">
+            <div class="reco-card-icon">${r.name.charAt(0)}</div>
+            <div class="reco-card-title-row">
+              <h3>${r.name}</h3>
+              <div class="reco-card-cat">${catName}</div>
+            </div>
+          </div>
+          <p class="reco-card-desc">${r.desc}</p>
+          <div class="reco-card-tags">
+            <span class="status-badge ${sClass}" style="font-size:0.625rem;padding:2px 8px;"><span class="status-dot"></span>${r.status}</span>
+            ${displayTags.map(t => `<span class="tag muted">${t}</span>`).join('')}
+            ${extraTags > 0 ? `<span class="tag muted">+${extraTags}</span>` : ''}
+          </div>
+          <div class="reco-card-footer">
+            <a href="detail.html?tool=${encodeURIComponent(r.name)}" class="reco-card-visit">查看详情 →</a>
+            ${r.url !== '—' ? `<a href="https://${r.url}" target="_blank" rel="noopener" class="reco-card-visit">访问 ↗</a>` : ''}
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+// ─────────────── 我的项目 ───────────────
+function renderProjects() {
+  const grid = document.getElementById('projects-grid');
+  const statusOrder = ['已上线', '持续迭代', '原型阶段', '暂停维护'];
+  const sorted = [...SITE_DATA.projects].sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
+  grid.innerHTML = sorted.map((p, i) => {
+    const sClass = p.status === '已上线' ? 'accent' : (p.status === '持续迭代' ? 'dark' : '');
+    return `
+      <article class="clip-card project-card" data-od-id="project-card-${i+1}">
+        <div class="project-card-cover">${p.name.charAt(0)}</div>
+        <div class="project-card-body">
+          <div class="project-card-header">
+            <h3>${p.name}</h3>
+            <span class="status-badge ${sClass}"><span class="status-dot"></span>${p.status}</span>
+          </div>
+          <p class="project-card-desc">${p.desc}</p>
+          <div class="project-card-stack">
+            ${p.stack.map(s => `<span class="tag">${s}</span>`).join('')}
+          </div>
+          <div class="project-card-actions">
+            <a href="${p.url}" class="btn sm">访问项目</a>
+            <a href="${p.log}" class="btn sm dark">阅读开发记录</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+// ─────────────── 交互 ───────────────
+// 分类筛选
+document.getElementById('filter-pills').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  currentCat = pill.dataset.cat;
+  document.querySelectorAll('#filter-pills .pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.cat === currentCat);
+  });
+  renderRecommendations();
+});
+
+// 排序
+document.getElementById('sort-select').addEventListener('change', (e) => {
+  currentSort = e.target.value;
+  renderRecommendations();
+});
+
+// 搜索跳转
+document.getElementById('hero-search').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.value.trim()) {
+    window.location.href = `search.html?q=${encodeURIComponent(e.target.value.trim())}`;
+  }
+});
+
+// 筛选抽屉
+const filterMoreBtn = document.getElementById('filter-more-btn');
+const filterDrawer = document.getElementById('filter-drawer');
+const filterOverlay = document.getElementById('filter-overlay');
+
+filterMoreBtn.addEventListener('click', () => {
+  filterDrawer.classList.add('open');
+  filterOverlay.classList.add('open');
+});
+
+function closeDrawer() {
+  filterDrawer.classList.remove('open');
+  filterOverlay.classList.remove('open');
+}
+
+filterOverlay.addEventListener('click', closeDrawer);
+document.getElementById('drawer-apply').addEventListener('click', closeDrawer);
+
+document.getElementById('drawer-status-tags').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  const status = pill.dataset.status;
+  if (activeStatusFilters.has(status)) {
+    activeStatusFilters.delete(status);
+    pill.classList.remove('active');
+  } else {
+    activeStatusFilters.add(status);
+    pill.classList.add('active');
+  }
+});
+
+document.getElementById('drawer-prop-tags').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  const prop = pill.dataset.prop;
+  if (activePropFilters.has(prop)) {
+    activePropFilters.delete(prop);
+    pill.classList.remove('active');
+  } else {
+    activePropFilters.add(prop);
+    pill.classList.add('active');
+  }
+});
+
+document.getElementById('drawer-reset').addEventListener('click', () => {
+  activeStatusFilters.clear();
+  activePropFilters.clear();
+  document.querySelectorAll('#filter-drawer .pill').forEach(p => p.classList.remove('active'));
+  renderRecommendations();
+});
+
+document.getElementById('drawer-apply').addEventListener('click', () => {
+  renderRecommendations();
+});
+
+// ─────────────── 初始化 ───────────────
+renderRecent();
+renderScenarios();
+renderCatTiles();
+renderFeatured();
+renderRecommendations();
+renderProjects();
+</script>
+</body>
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于与推荐标准 — 余一的推荐清单</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* ═══════════════════════════════════════════════════════
+   about.html — 页面专属样式
+   YouMind 剪贴画视觉语言
+   ═══════════════════════════════════════════════════════ */
+
+/* ─────────────── 页面头部 Hero ─────────────── */
+.about-hero {
+  padding: 56px 0 48px;
+  position: relative;
+}
+.about-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  box-shadow: 2px 2px 0 var(--fg);
+  margin-bottom: 24px;
+  font-family: var(--mono-font);
+}
+.about-hero-eyebrow svg {
+  width: 16px;
+  height: 16px;
+}
+.about-hero h1 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+  max-width: 760px;
+}
+.about-hero h1 .accent-word {
+  position: relative;
+  display: inline-block;
+}
+.about-hero h1 .accent-word::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: var(--accent);
+  z-index: -1;
+  transform: skew(-3deg);
+  border-radius: 4px;
+}
+.about-hero-desc {
+  font-size: 1.0625rem;
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.7;
+}
+.about-hero-decoration {
+  position: absolute;
+  top: 48px;
+  right: 24px;
+  display: none;
+}
+@media (min-width: 900px) {
+  .about-hero-decoration { display: block; }
+}
+.about-hero-decoration svg {
+  width: 120px;
+  height: 120px;
+  color: var(--accent);
+  opacity: 0.5;
+}
+
+/* ─────────────── 通用区块 ─────────────── */
+.about-section {
+  padding: 40px 0;
+  position: relative;
+}
+.about-section-num {
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 2px solid var(--fg);
+  border-radius: 6px;
+  padding: 3px 10px;
+  display: inline-block;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.about-section h2 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.about-section-intro {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+/* ─────────────── 为什么做这个网站 ─────────────── */
+.why-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+.why-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.why-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.why-card-icon {
+  width: 48px;
+  height: 48px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.why-card-icon.dark { background: var(--fg); color: var(--bg); }
+.why-card-icon svg { width: 24px; height: 24px; }
+.why-card h3 {
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+.why-card p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.why-card .why-tag {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+.why-linkage {
+  margin-top: 32px;
+  padding: 24px 28px;
+  background: var(--fg);
+  color: var(--bg);
+  border-radius: var(--radius);
+  border: var(--border-w) solid var(--fg);
+  box-shadow: var(--hard-shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.why-linkage-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  color: var(--accent);
+}
+.why-linkage-icon svg { width: 20px; height: 20px; }
+.why-linkage-text {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.why-linkage-text strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ─────────────── 收录标准卡片网格 ─────────────── */
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.criterion-card {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+.criterion-card-num {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 2px solid var(--fg);
+}
+.criterion-icon {
+  width: 56px;
+  height: 56px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  margin-top: 4px;
+}
+.criterion-icon svg { width: 28px; height: 28px; }
+.criterion-card h3 {
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+.criterion-card p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.criterion-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  margin-top: auto;
+}
+.criterion-check svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─────────────── 不收录标准卡片网格 ─────────────── */
+.excluded-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.exclude-card {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  background: var(--bg);
+  border: 2.5px dashed var(--muted);
+  border-radius: var(--radius);
+  box-shadow: 4px 4px 0 var(--border);
+  transition: transform 0.2s ease;
+}
+.exclude-card:hover {
+  transform: translate(-1px, -1px);
+}
+.exclude-card-num {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--muted);
+  color: var(--bg);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 2px solid var(--muted);
+}
+.exclude-icon {
+  width: 56px;
+  height: 56px;
+  border: 2px dashed var(--muted);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--border);
+  color: var(--muted);
+  margin-top: 4px;
+  position: relative;
+}
+.exclude-icon svg { width: 28px; height: 28px; }
+.exclude-icon::after {
+  content: '';
+  position: absolute;
+  width: 72px;
+  height: 2.5px;
+  background: var(--muted);
+  transform: rotate(-30deg);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+.exclude-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+  text-decoration-thickness: 1.5px;
+}
+.exclude-card p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.65;
+  opacity: 0.85;
+}
+.exclude-cross {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: auto;
+}
+.exclude-cross svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─────────────── 推荐状态说明 ─────────────── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.status-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.status-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.status-badge-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--fg);
+  background: var(--surface);
+  color: var(--fg);
+  white-space: nowrap;
+}
+.status-badge-lg.accent { background: var(--accent); color: var(--accent-ink); border-color: var(--fg); }
+.status-badge-lg.dark { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.status-badge-lg.outline { background: transparent; color: var(--fg); border-color: var(--fg); }
+.status-badge-lg.muted { background: var(--bg); color: var(--muted); border-color: var(--muted); }
+.status-badge-lg .status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.status-badge-lg .status-dot.pulse {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.status-card h3 {
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+}
+.status-card p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.status-card .status-meta {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+/* ─────────────── 更新机制 ─────────────── */
+.update-section {
+  padding: 48px 0;
+}
+.update-card {
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.update-card-icon {
+  width: 72px;
+  height: 72px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.update-card-icon svg { width: 36px; height: 36px; }
+.update-card-body {
+  flex: 1;
+  min-width: 280px;
+}
+.update-card-body h3 {
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.update-card-body p {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.update-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--fg);
+  color: var(--bg);
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+.update-check-label {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.update-check-date {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.update-check-divider {
+  width: 1.5px;
+  height: 32px;
+  background: var(--muted);
+}
+
+/* ─────────────── 分隔装饰 ─────────────── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+.section-divider-line {
+  flex: 1;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 1px;
+}
+.section-divider-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border: 2px solid var(--fg);
+  border-radius: 3px;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ─────────────── 响应式 ─────────────── */
+@media (max-width: 1024px) {
+  .included-grid { grid-template-columns: repeat(2, 1fr); }
+  .excluded-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-content { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .about-hero { padding: 32px 0 32px; }
+  .about-section { padding: 28px 0; }
+  .included-grid { grid-template-columns: 1fr; }
+  .excluded-grid { grid-template-columns: 1fr; }
+  .status-grid { grid-template-columns: 1fr; }
+  .update-card { padding: 24px; flex-direction: column; align-items: flex-start; }
+  .update-check { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     导航栏（由 common.js 渲染）
+     ═══════════════════════════════════════════════════════ -->
+<div id="nav-mount"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     面包屑
+     ═══════════════════════════════════════════════════════ -->
+<div class="container">
+  <nav class="breadcrumb" aria-label="面包屑导航">
+    <a href="index.html">首页</a>
+    <span class="separator">›</span>
+    <span class="current">关于</span>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     页面头部
+     ═══════════════════════════════════════════════════════ -->
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      关于这个网站
+    </div>
+    <h1>关于与<span class="accent-word">推荐标准</span></h1>
+    <p class="about-hero-desc">
+      这里不是大而全的工具目录，也不是聚合资讯站。余一的推荐清单只收录我在实际工作、项目和日常中真正接触过的工具与资源——每一条推荐背后都有个人的判断和使用经历，不收钱、不接广告、不做SEO农场。
+    </p>
+  </div>
+  <div class="about-hero-decoration">
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="60" cy="60" r="48" stroke-dasharray="6 4"/>
+      <circle cx="60" cy="60" r="32"/>
+      <path d="M60 28v8M60 84v8M28 60h8M84 60h8"/>
+      <circle cx="60" cy="60" r="8" fill="currentColor"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     为什么做这个网站
+     ═══════════════════════════════════════════════════════ -->
+<section class="about-section">
+  <div class="container-sm" style="max-width:960px">
+    <span class="about-section-num">01</span>
+    <h2>为什么做这个网站</h2>
+    <p class="about-section-intro">
+      推荐清单不是孤立存在的——它是个人博客和项目实践的延伸。三者构成一个完整的输出体系。
+    </p>
+
+    <div class="why-content">
+      <div class="clip-card why-card">
+        <div class="why-card-header">
+          <div class="why-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6M9 11h6"/></svg>
+          </div>
+          <h3>个人博客</h3>
+        </div>
+        <span class="why-tag">思考与记录</span>
+        <p>博客记录「为什么」——技术探索的思路、踩过的坑、对某个工具的深度分析。文字是最完整的表达，但读者很难从文章快速找到「到底用什么」。</p>
+      </div>
+
+      <div class="clip-card why-card">
+        <div class="why-card-header">
+          <div class="why-card-icon dark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>项目实践</h3>
+        </div>
+        <span class="why-tag">验证与应用</span>
+        <p>项目是「怎么做」——在真实场景中验证工具是否好用、组合是否合理。Agent 会话分析工具、自动化工作流模板库，都是用工具去解决具体问题。</p>
+      </div>
+    </div>
+
+    <div class="why-linkage">
+      <div class="why-linkage-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+      <div class="why-linkage-text">
+        <strong>推荐清单 = 博客的索引 + 项目的工具箱。</strong>博客讲深度，项目讲落地，推荐清单负责把两者中验证过的工具快速呈现出来——你来这里不是为了读长文，而是为了快速判断「这个东西值不值得试」。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="container">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-dot"></div>
+    <div class="section-divider-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     什么内容会被收录
+     ═══════════════════════════════════════════════════════ -->
+<section class="about-section">
+  <div class="container">
+    <span class="about-section-num">02</span>
+    <h2>什么内容会被收录</h2>
+    <p class="about-section-intro">
+      收录标准只有一条：必须有真实的个人接触。以下五种情况满足其一即可。
+    </p>
+
+    <div class="included-grid">
+      <!-- 卡片 1: 实际使用过 -->
+      <article class="clip-card criterion-card">
+        <span class="criterion-card-num">01</span>
+        <div class="criterion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>实际使用过</h3>
+        <p>在日常工作流中真正打开用过，不是注册了账号就放着。至少经历过完整的使用周期，能说出具体好在哪里、不好在哪里。</p>
+        <span class="criterion-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          有真实使用记录
+        </span>
+      </article>
+
+      <!-- 卡片 2: 在项目中验证过 -->
+      <article class="clip-card criterion-card">
+        <span class="criterion-card-num">02</span>
+        <div class="criterion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>在项目中验证过</h3>
+        <p>放进实际项目的技术栈里跑过，不是 demo 级别的试用。经历过部署、调试、维护的完整链路，知道它在生产环境中的表现和边界。</p>
+        <span class="criterion-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          有项目实战验证
+        </span>
+      </article>
+
+      <!-- 卡片 3: 认真体验过 -->
+      <article class="clip-card criterion-card">
+        <span class="criterion-card-num">03</span>
+        <div class="criterion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <h3>认真体验过</h3>
+        <p>花了足够时间探索核心功能，不是走马观花。能写出一篇像样的体验笔记，对产品定位和目标用户有清晰判断，哪怕最终没有持续使用。</p>
+        <span class="criterion-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          有深度体验笔记
+        </span>
+      </article>
+
+      <!-- 卡片 4: 有明确产品价值 -->
+      <article class="clip-card criterion-card">
+        <span class="criterion-card-num">04</span>
+        <div class="criterion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>有明确产品价值</h3>
+        <p>解决了某个真实问题，不是「cool 但没用」。能一句话说清它比现有方案好在哪、适合什么场景，有不可替代的某个点让人愿意推荐。</p>
+        <span class="criterion-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          有不可替代价值
+        </span>
+      </article>
+
+      <!-- 卡片 5: 对个人工作流有启发 -->
+      <article class="clip-card criterion-card">
+        <span class="criterion-card-num">05</span>
+        <div class="criterion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.5.4 1 .9 1 1.5V18h6v-1.8c0-.6.5-1.1 1-1.5A7 7 0 0 0 12 2z"/></svg>
+        </div>
+        <h3>对工作流有启发</h3>
+        <p>即使没有直接采用，但它的设计思路、交互方式或技术方案给了我实际启发，改变了我自己做事的方式。灵感也是推荐的理由。</p>
+        <span class="criterion-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          有工作流启发
+        </span>
+      </article>
+
+      <!-- 补充说明卡片 -->
+      <article class="clip-card criterion-card" style="background:var(--bg);">
+        <span class="criterion-card-num" style="background:var(--accent);color:var(--accent-ink);border-color:var(--fg);">备注</span>
+        <div class="criterion-icon" style="background:var(--surface);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>收录不等于背书</h3>
+        <p>收录只是说明「值得一看」，不代表适合所有人。每个推荐都会标注使用状态，你可以根据自己的场景判断是否需要深入了解。</p>
+        <span class="criterion-check" style="color:var(--muted);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          仅供参考判断
+        </span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="container">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-dot"></div>
+    <div class="section-divider-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     什么内容不会被收录
+     ═══════════════════════════════════════════════════════ -->
+<section class="about-section">
+  <div class="container">
+    <span class="about-section-num" style="background:#e0d8c8;color:var(--muted);border-color:var(--muted);">03</span>
+    <h2 style="color:var(--muted);">什么内容不会被收录</h2>
+    <p class="about-section-intro">
+      以下情况一律不收录，无论产品多热门、多有流量价值。保持推荐质量比追求数量重要。
+    </p>
+
+    <div class="excluded-grid">
+      <!-- 不收录 1: 只因为热门 -->
+      <article class="exclude-card">
+        <span class="exclude-card-num">不收录</span>
+        <div class="exclude-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>只因为热门</h3>
+        <p>仅仅因为某个工具在社交媒体上讨论度高就收录，但自己完全没有使用意愿和场景。热度不等于适合你，跟风推荐没有意义。</p>
+        <span class="exclude-cross">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          拒绝跟风收录
+        </span>
+      </article>
+
+      <!-- 不收录 2: 只复制官网介绍 -->
+      <article class="exclude-card">
+        <span class="exclude-card-num">不收录</span>
+        <div class="exclude-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/></svg>
+        </div>
+        <h3>只复制官网介绍</h3>
+        <p>没有加入任何个人判断和体验，只是搬运官网的功能列表和营销话术。这种内容在任何一个聚合站都能看到，不值得专门来这看。</p>
+        <span class="exclude-cross">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          拒绝搬运内容
+        </span>
+      </article>
+
+      <!-- 不收录 3: 同质化工具 -->
+      <article class="exclude-card">
+        <span class="exclude-card-num">不收录</span>
+        <div class="exclude-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <h3>同质化工具</h3>
+        <p>功能和已收录的工具高度重合，没有明显差异化的产品。与其列十个差不多的，不如把一个讲透。同类工具只保留最有代表性的。</p>
+        <span class="exclude-cross">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          拒绝重复收录
+        </span>
+      </article>
+
+      <!-- 不收录 4: 广告投稿 -->
+      <article class="exclude-card">
+        <span class="exclude-card-num">不收录</span>
+        <div class="exclude-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+        </div>
+        <h3>广告投稿</h3>
+        <p>任何形式的付费推荐、软文投放、合作推广。这个网站不接广告、不收赞助费，推荐与商业利益完全无关。看到好产品会主动收录，但不接受反向付费。</p>
+        <span class="exclude-cross">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          拒绝付费推荐
+        </span>
+      </article>
+
+      <!-- 不收录 5: 无法确认状态的产品 -->
+      <article class="exclude-card">
+        <span class="exclude-card-num">不收录</span>
+        <div class="exclude-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <h3>无法确认状态</h3>
+        <p>产品已经停止维护、无法访问、或者状态不明确，无法保证推荐时它仍然可用。过时的推荐不如不推荐，已收录的如果状态变化也会及时移除。</p>
+        <span class="exclude-cross">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          拒绝过时推荐
+        </span>
+      </article>
+
+      <!-- 补充说明 -->
+      <article class="exclude-card" style="background:var(--bg);border-style:solid;border-color:var(--border);">
+        <span class="exclude-card-num" style="background:var(--surface);color:var(--muted);border-color:var(--border);">备注</span>
+        <div class="exclude-icon" style="background:var(--surface);border-style:solid;border-color:var(--border);color:var(--muted);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3 style="text-decoration:none;color:var(--muted);">移除机制</h3>
+        <p style="opacity:0.75;">已收录的工具如果后来发现不符合标准（如停止维护、变质商业化），会及时移除或降级状态，不做永久背书。</p>
+        <span class="exclude-cross" style="opacity:0.6;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          动态维护更新
+        </span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="container">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-dot"></div>
+    <div class="section-divider-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     推荐状态说明
+     ═══════════════════════════════════════════════════════ -->
+<section class="about-section">
+  <div class="container">
+    <span class="about-section-num">04</span>
+    <h2>推荐状态说明</h2>
+    <p class="about-section-intro">
+      每个推荐都会标注使用状态，帮助你判断推荐的可靠程度和时效性。以下是六种状态的含义。
+    </p>
+
+    <div class="status-grid">
+      <!-- 每天使用 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg accent">
+            <span class="status-dot pulse"></span>
+            每天使用
+          </span>
+        </div>
+        <h3>日常核心工具</h3>
+        <p>已经融入日常工作的工具链，每天都在用，离开会明显影响效率。推荐强度最高，说明我对它有充分信心。</p>
+        <span class="status-meta">推荐强度：最高</span>
+      </article>
+
+      <!-- 长期使用 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg dark">
+            <span class="status-dot"></span>
+            长期使用
+          </span>
+        </div>
+        <h3>稳定可靠的伙伴</h3>
+        <p>使用时间超过三个月以上，已经过了新鲜期，成为稳定选择。虽然不一定每天都用，但需要时第一个想到的就是它。</p>
+        <span class="status-meta">推荐强度：高</span>
+      </article>
+
+      <!-- 项目用过 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg outline">
+            <span class="status-dot"></span>
+            项目用过
+          </span>
+        </div>
+        <h3>实战检验过</h3>
+        <p>在具体项目中作为技术栈的一部分使用过，有真实的集成、调试和部署经验。适合在类似场景中参考选用。</p>
+        <span class="status-meta">推荐强度：中高</span>
+      </article>
+
+      <!-- 正在体验 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg">
+            <span class="status-dot pulse"></span>
+            正在体验
+          </span>
+        </div>
+        <h3>值得关注的 newcomers</h3>
+        <p>目前正在认真试用，初步印象不错但还没形成完整判断。收录是因为看到了潜力，状态可能随着体验深入而调整。</p>
+        <span class="status-meta">推荐强度：中</span>
+      </article>
+
+      <!-- 持续关注 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg muted">
+            <span class="status-dot"></span>
+            持续关注
+          </span>
+        </div>
+        <h3>值得长期跟踪</h3>
+        <p>还没有深度使用，但在持续观察其发展。可能是方向对但还不够成熟，也可能是暂时没有合适的使用场景。</p>
+        <span class="status-meta">推荐强度：参考</span>
+      </article>
+
+      <!-- 我的项目 -->
+      <article class="clip-card status-card">
+        <div class="status-card-top">
+          <span class="status-badge-lg accent">
+            <span class="status-dot"></span>
+            我的项目
+          </span>
+        </div>
+        <h3>自己做的产品</h3>
+        <p>我自己开发或参与开发的项目。不避讳「自荐」，但会明确标注身份。你可以从这些项目中看到推荐清单里工具的实际组合方式。</p>
+        <span class="status-meta">推荐强度：自荐</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 分隔 -->
+<div class="container">
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <div class="section-divider-dot"></div>
+    <div class="section-divider-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     更新机制
+     ═══════════════════════════════════════════════════════ -->
+<section class="update-section">
+  <div class="container">
+    <span class="about-section-num">05</span>
+    <h2>更新机制</h2>
+    <p class="about-section-intro">
+      推荐清单不是一次性的列表，而是持续维护的活文档。
+    </p>
+
+    <div class="clip-card update-card">
+      <div class="update-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </div>
+      <div class="update-card-body">
+        <h3>推荐会持续更新</h3>
+        <p>当有新的好工具出现、已有工具状态发生变化（如停止维护、商业化转向）、或我在项目中有了新的使用经验时，推荐清单会同步更新。不追求更新频率，但保证每次更新都有实质内容——新增一个工具或移除一个过时推荐，都会在更新日志中记录原因。</p>
+      </div>
+      <div class="update-check">
+        <div>
+          <div class="update-check-label">最后检查时间</div>
+          <div class="update-check-date">2026-07-10</div>
+        </div>
+        <div class="update-check-divider"></div>
+        <div>
+          <div class="update-check-label">维护状态</div>
+          <div class="update-check-date" style="font-size:1rem;">持续维护中</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     页脚 & 返回顶部（由 common.js 渲染）
+     ═══════════════════════════════════════════════════════ -->
+<div id="footer-mount"></div>
+<div id="backtop-mount"></div>
+
+<script src="common.js"></script>
+<script>
+// ─────────────── 挂载共享组件 ───────────────
+document.getElementById('nav-mount').innerHTML = renderNav('about');
+document.getElementById('footer-mount').innerHTML = renderFooter();
+document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+
+// ─────────────── 初始化共享交互 ───────────────
+initShared();
+</script>
+</body>
+</html>

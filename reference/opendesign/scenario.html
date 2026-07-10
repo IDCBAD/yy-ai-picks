@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>场景清单 — 余一的推荐清单</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* ═══════════════════════════════════════════════════════
+   scenario.html — 页面专属样式
+   ═══════════════════════════════════════════════════════ */
+
+/* ─────────────── Page Hero ─────────────── */
+.scenario-hero {
+  padding: 48px 0 32px;
+}
+.scenario-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  box-shadow: 2px 2px 0 var(--fg);
+  margin-bottom: 16px;
+  font-family: var(--mono-font);
+}
+.scenario-hero-eyebrow-dot {
+  width: 8px; height: 8px;
+  background: var(--accent-ink);
+  border-radius: 50%;
+}
+.scenario-hero h1 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.scenario-hero h1 .accent-word {
+  position: relative;
+  display: inline-block;
+}
+.scenario-hero h1 .accent-word::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: var(--accent);
+  z-index: -1;
+  transform: skew(-3deg);
+  border-radius: 4px;
+}
+.scenario-hero p {
+  font-size: 1.0625rem;
+  color: var(--muted);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ─────────────── Scenario Selector ─────────────── */
+.scenario-selector-section {
+  padding: 24px 0 40px;
+}
+.scenario-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.scenario-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  background: var(--surface);
+  border: var(--border-w) solid var(--fg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-stack);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.2s;
+  position: relative;
+}
+.scenario-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.scenario-card.active {
+  background: var(--accent);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+  transform: translate(-2px, -2px);
+}
+.scenario-card-icon {
+  width: 48px;
+  height: 48px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--fg);
+  flex-shrink: 0;
+}
+.scenario-card.active .scenario-card-icon {
+  background: var(--surface);
+}
+.scenario-card-icon svg { width: 26px; height: 26px; }
+.scenario-card h3 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.scenario-card p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.scenario-card.active p {
+  color: var(--accent-ink);
+}
+.scenario-card-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: var(--mono-font);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 1.5px solid var(--fg);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.scenario-card.active .scenario-card-badge {
+  opacity: 1;
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ─────────────── Scenario Detail ─────────────── */
+.scenario-detail {
+  padding: 0 0 48px;
+}
+.scenario-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.scenario-detail-icon {
+  width: 64px;
+  height: 64px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--accent-ink);
+  flex-shrink: 0;
+  box-shadow: var(--hard-shadow);
+}
+.scenario-detail-icon svg { width: 34px; height: 34px; }
+.scenario-detail-title {
+  flex: 1;
+}
+.scenario-detail-title h2 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.scenario-detail-title p {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+/* ─────────────── Workflow Timeline ─────────────── */
+.workflow-section {
+  margin-bottom: 64px;
+}
+.workflow-section .section-header {
+  margin-bottom: 24px;
+}
+.timeline-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 4px 16px;
+  scrollbar-width: thin;
+}
+.timeline-wrapper::-webkit-scrollbar { height: 6px; }
+.timeline-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.timeline {
+  display: flex;
+  gap: 0;
+  position: relative;
+  min-width: 1200px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 24px;
+  right: 24px;
+  height: 3px;
+  background: var(--fg);
+  z-index: 0;
+}
+.timeline-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+  padding: 0 8px;
+}
+.step-number-circle {
+  width: 56px;
+  height: 56px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--fg);
+  box-shadow: var(--hard-shadow);
+  margin: 0 auto 16px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.step-number-circle.active-step {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.step-name {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.step-tool-card {
+  background: var(--surface);
+  border: var(--border-w) solid var(--fg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  box-shadow: 3px 3px 0 var(--fg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.step-tool-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--fg);
+}
+.step-tool-card.primary {
+  background: var(--accent);
+}
+.step-tool-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.step-tool-name {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  flex: 1;
+}
+.step-tool-role {
+  font-family: var(--mono-font);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--fg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.step-tool-role.primary-role {
+  background: var(--fg);
+  color: var(--bg);
+}
+.step-tool-role.alt-role {
+  background: var(--surface);
+  color: var(--fg);
+}
+.step-tool-card.primary .step-tool-role.alt-role {
+  background: var(--surface);
+}
+.step-tool-reason {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.step-tool-card.primary .step-tool-reason {
+  color: var(--accent-ink);
+}
+.step-tool-link {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: gap 0.2s;
+}
+.step-tool-link:hover { gap: 6px; }
+
+/* ─────────────── Tools Summary Grid ─────────────── */
+.tools-summary-section {
+  margin-bottom: 64px;
+}
+.tools-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.summary-tool-card {
+  background: var(--surface);
+  border: var(--border-w) solid var(--fg);
+  border-radius: var(--radius-sm);
+  box-shadow: 3px 3px 0 var(--fg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.summary-tool-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--fg);
+}
+.summary-tool-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.summary-tool-icon {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--fg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.summary-tool-icon svg { width: 18px; height: 18px; }
+.summary-tool-name {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+}
+.summary-tool-desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.4;
+  flex: 1;
+}
+.summary-tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.summary-tool-tags .tag {
+  font-size: 0.625rem;
+  padding: 2px 7px;
+  border-width: 1px;
+}
+
+/* ─────────────── Blog Posts ─────────────── */
+.blog-section {
+  margin-bottom: 48px;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.blog-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+.blog-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.blog-card-banner {
+  height: 120px;
+  border-bottom: var(--border-w) solid var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.blog-card-banner svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.5;
+}
+.blog-card-tape {
+  position: absolute;
+  top: 10px;
+  right: -6px;
+  background: rgba(232,197,71,0.9);
+  border: 1.5px dashed var(--fg);
+  padding: 3px 12px;
+  font-family: var(--mono-font);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  transform: rotate(6deg);
+  letter-spacing: 0.05em;
+}
+.blog-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.blog-card-date {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.blog-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.blog-card p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.blog-card-read {
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+.blog-card:hover .blog-card-read { gap: 8px; }
+
+/* ─────────────── Last Updated ─────────────── */
+.last-updated {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 0 16px;
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  border-top: 1.5px solid var(--border);
+  margin-bottom: 0;
+}
+.last-updated svg {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+}
+
+/* ─────────────── Responsive ─────────────── */
+@media (max-width: 1024px) {
+  .scenario-cards { grid-template-columns: repeat(2, 1fr); }
+  .tools-summary-grid { grid-template-columns: repeat(3, 1fr); }
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .scenario-hero { padding: 32px 0 24px; }
+  .scenario-cards { grid-template-columns: 1fr; }
+
+  /* Timeline → vertical on mobile */
+  .timeline-wrapper {
+    overflow-x: visible;
+    overflow-y: visible;
+    padding: 0;
+  }
+  .timeline {
+    flex-direction: column;
+    min-width: 0;
+    gap: 32px;
+  }
+  .timeline::before {
+    top: 28px;
+    bottom: 28px;
+    left: 28px;
+    right: auto;
+    width: 3px;
+    height: auto;
+  }
+  .timeline-step {
+    flex: none;
+    padding: 0;
+    align-items: stretch;
+  }
+  .step-number-circle {
+    margin: 0 0 16px 0;
+  }
+  .step-name {
+    text-align: left;
+    min-height: auto;
+    margin-bottom: 16px;
+    font-size: 1.0625rem;
+    justify-content: flex-start;
+  }
+  .step-tools {
+    gap: 12px;
+  }
+  .step-tool-card {
+    padding: 16px;
+  }
+
+  .scenario-detail-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .scenario-detail-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .tools-summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .blog-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .tools-summary-grid { grid-template-columns: 1fr; }
+  .step-number-circle {
+    width: 48px;
+    height: 48px;
+    font-size: 0.9375rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ───────── Top Nav (rendered by common.js) ───────── -->
+<div id="nav-mount"></div>
+
+<!-- ───────── Main Content ───────── -->
+<main class="container" id="content">
+
+  <!-- ───────── Breadcrumb ───────── -->
+  <nav class="breadcrumb" aria-label="面包屑导航" data-od-id="breadcrumb">
+    <a href="index.html">首页</a>
+    <span class="separator">›</span>
+    <span class="current">场景清单</span>
+  </nav>
+
+  <!-- ───────── Page Hero ───────── -->
+  <section class="scenario-hero" data-od-id="scenario-hero">
+    <div class="scenario-hero-eyebrow">
+      <span class="scenario-hero-eyebrow-dot"></span>
+      <span>场景驱动 · 工具组合</span>
+    </div>
+    <h1>场景<span class="accent-word">推荐清单</span></h1>
+    <p>从实际需求出发，为每个场景梳理完整工具链。选择一个场景，查看从开始到完成的推荐流程和每一步的工具搭配。</p>
+  </section>
+
+  <!-- ───────── Scenario Selector ───────── -->
+  <section class="scenario-selector-section" data-od-id="scenario-selector">
+    <div class="section-header">
+      <h2>选择场景</h2>
+      <span class="section-meta" id="scenario-count-meta">6 个场景</span>
+    </div>
+    <div class="scenario-cards" id="scenario-cards">
+      <!-- Rendered by JS -->
+    </div>
+  </section>
+
+  <!-- ───────── Scenario Detail ───────── -->
+  <section class="scenario-detail" id="scenario-detail" data-od-id="scenario-detail">
+    <div class="scenario-detail-header">
+      <div class="scenario-detail-icon" id="detail-icon"></div>
+      <div class="scenario-detail-title">
+        <h2 id="detail-title"></h2>
+        <p id="detail-desc"></p>
+      </div>
+    </div>
+
+    <!-- ───────── Workflow Timeline ───────── -->
+    <div class="workflow-section" data-od-id="workflow">
+      <div class="section-header">
+        <h2>推荐流程</h2>
+        <span class="section-meta">6 个步骤</span>
+      </div>
+      <div class="timeline-wrapper">
+        <div class="timeline" id="timeline">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────── Tools Summary Grid ───────── -->
+    <div class="tools-summary-section" data-od-id="tools-summary">
+      <div class="section-header">
+        <h2>涉及工具汇总</h2>
+        <span class="section-meta" id="summary-count">共 0 个工具</span>
+      </div>
+      <div class="tools-summary-grid" id="tools-summary-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ───────── Related Blog Posts ───────── -->
+    <div class="blog-section" data-od-id="blog-posts">
+      <div class="section-header">
+        <h2>相关文章</h2>
+        <span class="section-meta">3 篇</span>
+      </div>
+      <div class="blog-grid" id="blog-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ───────── Last Updated ───────── -->
+    <div class="last-updated" id="last-updated">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span>最近更新：2026-07-10</span>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ───────── Footer (rendered by common.js) ───────── -->
+<div id="footer-mount"></div>
+
+<!-- ───────── Back to Top (rendered by common.js) ───────── -->
+<div id="backtotop-mount"></div>
+
+<script src="common.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════
+   scenario.html — 场景清单交互脚本
+   ═══════════════════════════════════════════════════════ */
+
+// ─────────────── 场景步骤数据 ───────────────
+// 每个场景的推荐流程：6 个步骤，每步 1-3 个工具
+const SCENARIO_WORKFLOWS = {
+  'ai-website': {
+    intro: '用 AI 辅助从零搭建一个网站，覆盖需求梳理、原型设计、编码开发、数据与后端、测试调试到部署上线的完整流程。每一步推荐经过实际使用的工具组合，帮你少走弯路。',
+    steps: [
+      {
+        name: '需求梳理',
+        tools: [
+          { name: 'ChatGPT', role: 'primary', reason: '通过对话快速厘清网站定位、目标用户和功能优先级，生成需求文档草稿。' },
+          { name: 'Claude', role: 'alt', reason: '长文本理解能力强，适合梳理复杂需求和多页面的信息架构。' }
+        ]
+      },
+      {
+        name: '原型与设计',
+        tools: [
+          { name: 'v0', role: 'primary', reason: '描述即出 React UI 组件，快速生成页面原型和视觉稿。' },
+          { name: 'Figma', role: 'alt', reason: '精细调整设计细节，协作和标注更方便。' },
+          { name: 'Excalidraw', role: 'alt', reason: '手绘风格画页面结构和用户流程图，快速验证布局。' }
+        ]
+      },
+      {
+        name: '编码开发',
+        tools: [
+          { name: 'Claude Code', role: 'primary', reason: '终端 Agent，理解全项目上下文，适合多文件协同修改。' },
+          { name: 'Cursor', role: 'alt', reason: 'AI 原生编辑器，对话式编程体验，适合实时编码。' },
+          { name: 'Shadcn/ui', role: 'alt', reason: '可复制粘贴的 React 组件库，设计精美，节省 UI 开发时间。' }
+        ]
+      },
+      {
+        name: '数据与后端',
+        tools: [
+          { name: 'Supabase', role: 'primary', reason: '开源 Firebase 替代品，Postgres 数据库 + Auth + 实时订阅，零配置启动。' },
+          { name: 'Claude', role: 'alt', reason: '辅助设计数据库 Schema 和编写 API 接口代码。' }
+        ]
+      },
+      {
+        name: '测试与调试',
+        tools: [
+          { name: 'Claude Code', role: 'primary', reason: '定位 Bug 和生成测试用例，直接在终端排查问题。' },
+          { name: 'GitHub Copilot', role: 'alt', reason: '编写单元测试和集成测试，补全测试逻辑。' }
+        ]
+      },
+      {
+        name: '部署上线',
+        tools: [
+          { name: 'Vercel', role: 'primary', reason: '前端部署零配置，推送代码自动 CI/CD，免费层够用。' },
+          { name: 'Supabase', role: 'alt', reason: '后端和数据库托管，与 Vercel 前端配合组成全栈方案。' }
+        ]
+      }
+    ]
+  },
+  'build-agent': {
+    intro: '从零搭建一个 AI Agent，涵盖框架选型、模型接入、工具调用、搜索增强和可观测性。推荐经过项目验证的工具组合，帮你快速落地。',
+    steps: [
+      {
+        name: '框架选型',
+        tools: [
+          { name: 'LangGraph', role: 'primary', reason: '基于图的 Agent 编排，支持状态管理和循环，适合复杂流程。' },
+          { name: 'Dify', role: 'alt', reason: '可视化搭建 AI 应用，低代码快速原型。' }
+        ]
+      },
+      {
+        name: '模型接入',
+        tools: [
+          { name: 'ChatGPT', role: 'primary', reason: '通用能力强，API 稳定，工具调用支持好。' },
+          { name: 'Claude', role: 'alt', reason: '长上下文和推理能力强，适合复杂任务编排。' },
+          { name: 'Ollama', role: 'alt', reason: '本地运行开源模型，隐私和成本可控。' }
+        ]
+      },
+      {
+        name: '搜索增强',
+        tools: [
+          { name: 'Tavily', role: 'primary', reason: '为 AI Agent 设计的搜索 API，结果质量高，返回结构化数据。' },
+          { name: 'Perplexity', role: 'alt', reason: 'AI 搜索引擎，带引用来源，适合参考调研。' }
+        ]
+      },
+      {
+        name: '工具与执行',
+        tools: [
+          { name: 'Browser Use', role: 'primary', reason: '浏览器自动化 Agent，网页操作和表单填写。' },
+          { name: 'LangChain', role: 'alt', reason: '工具链丰富，快速接入各种外部工具和 API。' }
+        ]
+      },
+      {
+        name: '多 Agent 协作',
+        tools: [
+          { name: 'AutoGen', role: 'primary', reason: '微软多 Agent 对话框架，支持角色分工协作。' },
+          { name: 'AgentScope', role: 'alt', reason: '阿里达摩院框架，支持分布式多 Agent 部署。' }
+        ]
+      },
+      {
+        name: '部署与观测',
+        tools: [
+          { name: 'Dify', role: 'primary', reason: 'LLMOps 平台，可视化管理和发布 Agent 应用。' },
+          { name: 'Supabase', role: 'alt', reason: '存储 Agent 会话日志和用户数据。' }
+        ]
+      }
+    ]
+  },
+  'knowledge-base': {
+    intro: '建立个人知识库的完整工具链，从信息收集、阅读、整理到检索和长期沉淀。推荐每日使用和长期验证的知识管理工具。',
+    steps: [
+      {
+        name: '信息收集',
+        tools: [
+          { name: 'RSSHub', role: 'primary', reason: '开源 RSS 生成器，万物皆可订阅，信息源统一管理。' },
+          { name: 'Perplexity', role: 'alt', reason: 'AI 搜索引擎，主动获取和验证信息。' }
+        ]
+      },
+      {
+        name: '阅读与高亮',
+        tools: [
+          { name: 'Readwise', role: 'primary', reason: '高亮收集和间隔复习，串联所有阅读来源。' },
+          { name: 'NotebookLM', role: 'alt', reason: 'Google AI 笔记工具，支持文档对话和摘要。' }
+        ]
+      },
+      {
+        name: '笔记整理',
+        tools: [
+          { name: 'Obsidian', role: 'primary', reason: '本地 Markdown 笔记，双链和插件生态强大。' },
+          { name: 'Notion', role: 'alt', reason: '一体化知识管理，协作友好，数据库功能强。' }
+        ]
+      },
+      {
+        name: '结构化沉淀',
+        tools: [
+          { name: 'Tana', role: 'primary', reason: '超节点笔记，组合性极强，适合结构化知识体系。' },
+          { name: 'Obsidian', role: 'alt', reason: '双链和标签系统构建知识网络。' }
+        ]
+      },
+      {
+        name: '学术与文献',
+        tools: [
+          { name: 'Zotero', role: 'primary', reason: '学术文献管理，引用和笔记一体化。' },
+          { name: 'NotebookLM', role: 'alt', reason: '与文献对话，快速提取关键信息。' }
+        ]
+      },
+      {
+        name: '检索与输出',
+        tools: [
+          { name: 'Obsidian', role: 'primary', reason: '全文搜索和图谱视图，快速定位和关联知识。' },
+          { name: 'Claude', role: 'alt', reason: '辅助整理和输出，将碎片知识转化为文章。' }
+        ]
+      }
+    ]
+  },
+  'automation': {
+    intro: '自动化重复工作的工具链，覆盖 RPA、工作流平台、浏览器自动化和系统集成。推荐实际部署过的自动化方案。',
+    steps: [
+      {
+        name: '工作流平台',
+        tools: [
+          { name: 'n8n', role: 'primary', reason: '开源工作流自动化平台，节点丰富可自托管。' },
+          { name: 'Dify', role: 'alt', reason: 'AI 应用工作流，适合 LLM 驱动的自动化场景。' }
+        ]
+      },
+      {
+        name: '浏览器自动化',
+        tools: [
+          { name: 'Browser Use', role: 'primary', reason: '浏览器自动化 Agent，网页操作和表单填写。' },
+          { name: 'n8n', role: 'alt', reason: '内置 HTTP 节点和 Webhook，对接网页 API。' }
+        ]
+      },
+      {
+        name: 'AI 能力接入',
+        tools: [
+          { name: 'ChatGPT', role: 'primary', reason: '通用 AI 能力 API，文本处理和分类自动化。' },
+          { name: 'Claude', role: 'alt', reason: '长文本处理和结构化输出，适合文档自动化。' }
+        ]
+      },
+      {
+        name: '搜索与数据',
+        tools: [
+          { name: 'Tavily', role: 'primary', reason: '搜索 API，结果结构化，适合数据采集自动化。' },
+          { name: 'RSSHub', role: 'alt', reason: 'RSS 订阅监控，内容更新自动触发工作流。' }
+        ]
+      },
+      {
+        name: 'Agent 编排',
+        tools: [
+          { name: 'LangGraph', role: 'primary', reason: '图编排框架，构建多步骤 Agent 自动化流程。' },
+          { name: 'AutoGen', role: 'alt', reason: '多 Agent 协作，分工处理复杂自动化任务。' }
+        ]
+      },
+      {
+        name: '集成与部署',
+        tools: [
+          { name: 'n8n', role: 'primary', reason: '自托管部署，数据自主可控，定时任务稳定。' },
+          { name: 'Supabase', role: 'alt', reason: '存储自动化产出的数据和日志。' }
+        ]
+      }
+    ]
+  },
+  'media-production': {
+    intro: '生产图片和视频的工具链，从图像生成、视频生成到设计和编辑。推荐创作质量和使用体验最好的工具。',
+    steps: [
+      {
+        name: '图像生成',
+        tools: [
+          { name: 'Midjourney', role: 'primary', reason: '艺术质感行业标杆，风格化和细节表现力最强。' },
+          { name: 'GPT Image', role: 'alt', reason: '文字渲染和指令遵循强，适合含文字的图。' },
+          { name: 'Ideogram', role: 'alt', reason: '文字渲染能力最强，海报和 Logo 生成效果好。' }
+        ]
+      },
+      {
+        name: '视频生成',
+        tools: [
+          { name: 'Kling', role: 'primary', reason: '可灵 AI 视频生成，国产视频大模型，效果惊艳。' },
+          { name: 'Runway', role: 'alt', reason: 'AI 视频生成和编辑，支持文生视频和视频编辑。' }
+        ]
+      },
+      {
+        name: 'UI 设计',
+        tools: [
+          { name: 'Figma', role: 'primary', reason: '协作式 UI 设计工具，行业标准，生态完善。' },
+          { name: 'v0', role: 'alt', reason: 'AI 生成 UI 组件，快速出视觉稿。' }
+        ]
+      },
+      {
+        name: '图表与白板',
+        tools: [
+          { name: 'Excalidraw', role: 'primary', reason: '手绘风格白板，画架构图和流程图有手工感。' },
+          { name: 'Figma', role: 'alt', reason: '设计精细的图表和插画。' }
+        ]
+      },
+      {
+        name: '编程生成视频',
+        tools: [
+          { name: 'Remotion', role: 'primary', reason: '用 React 编程生成视频，代码即视频，可复用。' },
+          { name: 'Runway', role: 'alt', reason: 'AI 编辑和合成视频片段。' }
+        ]
+      },
+      {
+        name: '创意探索',
+        tools: [
+          { name: 'Midjourney', role: 'primary', reason: '探索不同风格和视觉方向，快速迭代创意。' },
+          { name: 'GPT Image', role: 'alt', reason: '结合文字描述生成创意概念图。' }
+        ]
+      }
+    ]
+  },
+  'indie-inspiration': {
+    intro: '寻找独立产品灵感的工具和资源集合，涵盖个人网站、小工具、开源项目和优秀产品案例。持续关注和收藏的方向。',
+    steps: [
+      {
+        name: '个人网站',
+        tools: [
+          { name: '优秀个人博客', role: 'primary', reason: '设计和开发者社区中的优秀个人博客，学习设计和内容组织。' },
+          { name: 'Vercel', role: 'alt', reason: '部署个人网站，零配置快速上线。' }
+        ]
+      },
+      {
+        name: '小工具',
+        tools: [
+          { name: '小工具站', role: 'primary', reason: '值得关注的独立小工具和产品案例，发现微创新。' },
+          { name: '创意交互网站', role: 'alt', reason: '富有创意的交互实验和设计探索。' }
+        ]
+      },
+      {
+        name: '开源项目',
+        tools: [
+          { name: '开源项目', role: 'primary', reason: '值得关注的开源项目和技术实践，学习架构和实现。' },
+          { name: 'n8n', role: 'alt', reason: '优秀的开源自动化项目，架构和社区都值得学习。' }
+        ]
+      },
+      {
+        name: '独立产品',
+        tools: [
+          { name: '个人开发者产品', role: 'primary', reason: '独立开发者构建的微型 SaaS 和工具，借鉴商业模式。' },
+          { name: '小工具站', role: 'alt', reason: '发现新的产品形态和用户需求。' }
+        ]
+      },
+      {
+        name: '创意交互',
+        tools: [
+          { name: '创意交互网站', role: 'primary', reason: '富有创意的交互实验，激发设计灵感。' },
+          { name: 'Excalidraw', role: 'alt', reason: '快速画原型验证创意想法。' }
+        ]
+      },
+      {
+        name: '落地实践',
+        tools: [
+          { name: 'Vercel', role: 'primary', reason: '快速部署 MVP，验证想法。' },
+          { name: 'Cursor', role: 'alt', reason: 'AI 辅助编码，加速从想法到产品。' }
+        ]
+      }
+    ]
+  }
+};
+
+// ─────────────── 博客文章数据 ───────────────
+const BLOG_POSTS = [
+  { title: '用 AI 做一个网站：我的完整工具链分享', date: '2026-06-28', excerpt: '从需求梳理到部署上线，分享我用 AI 辅助建站的全流程工具组合和踩坑经验。', tag: '建站', icon: 'website' },
+  { title: 'AI 编程工具横评：Claude Code vs Cursor vs Copilot', date: '2026-06-15', excerpt: '三款主流 AI 编程工具的深度对比，从多文件修改、上下文理解到实际项目体验。', tag: '编程', icon: 'coding' },
+  { title: '搭建 Agent 必读：框架选型与模型接入指南', date: '2026-05-30', excerpt: 'LangGraph、Dify、AutoGen 三大框架对比，以及如何选择适合你的 Agent 架构。', tag: 'Agent', icon: 'agent' }
+];
+
+// ─────────────── 工具查找辅助 ───────────────
+function findTool(name) {
+  return SITE_DATA.tools.find(t => t.name === name);
+}
+
+// ─────────────── 渲染：场景选择卡片 ───────────────
+function renderScenarioCards() {
+  const container = document.getElementById('scenario-cards');
+  container.innerHTML = SITE_DATA.scenarios.map((s, i) => `
+    <button class="scenario-card ${i === 0 ? 'active' : ''}" data-scenario="${s.id}" data-od-id="scenario-card-${s.id}">
+      <span class="scenario-card-badge">当前</span>
+      <div class="scenario-card-icon">${getCatIcon(s.icon)}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+    </button>
+  `).join('');
+}
+
+// ─────────────── 渲染：场景详情 ───────────────
+function renderScenarioDetail(scenarioId) {
+  const scenario = SITE_DATA.scenarios.find(s => s.id === scenarioId);
+  if (!scenario) return;
+
+  const workflow = SCENARIO_WORKFLOWS[scenarioId];
+  if (!workflow) return;
+
+  // Header
+  document.getElementById('detail-icon').innerHTML = getCatIcon(scenario.icon);
+  document.getElementById('detail-title').textContent = scenario.title;
+  document.getElementById('detail-desc').textContent = workflow.intro;
+
+  // Timeline
+  renderTimeline(workflow.steps);
+
+  // Tools summary
+  renderToolsSummary(workflow.steps);
+
+  // Blog posts (static for now)
+  renderBlogPosts();
+}
+
+// ─────────────── 渲染：步骤时间线 ───────────────
+function renderTimeline(steps) {
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = steps.map((step, i) => {
+    const stepNum = String(i + 1).padStart(2, '0');
+    const toolsHtml = step.tools.map(tool => {
+      const toolData = findTool(tool.name);
+      const url = toolData ? toolData.url : '#';
+      const href = url !== '—' && url !== '#' ? `https://${url}` : '#';
+      const roleLabel = tool.role === 'primary' ? '首选' : '替代';
+      const roleClass = tool.role === 'primary' ? 'primary-role' : 'alt-role';
+      return `
+        <div class="step-tool-card ${tool.role === 'primary' ? 'primary' : ''}">
+          <div class="step-tool-header">
+            <span class="step-tool-name">${tool.name}</span>
+            <span class="step-tool-role ${roleClass}">${roleLabel}</span>
+          </div>
+          <p class="step-tool-reason">${tool.reason}</p>
+          ${href !== '#' ? `<a class="step-tool-link" href="${href}" target="_blank" rel="noopener">访问 ${url} →</a>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="timeline-step">
+        <div class="step-number-circle ${i === 0 ? 'active-step' : ''}">${stepNum}</div>
+        <div class="step-name">${step.name}</div>
+        <div class="step-tools">${toolsHtml}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─────────────── 渲染：工具汇总网格 ───────────────
+function renderToolsSummary(steps) {
+  const grid = document.getElementById('tools-summary-grid');
+  const countEl = document.getElementById('summary-count');
+
+  // 收集所有工具名（去重）
+  const seen = new Set();
+  const allTools = [];
+  steps.forEach(step => {
+    step.tools.forEach(t => {
+      if (!seen.has(t.name)) {
+        seen.add(t.name);
+        const toolData = findTool(t.name);
+        if (toolData) allTools.push(toolData);
+      }
+    });
+  });
+
+  countEl.textContent = `共 ${allTools.length} 个工具`;
+
+  grid.innerHTML = allTools.map(tool => {
+    const cat = SITE_DATA.categories.find(c => c.id === tool.cat);
+    const iconKey = cat ? cat.icon : 'assistant';
+    const tagsHtml = tool.tags.slice(0, 3).map(tag =>
+      `<span class="tag muted">${tag}</span>`
+    ).join('');
+    const url = tool.url !== '—' ? tool.url : '';
+    return `
+      <div class="summary-tool-card">
+        <div class="summary-tool-top">
+          <div class="summary-tool-icon">${getCatIcon(iconKey)}</div>
+          <span class="summary-tool-name">${tool.name}</span>
+        </div>
+        <p class="summary-tool-desc">${tool.desc}</p>
+        <div class="summary-tool-tags">${tagsHtml}</div>
+        ${url ? `<a class="step-tool-link" href="https://${url}" target="_blank" rel="noopener">${url} →</a>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// ─────────────── 渲染：博客文章 ───────────────
+function renderBlogPosts() {
+  const grid = document.getElementById('blog-grid');
+  grid.innerHTML = BLOG_POSTS.map((post, i) => `
+    <article class="clip-card blog-card" data-od-id="blog-card-${i+1}">
+      <div class="blog-card-banner" style="background: ${i === 0 ? 'var(--accent)' : (i === 1 ? 'var(--bg)' : 'var(--surface)')};">
+        ${getCatIcon(post.icon)}
+        <span class="blog-card-tape">${post.tag}</span>
+      </div>
+      <div class="blog-card-body">
+        <span class="blog-card-date">${post.date}</span>
+        <h3>${post.title}</h3>
+        <p>${post.excerpt}</p>
+        <span class="blog-card-read">阅读全文 →</span>
+      </div>
+    </article>
+  `).join('');
+}
+
+// ─────────────── 场景切换 ───────────────
+function switchScenario(scenarioId) {
+  // 更新卡片状态
+  document.querySelectorAll('.scenario-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.scenario === scenarioId);
+  });
+
+  // 更新步骤圆圈高亮
+  document.querySelectorAll('.step-number-circle').forEach((circle, i) => {
+    circle.classList.toggle('active-step', i === 0);
+  });
+
+  // 渲染详情
+  renderScenarioDetail(scenarioId);
+
+  // 平滑滚动到详情区
+  const target = document.getElementById('scenario-detail');
+  if (target) {
+    const offset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+}
+
+// ─────────────── 初始化 ───────────────
+function initScenarioPage() {
+  // 渲染导航、页脚、返回顶部
+  document.getElementById('nav-mount').innerHTML = renderNav('scenario');
+  document.getElementById('footer-mount').innerHTML = renderFooter();
+  document.getElementById('backtotop-mount').innerHTML = renderBackToTop();
+
+  // 渲染场景卡片
+  renderScenarioCards();
+
+  // 默认展示第一个场景
+  renderScenarioDetail(SITE_DATA.scenarios[0].id);
+
+  // 绑定场景卡片点击
+  document.getElementById('scenario-cards').addEventListener('click', (e) => {
+    const card = e.target.closest('.scenario-card');
+    if (!card) return;
+    switchScenario(card.dataset.scenario);
+  });
+
+  // 初始化共享交互（移动端菜单、返回顶部）
+  initShared();
+}
+
+// DOM Ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initScenarioPage);
+} else {
+  initScenarioPage();
+}
+</script>
+</body>
+</html>

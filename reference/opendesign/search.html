@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搜索 — 余一的推荐清单</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* ═══════════════════════════════════════════════════════
+   搜索结果页专属样式
+   ═══════════════════════════════════════════════════════ */
+
+.search-page-header {
+  padding: 40px 0 32px;
+}
+.search-page-title {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.search-page-subtitle {
+  font-family: var(--mono-font);
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.search-page-bar {
+  max-width: 720px;
+  position: relative;
+  margin-bottom: 16px;
+}
+.search-page-hot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.search-page-hot span {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.search-page-hot a {
+  font-size: 0.8125rem;
+  padding: 4px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.search-page-hot a:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+  background: var(--surface);
+}
+
+/* ─────────────── Result Sections ─────────────── */
+.result-section { padding: 24px 0; }
+.result-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.result-section-header h2 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.result-section-header .result-count {
+  font-family: var(--mono-font);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1.5px solid var(--fg);
+  padding: 2px 10px;
+  border-radius: 9999px;
+}
+
+/* ─────────────── Tool Result Cards ─────────────── */
+.tool-results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.tool-result-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.3s ease;
+}
+.tool-result-card:nth-child(3n+2) { transform: rotate(0.3deg); }
+.tool-result-card:nth-child(3n+3) { transform: rotate(-0.2deg); }
+.tool-result-card:hover {
+  transform: translate(-2px, -2px) rotate(0deg);
+  box-shadow: 6px 6px 0 var(--fg), 12px 12px 20px rgba(26,26,26,0.12);
+}
+.tool-result-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tool-result-icon {
+  width: 44px;
+  height: 44px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.125rem;
+  color: var(--fg);
+}
+.tool-result-title-row { flex: 1; min-width: 0; }
+.tool-result-card h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+}
+.tool-result-cat {
+  font-family: var(--mono-font);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+.tool-result-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.tool-result-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.tool-result-tags .tag {
+  font-size: 0.625rem;
+  padding: 2px 8px;
+  border-width: 1px;
+}
+.tool-result-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.highlight {
+  background: rgba(232,197,71,0.35);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+/* ─────────────── Scenario Results ─────────────── */
+.scenario-results {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.scenario-result-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.scenario-result-card .sr-icon {
+  width: 44px; height: 44px;
+  border: 2px solid var(--fg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg);
+}
+.scenario-result-card .sr-icon svg { width: 24px; height: 24px; }
+.scenario-result-card .sr-body { flex: 1; }
+.scenario-result-card h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.scenario-result-card p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* ─────────────── Article Results ─────────────── */
+.article-results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.article-result-card {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.article-result-card .ar-info { flex: 1; }
+.article-result-card h4 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+.article-result-card .ar-meta {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ─────────────── No Results ─────────────── */
+.no-results-block {
+  text-align: center;
+  padding: 80px 24px;
+}
+.no-results-block .nr-icon {
+  width: 80px;
+  height: 80px;
+  border: var(--border-w) solid var(--fg);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  background: var(--surface);
+  color: var(--muted);
+}
+.no-results-block h3 {
+  font-family: var(--display-font);
+  font-weight: 900;
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.no-results-block p {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.no-results-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.no-results-suggestions a {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border: 2px solid var(--fg);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--fg);
+  transition: all 0.2s;
+}
+.no-results-suggestions a:hover {
+  background: var(--fg);
+  color: var(--bg);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .tool-results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .tool-results-grid { grid-template-columns: 1fr; }
+  .scenario-results { grid-template-columns: 1fr; }
+  .tool-result-card:nth-child(n), .scenario-result-card:nth-child(n) { transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div id="nav-mount"></div>
+
+<div class="container">
+
+  <!-- 面包屑 -->
+  <nav class="breadcrumb" aria-label="面包屑导航">
+    <a href="index.html">首页</a>
+    <span class="separator">/</span>
+    <span class="current">搜索</span>
+  </nav>
+
+  <!-- ───────── 搜索头部 ───────── -->
+  <header class="search-page-header" data-od-id="search-header">
+    <h1 class="search-page-title">搜索推荐清单</h1>
+    <p class="search-page-subtitle">搜索范围：工具名称、描述、分类、标签、使用场景、推荐理由</p>
+    <div class="search-page-bar search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" placeholder="搜索工具、使用场景、能力或标签……" id="search-page-input" aria-label="搜索推荐清单" autofocus>
+      <span class="search-count" id="search-page-count"></span>
+    </div>
+    <div class="search-page-hot">
+      <span>试试搜索：</span>
+      <a href="search.html?q=AI编程">AI 编程</a>
+      <a href="search.html?q=Agent">Agent</a>
+      <a href="search.html?q=知识库">知识库</a>
+      <a href="search.html?q=图像生成">图像生成</a>
+      <a href="search.html?q=自动化">自动化</a>
+    </div>
+  </header>
+
+  <!-- ───────── 搜索结果 ───────── -->
+  <div id="search-results" data-od-id="search-results">
+
+    <!-- 工具结果 -->
+    <section class="result-section" id="tool-results-section">
+      <div class="result-section-header">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          工具结果
+          <span class="result-count" id="tool-count">0</span>
+        </h2>
+      </div>
+      <div class="tool-results-grid" id="tool-results-grid"></div>
+    </section>
+
+    <!-- 场景结果 -->
+    <section class="result-section" id="scenario-results-section">
+      <div class="result-section-header">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          场景结果
+          <span class="result-count" id="scenario-count">0</span>
+        </h2>
+      </div>
+      <div class="scenario-results" id="scenario-results-grid"></div>
+    </section>
+
+    <!-- 文章结果 -->
+    <section class="result-section" id="article-results-section">
+      <div class="result-section-header">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          文章结果
+          <span class="result-count" id="article-count">2</span>
+        </h2>
+      </div>
+      <div class="article-results" id="article-results-grid"></div>
+    </section>
+
+  </div>
+
+  <!-- 无结果状态 -->
+  <div class="no-results-block" id="no-results" style="display:none">
+    <div class="nr-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+    </div>
+    <h3>没有找到相关内容</h3>
+    <p>你可以尝试以下关键词：</p>
+    <div class="no-results-suggestions">
+      <a href="search.html?q=Agent">Agent</a>
+      <a href="search.html?q=AI编程">AI 编程</a>
+      <a href="search.html?q=知识库">知识库</a>
+      <a href="search.html?q=自动化">自动化</a>
+      <a href="search.html?q=图像生成">图像生成</a>
+      <a href="search.html?q=开源">开源</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- 页脚 -->
+<div id="footer-mount"></div>
+<div id="backtop-mount"></div>
+
+<script src="common.js"></script>
+<script>
+// 注入导航和页脚
+document.getElementById('nav-mount').innerHTML = renderNav('home');
+document.getElementById('footer-mount').innerHTML = renderFooter();
+document.getElementById('backtop-mount').innerHTML = renderBackToTop();
+
+// 获取搜索关键词
+const params = new URLSearchParams(window.location.search);
+let query = params.get('q') || '';
+const searchInput = document.getElementById('search-page-input');
+searchInput.value = query;
+
+// 文章示例数据
+const ARTICLES = [
+  { title: '用 Cursor 完成一个全栈项目的真实记录', meta: '个人博客 · 2026-06-15 · 15 分钟阅读' },
+  { title: 'AI 编程工具对比：Cursor vs Claude Code vs Copilot', meta: '个人博客 · 2026-05-20 · 12 分钟阅读' }
+];
+
+function highlight(text, q) {
+  if (!q) return text;
+  const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+function search(q) {
+  query = q;
+  searchInput.value = q;
+  const ql = q.toLowerCase();
+
+  // 搜索工具
+  let toolResults = [];
+  if (ql) {
+    toolResults = SITE_DATA.tools.filter(t => {
+      const catName = SITE_DATA.categories.find(c => c.id === t.cat)?.name || '';
+      return t.name.toLowerCase().includes(ql) ||
+             t.desc.toLowerCase().includes(ql) ||
+             t.url.toLowerCase().includes(ql) ||
+             catName.toLowerCase().includes(ql) ||
+             t.tags.some(tag => tag.toLowerCase().includes(ql)) ||
+             t.status.toLowerCase().includes(ql);
+    });
+  } else {
+    toolResults = SITE_DATA.tools;
+  }
+
+  // 搜索场景
+  let scenarioResults = [];
+  if (ql) {
+    scenarioResults = SITE_DATA.scenarios.filter(s =>
+      s.title.toLowerCase().includes(ql) ||
+      s.desc.toLowerCase().includes(ql)
+    );
+  } else {
+    scenarioResults = SITE_DATA.scenarios;
+  }
+
+  // 搜索文章
+  let articleResults = [];
+  if (ql) {
+    articleResults = ARTICLES.filter(a =>
+      a.title.toLowerCase().includes(ql) ||
+      a.meta.toLowerCase().includes(ql)
+    );
+  } else {
+    articleResults = ARTICLES;
+  }
+
+  // 更新计数
+  document.getElementById('tool-count').textContent = toolResults.length;
+  document.getElementById('scenario-count').textContent = scenarioResults.length;
+  document.getElementById('article-count').textContent = articleResults.length;
+  document.getElementById('search-page-count').textContent = ql ? `${toolResults.length + scenarioResults.length + articleResults.length} 个结果` : '';
+
+  // 无结果
+  const total = toolResults.length + scenarioResults.length + articleResults.length;
+  if (ql && total === 0) {
+    document.getElementById('search-results').style.display = 'none';
+    document.getElementById('no-results').style.display = 'block';
+    return;
+  }
+  document.getElementById('search-results').style.display = 'block';
+  document.getElementById('no-results').style.display = 'none';
+
+  // 渲染工具结果
+  document.getElementById('tool-results-grid').innerHTML = toolResults.length === 0
+    ? '<div class="no-results"><h3>没有找到匹配的工具</h3></div>'
+    : toolResults.map((t, i) => {
+        const catInfo = SITE_DATA.categories.find(c => c.id === t.cat);
+        const catName = catInfo ? catInfo.name : '其他';
+        const sClass = getStatusClass(t.status);
+        return `
+          <article class="clip-card tool-result-card" data-od-id="tool-result-${i+1}">
+            <div class="tool-result-top">
+              <div class="tool-result-icon">${t.name.charAt(0)}</div>
+              <div class="tool-result-title-row">
+                <h3>${highlight(t.name, q)}</h3>
+                <div class="tool-result-cat">${highlight(catName, q)}</div>
+              </div>
+            </div>
+            <p class="tool-result-desc">${highlight(t.desc, q)}</p>
+            <div class="tool-result-tags">
+              <span class="status-badge ${sClass}" style="font-size:0.625rem;padding:2px 8px;"><span class="status-dot"></span>${t.status}</span>
+              ${t.tags.slice(0,3).map(tag => `<span class="tag muted">${highlight(tag, q)}</span>`).join('')}
+            </div>
+            <div class="tool-result-footer">
+              <a href="detail.html?tool=${encodeURIComponent(t.name)}" class="reco-card-visit">查看详情 →</a>
+              ${t.url !== '—' ? `<a href="https://${t.url}" target="_blank" rel="noopener" class="reco-card-visit">访问 ↗</a>` : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+  // 渲染场景结果
+  document.getElementById('scenario-results-grid').innerHTML = scenarioResults.length === 0
+    ? '<div class="no-results" style="grid-column:1/-1"><h3>没有找到匹配的场景</h3></div>'
+    : scenarioResults.map((s, i) => `
+        <a href="scenario.html?s=${s.id}" class="clip-card scenario-result-card" data-od-id="scenario-result-${i+1}">
+          <div class="sr-icon">${getCatIcon(s.icon)}</div>
+          <div class="sr-body">
+            <h4>${highlight(s.title, q)}</h4>
+            <p>${highlight(s.desc, q)}</p>
+          </div>
+        </a>
+      `).join('');
+
+  // 渲染文章结果
+  document.getElementById('article-results-grid').innerHTML = articleResults.length === 0
+    ? '<div class="no-results"><h3>没有找到匹配的文章</h3></div>'
+    : articleResults.map((a, i) => `
+        <a href="#" class="clip-card article-result-card" data-od-id="article-result-${i+1}">
+          <div class="ar-info">
+            <h4>${highlight(a.title, q)}</h4>
+            <div class="ar-meta">${a.meta}</div>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      `).join('');
+
+  // 隐藏无结果的区块
+  document.getElementById('tool-results-section').style.display = toolResults.length ? 'block' : 'none';
+  document.getElementById('scenario-results-section').style.display = scenarioResults.length ? 'block' : 'none';
+  document.getElementById('article-results-section').style.display = articleResults.length ? 'block' : 'none';
+}
+
+// 搜索输入
+let searchTimer;
+searchInput.addEventListener('input', (e) => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    const val = e.target.value.trim();
+    const newUrl = val ? `search.html?q=${encodeURIComponent(val)}` : 'search.html';
+    window.history.replaceState({}, '', newUrl);
+    search(val);
+  }, 300);
+});
+
+// 初始搜索
+search(query);
+</script>
+</body>
+</html>
