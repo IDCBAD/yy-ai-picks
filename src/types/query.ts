@@ -1,9 +1,4 @@
-import type {
-  PlatformType,
-  PricingType,
-  RecommendationRelationship,
-  SortOption,
-} from "./enums";
+import type { PlatformType, PricingType, RecommendationRelationship, SortOption } from "./enums";
 
 export interface RecommendationQuery {
   q: string;

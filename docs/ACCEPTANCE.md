@@ -13,6 +13,18 @@
 
 Playwright 优先使用其管理的 Chromium；新环境在首次执行 E2E 前需要运行 `npx playwright install chromium`，本地未安装时可回退到系统 Chrome。
 
+## Phase 2 数据层验收
+
+- [x] 八类核心实体和统一枚举只有一份定义。
+- [x] 六个固定分类、六个场景和 20 条代表性推荐通过 Zod 与跨实体校验。
+- [x] 重复 ID/slug、无效分类/标签/场景/推荐/项目引用、自引用和重复关联会失败。
+- [x] 精选顺序、发布字段、场景步骤顺序、首选与替代重叠和本地资源路径会失败。
+- [x] 本地 Repository 覆盖推荐、分类、标签、场景、项目和文章。
+- [x] Recommendation、Search、Filter、Scenario Service 集中管理统计、关系、搜索、筛选和步骤解析。
+- [x] URL 参数解析安全处理非法值、多标签和中文编码往返。
+- [x] 构建配置在页面加载前导入并校验本地内容。
+- [x] 没有新增正式业务页面或 Phase 3 UI 组件。
+
 ## 页面验收
 
 完整版本需要覆盖首页、分类、场景、推荐详情、搜索、项目、关于七类公开页面。每页具备正确标题、描述、canonical、Open Graph、Twitter Card 和 robots 策略；无效 slug 返回真正的 404。

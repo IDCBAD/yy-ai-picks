@@ -78,4 +78,4 @@
 
 ## 本轮范围
 
-本轮仅完成 Phase 0 与 Phase 1：分析、文档、项目骨架、全局布局及质量工具。不会创建上述业务路由、业务数据、Repository、Service 或业务组件。
+当前已完成 Phase 0 至 Phase 2：分析、文档、项目骨架、统一数据模型、本地内容、Repository、Service、搜索筛选规则和 URL 参数解析。尚未创建正式业务路由或 Phase 3 公共组件。

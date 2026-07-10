@@ -5,7 +5,7 @@
 - Next.js 16、React 19、App Router。
 - TypeScript strict。
 - Tailwind CSS 4 与 CSS 设计令牌。
-- Zod 将在 Phase 2 用于本地内容在启动和构建阶段的校验。
+- Zod 用于本地内容在启动和构建阶段的结构与关联校验。
 - Vitest、Testing Library 用于单元和组件测试。
 - Playwright 用于真实浏览器 Smoke Test。
 - ESLint 与 Prettier 统一代码检查和格式。
@@ -82,9 +82,20 @@ interface RecommendationRepository {
 
 Repository 负责存取与基础查询，Service 负责搜索、筛选、排序、关联组装等用例。Zod 在本地内容进入 Repository 前校验，非法内容使测试或构建尽早失败。
 
+Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Article 的本地 Repository。构造函数可以接收任意经过校验的 `ContentData`，默认使用 `src/content`；测试和未来数据源可以提供其他实现。列表查询返回新数组，调用方排序不会改变底层存储顺序。
+
+已实现四个业务 Service：
+
+- `RecommendationService`：公开列表、精选、最近更新、分类/标签数量、关联对象、项目状态分组和全站最新日期。
+- `SearchService`：推荐、场景、项目和文章四类本地搜索结果。
+- `FilterService`：分类、关系、定价、开源、自托管、平台和多标签交集筛选，以及四种排序。
+- `ScenarioService`：场景步骤的首选/替代工具解析、去重汇总和工具数量。
+
 ## 搜索实现
 
-第一版使用服务端本地搜索，不接入外部搜索服务。`SearchService` 统一构建规范化搜索文本，覆盖名称、域名、简介、分类、标签、推荐理由与场景；筛选解析由纯函数完成并可独立测试。URL 是关键词和筛选状态的来源，页面不依赖不可维护的 DOM 查询。
+第一版使用服务端本地搜索，不接入外部搜索服务。`SearchService` 统一规范化首尾空格、英文大小写和 Unicode 文本，覆盖名称、URL/域名、简介、分类、标签、推荐理由、关联场景、关联项目和文章。空关键词返回四组空结果；结果总数由各组长度计算。
+
+筛选采用不同条件之间的交集语义；多个标签要求全部匹配。排序支持最近更新、最近收录、精选顺序和名称。`query-params.ts` 集中解析 `q`、`category`、`relationship`、`pricing`、`openSource`、`selfHostable`、`platform`、`tags` 和 `sort`；非法值安全忽略，标签使用逗号分隔并去重。
 
 数据量增长后，可在不改变页面调用方式的前提下把 Service 内部替换为数据库全文搜索或独立搜索服务。
 
@@ -95,6 +106,8 @@ Repository 负责存取与基础查询，Service 负责搜索、筛选、排序�
 - 内容更新时间决定缓存与重新验证策略；初始本地内容可随构建发布。
 - 搜索页读取 URL 参数并在服务端计算结果，避免将完整数据集发送到浏览器。
 - 无效 slug 调用 `notFound()`，不渲染伪 404。
+
+`next.config.ts` 导入 `src/content/index.ts`。该入口在配置加载时执行 `validateContentData()`，因此无效内容在正式页面生成前就会阻止开发服务或生产构建。
 
 ## 错误、加载与空状态
 
@@ -132,4 +145,4 @@ Repository 负责存取与基础查询，Service 负责搜索、筛选、排序�
 
 ### ADR-005：分阶段交付
 
-Phase 0/1 只建立文档、项目骨架和质量工具；Phase 2 才创建数据层，Phase 3 才创建设计系统组件，避免在边界未稳定时并行复制页面。
+Phase 0/1 建立文档、项目骨架和质量工具；Phase 2 已完成数据层；Phase 3 才创建设计系统组件，避免在边界未稳定时并行复制页面。

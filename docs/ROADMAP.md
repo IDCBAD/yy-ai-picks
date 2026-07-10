@@ -26,14 +26,14 @@
 
 ## Phase 2：数据层
 
-- [ ] 创建八类领域类型及全部枚举。
-- [ ] 创建 Zod Schema 与跨实体关联校验。
-- [ ] 整理并修正本地分类、标签、推荐、场景、项目和文章数据。
-- [ ] 实现 Repository 接口和本地 Repository。
-- [ ] 实现集中式 SearchService 与筛选参数解析。
-- [ ] 从统一数据计算数量、精选、排序与更新时间。
-- [ ] 添加 Schema、Repository、搜索、分类筛选、状态映射和 URL 参数测试。
-- [ ] 更新 `DATA_MODEL.md` 与 `ARCHITECTURE.md`。
+- [x] 创建八类领域类型及全部枚举。
+- [x] 创建 Zod Schema 与跨实体关联校验。
+- [x] 整理并修正本地分类、标签、推荐、场景、项目和文章数据。
+- [x] 实现 Repository 接口和本地 Repository。
+- [x] 实现集中式 SearchService 与筛选参数解析。
+- [x] 从统一数据计算数量、精选、排序与更新时间。
+- [x] 添加 Schema、Repository、搜索、分类筛选、状态映射和 URL 参数测试。
+- [x] 更新 `DATA_MODEL.md` 与 `ARCHITECTURE.md`。
 
 完成标准：非法本地数据在测试或构建时失败；页面未来只需依赖 Service/Repository，不依赖具体文件。
 
@@ -79,4 +79,4 @@
 
 ## 本轮边界
 
-本轮只勾选 Phase 0 和 Phase 1。Phase 2 及以后任务保留为待办，不提前创建领域类型、Schema、业务数据、Repository、Service、公共业务组件或业务路由。
+Phase 0、Phase 1 和 Phase 2 已完成。Phase 3 及以后任务保持待办；当前没有公共业务组件或正式业务路由。

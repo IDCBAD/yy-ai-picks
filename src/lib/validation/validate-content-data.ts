@@ -1,4 +1,4 @@
-import type { ContentData } from "@/types";
+import type { ContentData } from "../../types";
 
 import { contentDataSchema } from "./content-schemas";
 
@@ -85,7 +85,9 @@ export function validateContentData(input: unknown): ContentData {
     }
     for (const scenarioId of recommendation.relatedScenarioIds) {
       if (!scenarioIds.has(scenarioId)) {
-        issues.push(`Recommendation ${recommendation.id} references unknown scenario: ${scenarioId}`);
+        issues.push(
+          `Recommendation ${recommendation.id} references unknown scenario: ${scenarioId}`,
+        );
       }
     }
     for (const relatedId of recommendation.relatedRecommendationIds) {
@@ -104,7 +106,9 @@ export function validateContentData(input: unknown): ContentData {
     }
     for (const article of recommendation.relatedArticles) {
       if (!articleIds.has(article.id)) {
-        issues.push(`Recommendation ${recommendation.id} references unknown article: ${article.id}`);
+        issues.push(
+          `Recommendation ${recommendation.id} references unknown article: ${article.id}`,
+        );
       }
     }
 
@@ -131,7 +135,9 @@ export function validateContentData(input: unknown): ContentData {
 
     for (const recommendationId of scenario.recommendationIds) {
       if (!recommendationIds.has(recommendationId)) {
-        issues.push(`Scenario ${scenario.id} references unknown recommendation: ${recommendationId}`);
+        issues.push(
+          `Scenario ${scenario.id} references unknown recommendation: ${recommendationId}`,
+        );
       }
     }
 
@@ -147,7 +153,11 @@ export function validateContentData(input: unknown): ContentData {
       }
       stepOrders.add(step.order);
 
-      collectDuplicateValues(step.primaryRecommendationIds, "primary recommendation relation", issues);
+      collectDuplicateValues(
+        step.primaryRecommendationIds,
+        "primary recommendation relation",
+        issues,
+      );
       collectDuplicateValues(
         step.alternativeRecommendationIds,
         "alternative recommendation relation",

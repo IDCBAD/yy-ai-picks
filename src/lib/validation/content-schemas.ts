@@ -11,7 +11,7 @@ import {
   RECOMMENDATION_RELATIONSHIPS,
   TAG_GROUPS,
   UPDATE_LOG_TYPES,
-} from "@/types";
+} from "../../types";
 import type {
   ArticleReference,
   Category,
@@ -22,19 +22,26 @@ import type {
   ScenarioStep,
   Tag,
   UpdateLog,
-} from "@/types";
+} from "../../types";
 
 const idSchema = z.string().trim().min(1);
 const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const textSchema = z.string().trim().min(1);
-const iso8601Schema = z.string().refine(
-  (value) =>
-    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z)?$/.test(value) &&
-    !Number.isNaN(Date.parse(value)),
-  "Expected an ISO 8601 date string",
-);
-const urlSchema = z.string().url().refine((value) => value.startsWith("https://"), "Expected an HTTPS URL");
-const localAssetSchema = z.string().regex(/^\/assets\/(?:icons|images)\/[a-zA-Z0-9/_-]+\.[a-zA-Z0-9]+$/);
+const iso8601Schema = z
+  .string()
+  .refine(
+    (value) =>
+      /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z)?$/.test(value) &&
+      !Number.isNaN(Date.parse(value)),
+    "Expected an ISO 8601 date string",
+  );
+const urlSchema = z
+  .string()
+  .url()
+  .refine((value) => value.startsWith("https://"), "Expected an HTTPS URL");
+const localAssetSchema = z
+  .string()
+  .regex(/^\/assets\/(?:icons|images)\/[a-zA-Z0-9/_-]+\.[a-zA-Z0-9]+$/);
 
 export const articleReferenceSchema: z.ZodType<ArticleReference> = z.object({
   id: idSchema,

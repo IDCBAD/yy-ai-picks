@@ -1,4 +1,4 @@
-import { validateContentData } from "@/lib/validation";
+import { validateContentData } from "../lib/validation";
 
 import { articles } from "./articles";
 import { categories } from "./categories";

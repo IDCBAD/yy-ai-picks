@@ -1,4 +1,4 @@
-import type { ArticleReference } from "@/types";
+import type { ArticleReference } from "../types";
 
 export const articles: ArticleReference[] = [
   {

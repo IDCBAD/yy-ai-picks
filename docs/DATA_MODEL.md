@@ -1,182 +1,139 @@
 # 数据模型
 
-## 原则
+## 实现位置
 
-- 所有公开页面由统一领域数据生成，页面不得保存完整业务数据副本。
-- 本地内容在进入 Repository 前通过 Zod 校验；非法 slug、枚举、日期或关联在测试和构建时失败。
-- 实体使用稳定 `id` 建立关联，公开路由使用唯一 `slug`。
-- 日期使用 ISO 8601 字符串；可选字段缺失时不以空字符串冒充有效值。
-- 列表字段默认空数组，便于页面稳定渲染。
-- 本文只定义契约；类型、Schema、数据与 Repository 在 Phase 2 实现。
+- 统一枚举：`src/types/enums.ts`
+- 实体：`src/types/entities.ts`
+- 搜索、筛选和查询参数类型：`src/types/search.ts`、`filter.ts`、`query.ts`
+- Zod Schema：`src/lib/validation/content-schemas.ts`
+- 跨实体校验：`src/lib/validation/validate-content-data.ts`
+- 本地内容：`src/content`
+
+页面不得复制或补全这些数据，只能通过 Repository 和 Service 获取稳定领域模型。
 
 ## Recommendation
 
-| 字段                       | 类型                       | 约束                                |
-| -------------------------- | -------------------------- | ----------------------------------- |
-| `id`                       | string                     | 必填、全局唯一、稳定                |
-| `slug`                     | string                     | 必填、URL 安全、全局唯一            |
-| `name`                     | string                     | 必填、去除首尾空白                  |
-| `url`                      | string                     | 必填、合法 `https` 地址             |
-| `categoryId`               | string                     | 必须引用存在的 Category             |
-| `tagIds`                   | string[]                   | 每项必须引用存在的 Tag，不重复      |
-| `shortDescription`         | string                     | 必填，用于卡片与元数据              |
-| `recommendationReason`     | string                     | 必填，必须体现个人判断              |
-| `usageDescription`         | string?                    | 可选，描述实际用法                  |
-| `suitableFor`              | string[]                   | 至少一项                            |
-| `unsuitableFor`            | string[]?                  | 可选                                |
-| `strengths`                | string[]                   | 至少一项                            |
-| `limitations`              | string[]                   | 至少一项，不隐藏已知限制            |
-| `pricing`                  | Pricing                    | 必填枚举                            |
-| `platforms`                | string[]                   | 至少一项、去重                      |
-| `isOpenSource`             | boolean                    | 必填                                |
-| `selfHostable`             | boolean                    | 必填                                |
-| `accessRegion`             | string?                    | 可选，说明地区限制或可用性          |
-| `relationship`             | RecommendationRelationship | 必填枚举                            |
-| `status`                   | PublicationStatus          | 必填枚举                            |
-| `logo`                     | string?                    | 可选，本地资源路径                  |
-| `coverImage`               | string?                    | 可选，本地资源路径                  |
-| `featured`                 | boolean                    | 必填                                |
-| `featuredOrder`            | number?                    | 精选时可选，非负整数                |
-| `relatedScenarioIds`       | string[]                   | 引用 Scenario，去重                 |
-| `relatedRecommendationIds` | string[]                   | 引用其他 Recommendation，不得自引用 |
-| `relatedProjectIds`        | string[]                   | 引用 Project，去重                  |
-| `relatedArticles`          | ArticleReference[]         | 可为空数组                          |
-| `publishedAt`              | ISODateTime?               | 发布时建议存在                      |
-| `lastCheckedAt`            | ISODateTime?               | 最近复查时间                        |
-| `createdAt`                | ISODateTime                | 必填                                |
-| `updatedAt`                | ISODateTime                | 必填，不早于 `createdAt`            |
-| `updateLogs`               | UpdateLog[]                | 按日期倒序展示                      |
+| 字段                                      | 类型                       | 约束                                                |
+| ----------------------------------------- | -------------------------- | --------------------------------------------------- |
+| `id`、`slug`                              | string                     | 分别唯一；slug 只含小写字母、数字和连字符           |
+| `name`、`url`                             | string                     | 名称非空；URL 必须为 HTTPS                          |
+| `categoryId`                              | string                     | 引用存在的 Category                                 |
+| `tagIds`                                  | string[]                   | 引用存在的 Tag，不重复                              |
+| `shortDescription`                        | string                     | 必填展示摘要                                        |
+| `recommendationReason`                    | string                     | 必填；不确定个人判断使用中性文字                    |
+| `usageDescription`                        | string?                    | 可选的使用方式说明                                  |
+| `suitableFor`、`strengths`、`limitations` | string[]                   | 至少一项                                            |
+| `unsuitableFor`                           | string[]                   | 必填数组，可为空                                    |
+| `pricing`                                 | PricingType                | 统一枚举                                            |
+| `platforms`                               | PlatformType[]             | 至少一项                                            |
+| `isOpenSource`、`selfHostable`            | boolean                    | 必填                                                |
+| `accessRegion`                            | string?                    | 可选地区说明                                        |
+| `relationship`                            | RecommendationRelationship | 原型提供的使用关系                                  |
+| `availabilityStatus`                      | RecommendationAvailability | 可用、受限、不可用或未知                            |
+| `publishStatus`                           | PublishStatus              | 草稿、发布、归档或不可用                            |
+| `editorialStatus`                         | EditorialStatus            | 已复核或待复核                                      |
+| `logo`、`coverImage`                      | string?                    | 仅允许 `/assets/icons` 或 `/assets/images` 本地路径 |
+| `featured`、`featuredOrder`               | boolean、number?           | 精选必须有唯一顺序；非精选不能有顺序                |
+| `relatedScenarioIds`                      | string[]                   | 引用存在的 Scenario，不重复                         |
+| `relatedRecommendationIds`                | string[]                   | 引用其他 Recommendation，不重复且不能自引用         |
+| `relatedProjectIds`                       | string[]                   | 引用存在的 Project，不重复                          |
+| `relatedArticles`                         | ArticleReference[]         | 每项 ID 必须存在于独立文章数据                      |
+| `publishedAt`                             | ISO 8601?                  | 已发布推荐必填                                      |
+| `lastCheckedAt`                           | ISO 8601?                  | 最近内容复查时间                                    |
+| `createdAt`、`updatedAt`                  | ISO 8601                   | 必填                                                |
+| `updateLogs`                              | UpdateLog[]                | 更新记录                                            |
 
 ## Category
 
-| 字段               | 类型              | 约束                       |
-| ------------------ | ----------------- | -------------------------- |
-| `id`               | string            | 唯一、稳定                 |
-| `slug`             | string            | 唯一、URL 安全             |
-| `name`             | string            | 六个固定一级分类之一       |
-| `shortDescription` | string            | 卡片说明                   |
-| `description`      | string            | 分类页说明                 |
-| `icon`             | string            | 图标映射键，不保存任意 SVG |
-| `order`            | number            | 非负整数、全局唯一优先顺序 |
-| `status`           | PublicationStatus | 控制公开可见性             |
+字段：`id`、`slug`、`name`、`shortDescription`、`longDescription`、`iconKey`、`order`、`visible`、`createdAt`、`updatedAt`。
 
-固定一级分类：AI 助手与模型、AI 编程与开发、Agent 与自动化、知识与信息管理、内容与视觉创作、独立产品与灵感。
+当前固定六类：AI 助手与模型、AI 编程与开发、Agent 与自动化、知识与信息管理、内容与视觉创作、独立产品与灵感。分类数量由已发布推荐动态计算，不保存 `count`。
 
 ## Tag
 
-| 字段          | 类型    | 约束                             |
-| ------------- | ------- | -------------------------------- |
-| `id`          | string  | 唯一、稳定                       |
-| `slug`        | string  | 唯一、URL 安全                   |
-| `name`        | string  | 必填                             |
-| `categoryId`  | string? | 可选；存在时限制为该分类的子标签 |
-| `description` | string? | 可选                             |
-| `order`       | number  | 非负整数                         |
+字段：`id`、`slug`、`name`、`group`、`description`、`visible`。ID、slug 和名称唯一。
 
-## Scenario
+标签分组：
 
-| 字段                       | 类型               | 约束                 |
-| -------------------------- | ------------------ | -------------------- |
-| `id`                       | string             | 唯一、稳定           |
-| `slug`                     | string             | 唯一、URL 安全       |
-| `title`                    | string             | 必填                 |
-| `shortDescription`         | string             | 场景入口说明         |
-| `description`              | string             | 场景详情说明         |
-| `audience`                 | string[]           | 至少一项             |
-| `icon`                     | string             | 图标映射键           |
-| `steps`                    | ScenarioStep[]     | 至少一项，顺序唯一   |
-| `relatedRecommendationIds` | string[]           | 从步骤工具汇总并校验 |
-| `relatedArticles`          | ArticleReference[] | 可为空数组           |
-| `status`                   | PublicationStatus  | 必填                 |
-| `updatedAt`                | ISODateTime        | 必填                 |
+- `capability`：对话、搜索、代码生成、浏览器控制、图像生成等能力。
+- `scenario`：Agent 开发、独立开发、个人知识管理、内容创作等场景。
+- `attribute`：开源、可自托管、付费、API、Web、桌面端等属性。
 
-## ScenarioStep
+## Scenario 与 ScenarioStep
 
-| 字段                           | 类型     | 约束                                |
-| ------------------------------ | -------- | ----------------------------------- |
-| `id`                           | string   | 在所属 Scenario 内唯一              |
-| `order`                        | number   | 从 1 开始、连续且不重复             |
-| `title`                        | string   | 必填                                |
-| `description`                  | string   | 必填                                |
-| `primaryRecommendationId`      | string   | 必须引用存在且公开的 Recommendation |
-| `alternativeRecommendationIds` | string[] | 不得包含首选项、不得重复            |
-| `reason`                       | string   | 说明选择首选工具的原因              |
+Scenario 字段：`id`、`slug`、`title`、`shortDescription`、`longDescription`、`audience`、`recommendationIds`、`steps`、`relatedArticles`、`publishStatus`、`publishedAt`、`updatedAt`。
+
+ScenarioStep 字段：`id`、`order`、`title`、`description`、`primaryRecommendationIds`、`alternativeRecommendationIds`、`selectionReason`、`notes`。
+
+步骤顺序在场景内唯一；所有工具必须存在；首选与替代不能重叠。场景 URL 使用 slug，不使用原型查询参数或失效锚点。
 
 ## Project
 
-| 字段                | 类型          | 约束                          |
-| ------------------- | ------------- | ----------------------------- |
-| `id`                | string        | 唯一、稳定                    |
-| `slug`              | string        | 唯一、URL 安全                |
-| `name`              | string        | 必填                          |
-| `shortDescription`  | string        | 必填                          |
-| `description`       | string?       | 可选                          |
-| `status`            | ProjectStatus | 必填                          |
-| `url`               | string?       | 存在时为合法 `https` 地址     |
-| `repositoryUrl`     | string?       | 存在时为合法 `https` 地址     |
-| `coverImage`        | string?       | 本地资源路径                  |
-| `tagIds`            | string[]      | 引用 Tag，去重                |
-| `recommendationIds` | string[]      | 项目实际使用的 Recommendation |
-| `featured`          | boolean       | 必填                          |
-| `startedAt`         | ISODate?      | 可选                          |
-| `launchedAt`        | ISODate?      | 已上线项目建议存在            |
-| `updatedAt`         | ISODateTime   | 必填                          |
+字段：`id`、`slug`、`name`、`shortDescription`、`problem`、`coreFeatures`、`techStack`、`status`、`publishStatus`、`coverImage?`、`projectUrl?`、`developmentLogUrl?`、`createdAt`、`updatedAt`。
 
-项目状态：`launched`、`iterating`、`prototype`、`experiment`、`paused`，分别对应已上线、持续迭代、原型阶段、实验项目、暂停维护。
+原型中的 `#` 链接没有进入数据；未知地址保持字段缺失，不使用占位 URL。
 
 ## ArticleReference
 
-| 字段          | 类型        | 约束                                      |
-| ------------- | ----------- | ----------------------------------------- |
-| `id`          | string      | 唯一、稳定                                |
-| `title`       | string      | 必填                                      |
-| `url`         | string      | 合法 `https` 地址，不允许 `#` 占位        |
-| `source`      | string      | 站点或作者名称                            |
-| `summary`     | string?     | 可选                                      |
-| `publishedAt` | ISODate?    | 可选                                      |
-| `type`        | ArticleType | `article`、`guide`、`video`、`case-study` |
+字段：`id`、`title`、`url`、`type`、`description`、`publishedAt?`。文章是独立领域对象，不依赖具体博客系统；URL 必须为 HTTPS。
 
 ## UpdateLog
 
-| 字段          | 类型          | 约束                                                       |
-| ------------- | ------------- | ---------------------------------------------------------- |
-| `id`          | string        | 在所属实体内唯一                                           |
-| `date`        | ISODate       | 必填                                                       |
-| `title`       | string        | 必填                                                       |
-| `description` | string        | 必填                                                       |
-| `type`        | UpdateLogType | `added`、`updated`、`status-change`、`checked`、`archived` |
+字段：`id`、`date`、`title`、`description`、`type`。类型包括新增、更新、状态变化、复查和归档。
 
-## 枚举
+## 统一枚举
 
 ```text
 RecommendationRelationship:
 daily-use | long-term-use | used-in-project | testing | watching | my-product
 
-PublicationStatus:
+PublishStatus:
 draft | published | archived | unavailable
 
-Pricing:
+RecommendationAvailability:
+available | limited | unavailable | unknown
+
+PricingType:
 free | freemium | paid | open-source
 
 ProjectStatus:
 launched | iterating | prototype | experiment | paused
+
+TagGroup:
+capability | scenario | attribute
+
+PlatformType:
+web | macos | windows | linux | ios | android | cli | api | self-hosted |
+browser-extension | nodejs | python | react
+
+EditorialStatus:
+verified | needs-review
+
+SortOption:
+recently-updated | recently-added | featured | name
 ```
 
-推荐关系中文映射固定为：每天使用、长期使用、项目用过、正在体验、持续关注、我的项目。文字、颜色和图标由统一映射提供。
+## 全局数据集校验
 
-## 关联关系
+`validateContentData()` 先执行所有单体 Schema，再执行：
 
-- Category 一对多 Recommendation；Tag 与 Recommendation 多对多。
-- Scenario 包含有序 ScenarioStep；每个步骤引用一个首选推荐和多个替代推荐。
-- Recommendation 可与 Scenario、Recommendation、Project 多对多关联。
-- Recommendation 与 Scenario 可嵌入 ArticleReference；若文章需要独立搜索，Repository 应将其规范化为可检索记录。
-- UpdateLog 隶属于 Recommendation；未来可扩展到 Project，但不在初始接口中混用。
+- 各实体 ID、路由实体 slug、标签名称唯一。
+- 分类、标签、场景、推荐、项目和文章引用有效。
+- 推荐不能引用自己；所有关联数组不允许重复。
+- 精选顺序存在、唯一且只属于精选推荐。
+- 已发布推荐具有发布时间和完整展示字段。
+- 场景步骤顺序唯一，步骤工具存在，首选与替代不重叠。
+- 图片路径符合公开资源目录规范。
 
-## 全局校验
+`src/content/index.ts` 是统一校验入口；`next.config.ts` 在开发和构建前加载它，使非法内容尽早失败。
 
-- 所有 `id`、`slug` 唯一，所有引用必须存在。
-- 已发布内容不能引用草稿或不可用内容作为首选入口。
-- 数量、更新时间、精选列表和分类统计均由数据计算，不写死。原型中“42 个工具”与实际 41 条不一致的问题不得延续。
-- 排序必须有明确字段；“最近更新”和“最近收录”分别使用 `updatedAt` 与 `createdAt`/`publishedAt`。
-- 所有外部 URL 使用 `https`；文章和项目不得使用 `#` 占位。
-- 图片路径必须指向 `public` 内存在资源，并提供可读替代文字来源。
+## 当前本地数据
+
+- 6 个固定分类。
+- 30 个分组标签。
+- 20 条具有真实 HTTPS URL 的代表性推荐，覆盖全部分类。
+- 6 个场景及其步骤工具关系。
+- 4 个项目，不包含原型中的 `#` 占位地址。
+- 4 条独立文档引用。
+
+所有推荐个人评价均标记为 `needs-review`，没有编造原型未提供的深度使用经历。
