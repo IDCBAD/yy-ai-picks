@@ -8,12 +8,14 @@ export interface SectionHeaderProps {
   meta?: ReactNode;
   action?: ReactNode;
   headingLevel?: 2 | 3;
+  id?: string;
 }
 
 export function SectionHeader({
   action,
   description,
   headingLevel = 2,
+  id,
   meta,
   title,
 }: SectionHeaderProps) {
@@ -22,7 +24,7 @@ export function SectionHeader({
   return (
     <div className={styles.sectionHeader}>
       <div className={styles.sectionCopy}>
-        <Heading>{title}</Heading>
+        <Heading id={id}>{title}</Heading>
         {description ? <p>{description}</p> : null}
       </div>
       {meta || action ? (

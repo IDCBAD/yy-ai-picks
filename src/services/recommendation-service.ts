@@ -5,7 +5,15 @@ import type {
   ScenarioRepository,
   TagRepository,
 } from "@/repositories";
-import type { Category, Project, ProjectStatus, Recommendation, Scenario, Tag } from "@/types";
+import type {
+  ArticleReference,
+  Category,
+  Project,
+  ProjectStatus,
+  Recommendation,
+  Scenario,
+  Tag,
+} from "@/types";
 
 export interface RecommendationServiceDependencies {
   recommendations: RecommendationRepository;
@@ -15,12 +23,17 @@ export interface RecommendationServiceDependencies {
   projects: ProjectRepository;
 }
 
-export interface RecommendationWithRelations {
+export interface ResolvedRecommendation {
   recommendation: Recommendation;
   category: Category;
   tags: Tag[];
+}
+
+export interface RecommendationWithRelations extends ResolvedRecommendation {
   scenarios: Scenario[];
   projects: Project[];
+  relatedRecommendations: ResolvedRecommendation[];
+  articles: ArticleReference[];
 }
 
 function orderByIds<T extends { id: string }>(ids: string[], items: T[]): T[] {
@@ -78,11 +91,12 @@ export class RecommendationService {
 
   async getBySlugWithRelations(slug: string): Promise<RecommendationWithRelations | null> {
     const recommendation = await this.dependencies.recommendations.getBySlug(slug);
-    if (!recommendation) {
+    if (!recommendation || recommendation.publishStatus !== "published") {
       return null;
     }
 
-    const [categories, tags, scenarios, projects] = await Promise.all([
+    const [recommendations, categories, tags, scenarios, projects] = await Promise.all([
+      this.dependencies.recommendations.getAllPublished(),
       this.dependencies.categories.getAllVisible(),
       this.dependencies.tags.getAllVisible(),
       this.dependencies.scenarios.getAllPublished(),
@@ -92,6 +106,21 @@ export class RecommendationService {
     if (!category) {
       throw new Error(`Missing category for recommendation ${recommendation.id}`);
     }
+    const categoriesById = new Map(categories.map((item) => [item.id, item]));
+    const relatedRecommendations = orderByIds(
+      recommendation.relatedRecommendationIds,
+      recommendations,
+    ).map((item) => {
+      const relatedCategory = categoriesById.get(item.categoryId);
+      if (!relatedCategory) {
+        throw new Error(`Missing category for recommendation ${item.id}`);
+      }
+      return {
+        recommendation: item,
+        category: relatedCategory,
+        tags: orderByIds(item.tagIds, tags),
+      };
+    });
 
     return {
       recommendation,
@@ -99,6 +128,8 @@ export class RecommendationService {
       tags: orderByIds(recommendation.tagIds, tags),
       scenarios: orderByIds(recommendation.relatedScenarioIds, scenarios),
       projects: orderByIds(recommendation.relatedProjectIds, projects),
+      relatedRecommendations,
+      articles: [...recommendation.relatedArticles],
     };
   }
 

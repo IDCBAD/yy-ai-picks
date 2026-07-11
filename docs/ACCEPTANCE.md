@@ -39,6 +39,20 @@ Playwright 固定使用本机系统 Chrome，不执行 Chromium 下载。
 - [x] `/dev/components` 可供人工检查，设置 noindex，不在正式导航中。
 - [x] 没有新增正式首页、分类、场景、推荐详情、搜索结果、项目或关于页面。
 
+## Phase 4 首页与推荐详情验收
+
+- [x] 首页所有数量、更新时间、最近更新、分类、关系、场景和项目来自 Service/Repository。
+- [x] 首页复用 RecommendationCard，并通过 URL Search Params 保存分类、关系和排序状态。
+- [x] 搜索框生成 `/search?q=关键词`，但未提前实现搜索结果页。
+- [x] 推荐详情通过 slug 查询已发布内容，不公开 draft、archived 或 unavailable 内容。
+- [x] 详情解析分类、标签、场景、同类推荐、项目和文章；无内容章节不显示。
+- [x] `needs-review` 显示审核提示并隐藏统一个人使用占位。
+- [x] 推荐详情实现动态 Metadata、已发布 slug 静态参数和基础结构化数据。
+- [x] 无效推荐 slug 返回真正的 404，并使用 noindex Metadata。
+- [x] 全局加载、错误和 404 状态复用 Phase 3 组件，不暴露内部错误。
+- [x] 1440px、1024px、768px、390px 无页面级横向溢出。
+- [x] 没有创建分类、场景、搜索结果、项目、关于或后台页面。
+
 ## 页面验收
 
 完整版本需要覆盖首页、分类、场景、推荐详情、搜索、项目、关于七类公开页面。每页具备正确标题、描述、canonical、Open Graph、Twitter Card 和 robots 策略；无效 slug 返回真正的 404。

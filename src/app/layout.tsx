@@ -3,17 +3,22 @@ import type { Metadata } from "next";
 import { BackToTop } from "@/components/layout/back-to-top";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "余一的 AI 推荐清单",
-  description: "一份基于真实使用经验整理的 AI 工具、产品与资源清单。",
+  metadataBase: siteConfig.url,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main-content">
           跳到主要内容

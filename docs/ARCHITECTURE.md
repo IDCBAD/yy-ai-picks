@@ -47,17 +47,17 @@ reference/opendesign/  只读视觉参考
 ## 路由结构
 
 ```text
-/
+/                              Phase 4 正式首页
 /categories/[slug]
 /scenarios/[slug]
-/recommendations/[slug]
+/recommendations/[slug]        Phase 4 推荐详情
 /search
 /projects
 /about
 /dev/components        内部组件预览，noindex，不进入正式导航
 ```
 
-全局补充 `loading.tsx`、`error.tsx` 和 `not-found.tsx`。业务路由从 Phase 4 开始创建；当前根页面仍为中性占位，`/dev/components` 只用于 Phase 3 人工检查。
+全局 `loading.tsx`、`error.tsx` 和 `not-found.tsx` 复用 Phase 3 反馈组件。Phase 4 已实现首页和推荐详情；其余业务路由仍保持待办。`/dev/components` 只用于组件人工检查。
 
 ## 公共组件边界
 
@@ -78,7 +78,7 @@ src/components/
 
 - 页面、布局、静态内容读取和元数据默认使用 Server Components。
 - 数据查询在服务端完成，序列化后的最小数据传给交互组件。
-- 当前只有桌面当前路由标记、移动导航、搜索输入、筛选按钮、Logo 错误回退和返回顶部使用 `"use client"`。
+- 当前只有桌面当前路由标记、移动导航、首页搜索、首页 URL 筛选、预览交互、Logo 错误回退和返回顶部使用 `"use client"`。
 - 不在顶层布局建立全站 Client Component，不使用客户端请求重复获取首屏已有数据。
 - 客户端状态的可分享部分优先来自 URL Search Params。
 
@@ -106,6 +106,9 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 - `SearchService`：推荐、场景、项目和文章四类本地搜索结果。
 - `FilterService`：分类、关系、定价、开源、自托管、平台和多标签交集筛选，以及四种排序。
 - `ScenarioService`：场景步骤的首选/替代工具解析，并直接从步骤去重计算工具汇总和数量，不依赖手工统计。
+- `HomeService`：组合首页发布数量、最近更新、分类与关系数量、长期关系、筛选结果、场景和项目。
+
+`src/lib/content-services.ts` 是服务端组合入口，负责连接 Local Repository、RecommendationService、FilterService 和 HomeService。页面只导入组合后的 Service，不直接导入 `src/content`。
 
 ## 搜索实现
 
@@ -115,13 +118,17 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 
 数据量增长后，可在不改变页面调用方式的前提下把 Service 内部替换为数据库全文搜索或独立搜索服务。
 
-## 静态生成策略
+## 页面生成与 Metadata
 
-- 首页、项目页和关于页在构建时生成。
-- 分类、场景和推荐详情通过已发布内容生成静态参数。
+- 首页读取 URL Search Params 后在服务端组合数据，默认可静态生成，带筛选参数时服务端重新渲染。
+- 推荐详情通过 `RecommendationService.getPublished()` 生成静态参数，`dynamicParams = false` 让未知 slug 直接返回 404。
+- 推荐详情的 `generateMetadata()` 只为已发布内容生成标题、简介、canonical、Open Graph 和 robots。
+- 详情页输出不包含评分、价格和作者虚构信息的 `SoftwareApplication` 基础结构化数据。
 - 内容更新时间决定缓存与重新验证策略；初始本地内容可随构建发布。
 - 搜索页读取 URL 参数并在服务端计算结果，避免将完整数据集发送到浏览器。
 - 无效 slug 调用 `notFound()`，不渲染伪 404。
+
+站点地址由 `NEXT_PUBLIC_SITE_URL` 提供；本地缺失时使用 `http://localhost:3000`，正式发布前必须设置真实域名。
 
 `next.config.ts` 导入 `src/content/index.ts`。该入口在配置加载时执行 `validateContentData()`，因此无效内容在正式页面生成前就会阻止开发服务或生产构建。
 

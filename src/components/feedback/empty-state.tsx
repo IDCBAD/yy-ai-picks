@@ -10,6 +10,7 @@ export interface EmptyStateProps {
   primaryAction?: ReactNode;
   secondaryAction?: ReactNode;
   className?: string;
+  headingLevel?: 1 | 2 | 3;
 }
 
 export function EmptyState({
@@ -19,15 +20,17 @@ export function EmptyState({
   primaryAction,
   secondaryAction,
   className,
+  headingLevel = 2,
 }: EmptyStateProps) {
   const stateClassName = className ? `${styles.state} ${className}` : styles.state;
+  const Heading = headingLevel === 1 ? "h1" : headingLevel === 3 ? "h3" : "h2";
 
   return (
     <section aria-label={title} className={stateClassName} role="status">
       <span className={styles.icon}>
         <Icon aria-hidden="true" size={28} strokeWidth={2.1} />
       </span>
-      <h2 className={styles.title}>{title}</h2>
+      <Heading className={styles.title}>{title}</Heading>
       {description ? <p className={styles.description}>{description}</p> : null}
       {primaryAction || secondaryAction ? (
         <div className={styles.actions}>

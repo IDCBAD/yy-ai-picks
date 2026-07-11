@@ -1,6 +1,6 @@
 # 余一的 AI 推荐清单
 
-当前完成 Phase 0 至 Phase 3：参考分析、项目文档、Next.js 基础结构、数据层、设计系统、全局布局和公共组件。Phase 4–5 创建公开页面。
+当前完成 Phase 0 至 Phase 4：参考分析、项目基础、数据层、设计系统、正式首页和推荐详情页。Phase 5 创建分类、场景、搜索、项目和关于页面。
 
 需要 Node.js 20.19+、22.13+ 或 24+。
 
@@ -63,6 +63,35 @@ src/content/
 
 类型位于 `src/types`，结构和关联校验位于 `src/lib/validation`。页面后续只依赖 `src/repositories` 与 `src/services`，不直接导入具体数据文件。
 
+## 首页数据来源
+
+首页遵循 `Page → HomeService → Repository → Local Content`。发布数量、最近更新时间、分类数量、关系数量、最近更新、长期关系、筛选结果、场景和项目均由服务端计算，页面不直接导入 `src/content`。
+
+分类、使用关系和排序通过 URL Search Params 保存，例如：
+
+```text
+/?category=ai-coding&relationship=daily-use&sort=name
+```
+
+## 推荐详情页
+
+`/recommendations/[slug]` 通过 RecommendationService 获取已发布推荐和关联内容。构建时自动为所有已发布 slug 生成静态参数；新增并发布一条推荐后，无需手工增加路由。
+
+检查有效与无效 slug：
+
+```text
+http://127.0.0.1:3000/recommendations/claude
+http://127.0.0.1:3000/recommendations/not-a-real-tool
+```
+
+第二个地址应返回 404。动态 Metadata、canonical、Open Graph、robots 和基础结构化数据由详情页生成。
+
+正式部署前设置：
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://你的正式域名
+```
+
 ## 添加一条推荐
 
 1. 在 `src/content/recommendations.ts` 增加记录。
@@ -93,6 +122,10 @@ npm run validate:content
 `src/content/index.ts` 在导入时执行全局校验，`next.config.ts` 会在开发和构建启动前加载该入口，因此非法数据会尽早阻止构建。
 
 数据错误会列出重复 ID、重复 slug、无效关联、精选顺序、场景步骤或图片路径等具体原因。根据错误中的实体 ID 定位对应内容文件，修正后重新运行内容校验。
+
+## 审核 needs-review 内容
+
+当前 20 条推荐均为 `needs-review`。页面只公开中性收录说明，并隐藏统一的个人使用占位。逐项核对推荐理由、使用方式、适用范围、优缺点、定价和检查时间，记录在 `docs/CONTENT_REVIEW.md`；完成核验后再改为 `verified`。
 
 ## 全部检查
 

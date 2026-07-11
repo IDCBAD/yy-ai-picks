@@ -1,5 +1,7 @@
 .bar {
   display: flex;
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
   align-items: center;
   gap: var(--space-4);
@@ -17,7 +19,9 @@
 
 .scroller {
   display: flex;
+  width: 100%;
   min-width: 0;
+  max-width: 100%;
   gap: var(--space-3);
   padding: 4px 6px 8px 2px;
   overflow-x: auto;

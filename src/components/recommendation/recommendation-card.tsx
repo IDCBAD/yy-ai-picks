@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import type { Category, Recommendation, Tag as RecommendationTag } from "@/types";
 import { ExternalLink } from "@/components/ui/external-link";
@@ -17,6 +18,7 @@ export interface RecommendationCardProps {
   category: Category;
   tags: RecommendationTag[];
   variant?: RecommendationCardVariant;
+  meta?: ReactNode;
 }
 
 export function RecommendationCard({
@@ -24,6 +26,7 @@ export function RecommendationCard({
   recommendation,
   tags,
   variant = "default",
+  meta,
 }: RecommendationCardProps) {
   const visibleTags = tags.slice(0, 3);
   const remainingTagCount = Math.max(0, tags.length - visibleTags.length);
@@ -59,6 +62,7 @@ export function RecommendationCard({
           <Tag aria-label={`另有 ${remainingTagCount} 个标签`}>+{remainingTagCount}</Tag>
         ) : null}
       </div>
+      {meta ? <div className={styles.cardMeta}>{meta}</div> : null}
       <div className={styles.cardActions}>
         <Link className={styles.detailLink} href={detailHref}>
           查看详情

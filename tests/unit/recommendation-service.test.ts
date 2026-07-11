@@ -47,7 +47,34 @@ describe("RecommendationService", () => {
     expect(result?.tags.map((item) => item.slug)).toContain("code-generation");
     expect(result?.scenarios.map((item) => item.slug)).toEqual(["ai-website", "indie-inspiration"]);
     expect(result?.projects.map((item) => item.slug)).toEqual(["ai-recommendation-list"]);
+    expect(result?.relatedRecommendations.map((item) => item.recommendation.slug)).toEqual([
+      "cursor",
+      "claude",
+    ]);
+    expect(result?.articles).toEqual([]);
     await expect(service.getBySlugWithRelations("missing")).resolves.toBeNull();
+  });
+
+  it("does not expose unpublished recommendations by slug", async () => {
+    const data = structuredClone(contentData);
+    data.recommendations[0].publishStatus = "draft";
+    const service = new RecommendationService({
+      recommendations: new LocalRecommendationRepository(data),
+      categories: new LocalCategoryRepository(data),
+      tags: new LocalTagRepository(data),
+      scenarios: new LocalScenarioRepository(data),
+      projects: new LocalProjectRepository(data),
+    });
+
+    await expect(service.getBySlugWithRelations("chatgpt")).resolves.toBeNull();
+  });
+
+  it("returns empty optional relation groups without inventing content", async () => {
+    const result = await createService().getBySlugWithRelations("ollama");
+
+    expect(result?.relatedRecommendations).toEqual([]);
+    expect(result?.projects).toEqual([]);
+    expect(result?.articles).toEqual([]);
   });
 
   it("computes project status groups including empty statuses", async () => {
