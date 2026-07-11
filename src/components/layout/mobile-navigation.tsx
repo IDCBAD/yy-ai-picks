@@ -105,7 +105,12 @@ export function MobileNavigation() {
               {PRIMARY_NAVIGATION.map((item) => {
                 const active = isNavigationItemActive(pathname, item.href);
                 return (
-                  <Link aria-current={active ? "page" : undefined} href={item.href} key={item.href}>
+                  <Link
+                    aria-current={active ? "page" : undefined}
+                    href={item.href}
+                    key={item.href}
+                    onClick={() => setOpen(false)}
+                  >
                     {item.label}
                   </Link>
                 );
@@ -114,6 +119,7 @@ export function MobileNavigation() {
                 aria-current={isNavigationItemActive(pathname, "/search") ? "page" : undefined}
                 className={styles.mobileSearchLink}
                 href="/search"
+                onClick={() => setOpen(false)}
               >
                 <Search aria-hidden="true" size={19} />
                 搜索

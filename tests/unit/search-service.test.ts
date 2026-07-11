@@ -101,4 +101,17 @@ describe("SearchService", () => {
     expect(result.projects).toEqual([]);
     expect(result.articles).toEqual([]);
   });
+
+  it("provides recommendation category and tags for direct page display", async () => {
+    const data = await createService().getPageData("Cursor");
+
+    expect(data.query).toBe("Cursor");
+    expect(data.results.recommendations).toHaveLength(1);
+    expect(data.results.recommendations[0].item.slug).toBe("cursor");
+    expect(data.results.recommendations[0].category.slug).toBe("ai-coding");
+    expect(data.results.recommendations[0].tags.map((tag) => tag.slug)).toContain(
+      "code-generation",
+    );
+    expect(data.results.total).toBeGreaterThanOrEqual(1);
+  });
 });

@@ -1,6 +1,6 @@
 # 余一的 AI 推荐清单
 
-当前完成 Phase 0 至 Phase 4：参考分析、项目基础、数据层、设计系统、正式首页和推荐详情页。Phase 5 创建分类、场景、搜索、项目和关于页面。
+当前完成 Phase 0 至 Phase 5：参考分析、项目基础、数据层、设计系统、全部公开页面、搜索筛选、SEO 与导航闭环。
 
 需要 Node.js 20.19+、22.13+ 或 24+。
 
@@ -12,6 +12,22 @@ npm run dev
 ```
 
 Playwright 固定使用本机系统 Chrome，不需要下载 Chromium。
+
+## 公开路由
+
+```text
+/                              首页
+/categories/[slug]             6 个分类页
+/scenarios/[slug]              6 个场景页
+/recommendations/[slug]        20 个已发布推荐详情
+/search?q=关键词               搜索结果
+/projects                      我的项目
+/about                         关于与推荐标准
+/sitemap.xml                   公开页面索引
+/robots.txt                    搜索引擎规则
+```
+
+`/dev/components` 仅用于本地组件检查，设置为 `noindex, nofollow`，不会进入 sitemap 或正式导航。
 
 ## 公共组件
 
@@ -86,11 +102,13 @@ http://127.0.0.1:3000/recommendations/not-a-real-tool
 
 第二个地址应返回 404。动态 Metadata、canonical、Open Graph、robots 和基础结构化数据由详情页生成。
 
-正式部署前设置：
+正式部署前必须设置：
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://你的正式域名
 ```
+
+该变量用于 canonical、Open Graph、sitemap 和 robots。缺失时仅为本地开发回退到 `http://localhost:3000`。
 
 ## 添加一条推荐
 
@@ -111,7 +129,21 @@ NEXT_PUBLIC_SITE_URL=https://你的正式域名
 
 ## 添加场景
 
-在 `src/content/scenarios.ts` 增加场景和有序步骤。步骤顺序不得重复；首选和替代工具必须存在且不能重叠；场景 slug 决定未来公开 URL。
+在 `src/content/scenarios.ts` 增加场景和有序步骤。步骤顺序不得重复；首选和替代工具必须存在且不能重叠；场景 slug 决定公开 URL。发布场景需要填写 `publishedAt`，工具汇总由 ScenarioService 从步骤自动去重计算。
+
+## 添加项目
+
+在 `src/content/projects.ts` 增加唯一 `id`、`slug`、状态、问题、核心功能和技术栈。只有真实存在的 `projectUrl` 或 `developmentLogUrl` 才能填写；缺少链接时页面不会显示占位按钮。项目页按照五种统一状态自动分组。
+
+## 搜索规则
+
+`/search` 在服务端调用 SearchService，覆盖推荐名称、简介、URL、分类、标签、推荐理由、关联场景和项目，以及场景、项目、文章自身内容。结果按推荐、场景、项目和文章分组；浏览器只负责把 `q` 写入 URL，不持有完整内容集，也不重新实现搜索。
+
+## sitemap 与 robots
+
+`src/app/sitemap.ts` 从 Service 获取可见分类、已发布场景、已发布推荐和项目更新时间，生成首页、分类、场景、推荐、项目与关于页的绝对地址。搜索页、查询参数、开发预览、错误页和未发布内容不会进入 sitemap。
+
+`src/app/robots.ts` 允许公开页面抓取并排除 `/dev/`。搜索页使用 `noindex, follow`，开发预览使用 `noindex, nofollow`。
 
 ## 内容校验
 

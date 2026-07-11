@@ -10,9 +10,16 @@ import styles from "./content-card.module.css";
 export interface ProjectCardProps {
   project: Project;
   headingLevel?: 2 | 3;
+  showCollectionLink?: boolean;
+  showDetails?: boolean;
 }
 
-export function ProjectCard({ headingLevel = 3, project }: ProjectCardProps) {
+export function ProjectCard({
+  headingLevel = 3,
+  project,
+  showCollectionLink = true,
+  showDetails = false,
+}: ProjectCardProps) {
   const Heading = headingLevel === 2 ? "h2" : "h3";
   const fallbackHref = "/projects";
 
@@ -26,6 +33,22 @@ export function ProjectCard({ headingLevel = 3, project }: ProjectCardProps) {
       </div>
       <Heading>{project.name}</Heading>
       <p className={styles.description}>{project.shortDescription}</p>
+      {showDetails ? (
+        <div className={styles.projectDetails}>
+          <div>
+            <strong>解决的问题</strong>
+            <p>{project.problem}</p>
+          </div>
+          <div>
+            <strong>核心功能</strong>
+            <ul>
+              {project.coreFeatures.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
       <ul aria-label={`${project.name} 技术栈`} className={styles.techStack}>
         {project.techStack.map((technology) => (
           <li key={technology}>{technology}</li>
@@ -38,7 +61,7 @@ export function ProjectCard({ headingLevel = 3, project }: ProjectCardProps) {
         {project.developmentLogUrl ? (
           <ExternalLink href={project.developmentLogUrl}>开发记录</ExternalLink>
         ) : null}
-        {!project.projectUrl && !project.developmentLogUrl ? (
+        {!project.projectUrl && !project.developmentLogUrl && showCollectionLink ? (
           <Link href={fallbackHref}>
             查看项目
             <ArrowRight aria-hidden="true" />

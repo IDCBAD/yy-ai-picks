@@ -55,12 +55,12 @@
 
 ## Phase 5：其他页面
 
-- [ ] 实现 `/categories/[slug]`。
-- [ ] 实现 `/scenarios/[slug]`。
-- [ ] 实现 `/search`。
-- [ ] 实现 `/projects`。
-- [ ] 实现 `/about`。
-- [ ] 实现 sitemap、robots.txt 和基础结构化数据。
+- [x] 实现 `/categories/[slug]`、标签筛选、排序、静态参数和 404。
+- [x] 实现 `/scenarios/[slug]`、步骤工作流、工具解析和静态参数。
+- [x] 实现 `/search` 的四类服务端分组结果与空状态。
+- [x] 实现 `/projects` 的项目状态分组。
+- [x] 实现 `/about` 的定位、标准、审核与免责声明。
+- [x] 实现 sitemap、robots.txt、页面 Metadata 和导航闭环。
 
 ## Phase 6：测试和质量检查
 
@@ -79,4 +79,4 @@
 
 ## 本轮边界
 
-Phase 0 至 Phase 4 已完成。Phase 5 及以后任务保持待办；当前正式业务页面只有首页和推荐详情，分类、场景、搜索、项目和关于页面尚未开发。
+Phase 0 至 Phase 5 已完成。全部公开页面和导航已闭环；后台、Supabase、登录、收藏、评论与投稿保持在 Future 范围。Phase 6 保留为发布前的持续质量加固阶段。

@@ -1,0 +1,133 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0 0 var(--space-10);
+}
+
+.stats div {
+  min-width: 0;
+  padding: var(--space-5);
+  border-top: var(--border-strong) solid var(--color-foreground);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.stats dt {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.stats dd {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.controls {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+  padding: var(--space-5);
+  border-block: var(--border-thin) solid var(--color-border);
+  background: var(--color-surface-subtle);
+}
+
+.controlCommands {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.sortControl {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 800;
+}
+
+.sortControl span {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+}
+
+.sortControl select {
+  min-height: var(--control-min);
+  padding: 0 var(--space-8) 0 var(--space-4);
+  border: var(--border-strong) solid var(--color-foreground);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-weight: 700;
+}
+
+.section {
+  margin-top: var(--space-16);
+  scroll-margin-top: 6rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.articleList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.articleList li {
+  min-width: 0;
+  padding: var(--space-5) 0;
+  border-top: var(--border-strong) solid var(--color-foreground);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.articleList p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-muted);
+}
+
+@media (max-width: 64rem) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 48rem) {
+  .stats,
+  .relatedGrid,
+  .articleList {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    gap: 0;
+  }
+
+  .controlCommands {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sortControl {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sortControl select {
+    width: 100%;
+  }
+}

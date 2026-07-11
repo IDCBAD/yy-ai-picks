@@ -1,0 +1,40 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-12);
+}
+
+.overview div {
+  padding: var(--space-5);
+  border-top: var(--border-strong) solid var(--color-foreground);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.overview dt {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+}
+
+.overview dd {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+}
+
+.groups {
+  display: grid;
+  gap: var(--space-16);
+}
+
+@media (max-width: 48rem) {
+  .overview {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

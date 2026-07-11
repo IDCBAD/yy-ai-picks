@@ -29,7 +29,7 @@ export function SiteFooter({ lastUpdated = "持续更新" }: SiteFooterProps) {
             <Link href="/about#recommendation-criteria">推荐标准</Link>
           </nav>
           <div className={styles.footerMeta}>
-            <span>GitHub：待补充</span>
+            <span>内容状态：持续审核</span>
             <span>更新时间：{lastUpdated}</span>
           </div>
         </div>

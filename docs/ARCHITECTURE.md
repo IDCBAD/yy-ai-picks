@@ -47,17 +47,19 @@ reference/opendesign/  只读视觉参考
 ## 路由结构
 
 ```text
-/                              Phase 4 正式首页
-/categories/[slug]
-/scenarios/[slug]
-/recommendations/[slug]        Phase 4 推荐详情
+/                              正式首页
+/categories/[slug]             6 个分类 slug，筛选请求由服务端渲染
+/scenarios/[slug]              6 个静态场景页
+/recommendations/[slug]        20 个静态推荐详情
 /search
 /projects
 /about
+/sitemap.xml
+/robots.txt
 /dev/components        内部组件预览，noindex，不进入正式导航
 ```
 
-全局 `loading.tsx`、`error.tsx` 和 `not-found.tsx` 复用 Phase 3 反馈组件。Phase 4 已实现首页和推荐详情；其余业务路由仍保持待办。`/dev/components` 只用于组件人工检查。
+全局 `loading.tsx`、`error.tsx` 和 `not-found.tsx` 复用 Phase 3 反馈组件。Phase 5 已完成全部公开路由；`/dev/components` 只用于组件人工检查，不属于公开信息架构。
 
 ## 公共组件边界
 
@@ -69,6 +71,11 @@ src/components/
   search/          SearchBar
   filters/         FilterPill、FilterBar
   feedback/        EmptyState、ErrorState、LoadingSkeleton
+  content/         CategoryCard、ScenarioCard、ProjectCard
+  scenario/        ScenarioStepCard、ScenarioWorkflow
+  search-results/  SearchResultSection、SearchResultCard
+  projects/        ProjectGroup
+  about/           AboutSection
   dev/             预览页所需的最小交互夹具
 ```
 
@@ -78,7 +85,7 @@ src/components/
 
 - 页面、布局、静态内容读取和元数据默认使用 Server Components。
 - 数据查询在服务端完成，序列化后的最小数据传给交互组件。
-- 当前只有桌面当前路由标记、移动导航、首页搜索、首页 URL 筛选、预览交互、Logo 错误回退和返回顶部使用 `"use client"`。
+- 当前只有导航状态、移动菜单、首页搜索与筛选、分类筛选、搜索输入、预览交互、Logo 错误回退和返回顶部使用 `"use client"`。
 - 不在顶层布局建立全站 Client Component，不使用客户端请求重复获取首屏已有数据。
 - 客户端状态的可分享部分优先来自 URL Search Params。
 
@@ -100,15 +107,17 @@ Repository 负责存取与基础查询，Service 负责搜索、筛选、排序�
 
 Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Article 的本地 Repository。构造函数可以接收任意经过校验的 `ContentData`，默认使用 `src/content`；测试和未来数据源可以提供其他实现。列表查询返回新数组，调用方排序不会改变底层存储顺序。
 
-已实现四个业务 Service：
+已实现页面所需业务 Service：
 
 - `RecommendationService`：公开列表、精选、最近更新、分类/标签数量、关联对象、项目状态分组和全站最新日期。
 - `SearchService`：推荐、场景、项目和文章四类本地搜索结果。
 - `FilterService`：分类、关系、定价、开源、自托管、平台和多标签交集筛选，以及四种排序。
 - `ScenarioService`：场景步骤的首选/替代工具解析，并直接从步骤去重计算工具汇总和数量，不依赖手工统计。
 - `HomeService`：组合首页发布数量、最近更新、分类与关系数量、长期关系、筛选结果、场景和项目。
+- `CategoryService`：组合可见分类、分类内标签计数、筛选排序、推荐卡片数据、相关场景与文章。
+- `ProjectService`：组合公开项目、五种状态分组、数量和项目更新时间。
 
-`src/lib/content-services.ts` 是服务端组合入口，负责连接 Local Repository、RecommendationService、FilterService 和 HomeService。页面只导入组合后的 Service，不直接导入 `src/content`。
+`src/lib/content-services.ts` 是服务端组合入口，负责连接全部 Local Repository 与 Service。正式页面只导入组合后的 Service，不直接导入 `src/content` 或具体 Repository。
 
 ## 搜索实现
 
@@ -122,10 +131,12 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 
 - 首页读取 URL Search Params 后在服务端组合数据，默认可静态生成，带筛选参数时服务端重新渲染。
 - 推荐详情通过 `RecommendationService.getPublished()` 生成静态参数，`dynamicParams = false` 让未知 slug 直接返回 404。
+- 分类页通过 `CategoryService.getVisible()`、场景页通过 `ScenarioService.getPublished()` 生成静态参数；隐藏分类、未发布场景和未知 slug 不会生成页面。
 - 推荐详情的 `generateMetadata()` 只为已发布内容生成标题、简介、canonical、Open Graph 和 robots。
 - 详情页输出不包含评分、价格和作者虚构信息的 `SoftwareApplication` 基础结构化数据。
 - 内容更新时间决定缓存与重新验证策略；初始本地内容可随构建发布。
 - 搜索页读取 URL 参数并在服务端计算结果，避免将完整数据集发送到浏览器。
+- `sitemap.ts` 只列出首页、可见分类、已发布场景、已发布推荐、项目和关于页；`robots.ts` 排除开发预览。搜索页使用 `noindex, follow`。
 - 无效 slug 调用 `notFound()`，不渲染伪 404。
 
 站点地址由 `NEXT_PUBLIC_SITE_URL` 提供；本地缺失时使用 `http://localhost:3000`，正式发布前必须设置真实域名。

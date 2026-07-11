@@ -27,7 +27,7 @@ export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
   launched: "已上线",
   iterating: "持续迭代",
   prototype: "原型阶段",
-  experiment: "实验中",
+  experiment: "实验项目",
   paused: "暂停维护",
 };
 

@@ -122,7 +122,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         </section>
 
-        <section aria-labelledby="categories-title" className={styles.section}>
+        <section aria-labelledby="categories-title" className={styles.section} id="categories">
           <SectionHeader
             description="推荐数量来自当前已发布内容。"
             id="categories-title"

@@ -1,0 +1,72 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.intro {
+  max-width: 52rem;
+  margin-bottom: var(--space-12);
+  padding: var(--space-6) 0 var(--space-6) var(--space-6);
+  border-left: var(--border-strong) solid var(--color-accent);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-relaxed);
+}
+
+.sections {
+  display: grid;
+  gap: var(--space-12);
+}
+
+.sections p {
+  margin-bottom: 0;
+  line-height: var(--line-relaxed);
+}
+
+.sections p > svg {
+  display: inline-block;
+  width: 1.1em;
+  margin-right: var(--space-2);
+  vertical-align: -0.2em;
+}
+
+.sections ul {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sections li {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.sections li > svg {
+  width: 1.15rem;
+  flex: 0 0 auto;
+  margin-top: 0.2rem;
+}
+
+.criteriaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+
+.criteriaGrid > * {
+  min-width: 0;
+}
+
+@media (max-width: 48rem) {
+  .intro {
+    padding-left: var(--space-4);
+  }
+
+  .criteriaGrid {
+    grid-template-columns: 1fr;
+  }
+}

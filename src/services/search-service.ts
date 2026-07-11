@@ -6,7 +6,7 @@ import type {
   ScenarioRepository,
   TagRepository,
 } from "@/repositories";
-import type { SearchResult, SearchResults } from "@/types";
+import type { Category, Recommendation, SearchResult, SearchResults, Tag } from "@/types";
 
 export interface SearchServiceDependencies {
   recommendations: RecommendationRepository;
@@ -15,6 +15,20 @@ export interface SearchServiceDependencies {
   scenarios: ScenarioRepository;
   projects: ProjectRepository;
   articles: ArticleRepository;
+}
+
+export interface ResolvedRecommendationSearchResult extends SearchResult<Recommendation> {
+  category: Category;
+  tags: Tag[];
+}
+
+export interface SearchPageResults extends Omit<SearchResults, "recommendations"> {
+  recommendations: ResolvedRecommendationSearchResult[];
+}
+
+export interface SearchPageData {
+  query: string;
+  results: SearchPageResults;
 }
 
 function normalize(value: string): string {
@@ -152,6 +166,36 @@ export class SearchService {
         scenarioResults.length +
         projectResults.length +
         articleResults.length,
+    };
+  }
+
+  async getPageData(query: string): Promise<SearchPageData> {
+    const [results, categories, tags] = await Promise.all([
+      this.search(query),
+      this.dependencies.categories.getAllVisible(),
+      this.dependencies.tags.getAllVisible(),
+    ]);
+    const categoriesById = new Map(categories.map((category) => [category.id, category]));
+    const tagsById = new Map(tags.map((tag) => [tag.id, tag]));
+    const recommendations = results.recommendations.map((result) => {
+      const category = categoriesById.get(result.item.categoryId);
+      if (!category) {
+        throw new Error(`Missing category for recommendation ${result.item.id}`);
+      }
+
+      return {
+        ...result,
+        category,
+        tags: result.item.tagIds.flatMap((tagId) => {
+          const tag = tagsById.get(tagId);
+          return tag ? [tag] : [];
+        }),
+      };
+    });
+
+    return {
+      query: query.trim(),
+      results: { ...results, recommendations },
     };
   }
 }
