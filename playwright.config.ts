@@ -1,8 +1,4 @@
-import { existsSync } from "node:fs";
-
-import { chromium, defineConfig, devices } from "@playwright/test";
-
-const managedChromiumInstalled = existsSync(chromium.executablePath());
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -19,7 +15,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        ...(managedChromiumInstalled ? {} : { channel: "chrome" as const }),
+        channel: "chrome",
       },
     },
   ],

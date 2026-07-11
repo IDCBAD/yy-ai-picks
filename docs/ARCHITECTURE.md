@@ -7,12 +7,12 @@
 - Tailwind CSS 4 与 CSS 设计令牌。
 - Zod 用于本地内容在启动和构建阶段的结构与关联校验。
 - Vitest、Testing Library 用于单元和组件测试。
-- Playwright 用于真实浏览器 Smoke Test。
+- Playwright 使用本机系统 Chrome 执行真实浏览器 Smoke Test。
 - ESLint 与 Prettier 统一代码检查和格式。
 
 版本以 `package.json` 和锁文件为准。本项目不引入大型 UI 框架或全局状态库。
 
-Playwright 优先使用其管理的 Chromium，安装依赖后需执行 `npx playwright install chromium`；若本地尚未安装该浏览器，可回退到系统 Chrome。项目要求 Node.js 20.19+、22.13+ 或 24+，以同时满足 Next.js 与测试工具要求。
+Playwright 固定使用 `channel: "chrome"`，不下载托管 Chromium。项目要求 Node.js 20.19+、22.13+ 或 24+，以同时满足 Next.js 与测试工具要求。
 
 ## 参考原型结论
 
@@ -25,7 +25,7 @@ Playwright 优先使用其管理的 Chromium，安装依赖后需执行 `npx pla
 ```text
 src/
   app/                 App Router、全局布局和路由状态
-  components/          跨页面共享组件
+  components/          UI、布局、推荐、搜索筛选和反馈公共组件
   content/             经过校验的本地内容源
   lib/                 无业务归属的纯工具与配置
   repositories/        数据访问接口及实现
@@ -54,15 +54,31 @@ reference/opendesign/  只读视觉参考
 /search
 /projects
 /about
+/dev/components        内部组件预览，noindex，不进入正式导航
 ```
 
-全局补充 `loading.tsx`、`error.tsx` 和 `not-found.tsx`。业务路由从 Phase 4 开始创建；Phase 1 仅保留中性的根页面以验证项目可运行。
+全局补充 `loading.tsx`、`error.tsx` 和 `not-found.tsx`。业务路由从 Phase 4 开始创建；当前根页面仍为中性占位，`/dev/components` 只用于 Phase 3 人工检查。
+
+## 公共组件边界
+
+```text
+src/components/
+  ui/              Button、Tag、Badge、Card、IconButton、ExternalLink
+  layout/          Header、Footer、Navigation、Container、Header、Breadcrumb、BackToTop
+  recommendation/  Logo、Status、Metadata、Card、Grid
+  search/          SearchBar
+  filters/         FilterPill、FilterBar
+  feedback/        EmptyState、ErrorState、LoadingSkeleton
+  dev/             预览页所需的最小交互夹具
+```
+
+组件入口使用各目录 `index.ts` 和 `src/components/index.ts` 统一导出。推荐卡接收已经解析的 Recommendation、Category 和 Tag，不读取 Repository，不调用 Service，也不复制领域模型。
 
 ## 服务端与客户端边界
 
 - 页面、布局、静态内容读取和元数据默认使用 Server Components。
 - 数据查询在服务端完成，序列化后的最小数据传给交互组件。
-- 搜索输入、移动导航、筛选抽屉等确实依赖浏览器状态的叶子组件才使用 `"use client"`。
+- 当前只有桌面当前路由标记、移动导航、搜索输入、筛选按钮、Logo 错误回退和返回顶部使用 `"use client"`。
 - 不在顶层布局建立全站 Client Component，不使用客户端请求重复获取首屏已有数据。
 - 客户端状态的可分享部分优先来自 URL Search Params。
 
@@ -145,4 +161,8 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 
 ### ADR-005：分阶段交付
 
-Phase 0/1 建立文档、项目骨架和质量工具；Phase 2 已完成数据层；Phase 3 才创建设计系统组件，避免在边界未稳定时并行复制页面。
+Phase 0/1 建立文档、项目骨架和质量工具；Phase 2 完成数据层；Phase 3 完成设计系统和公共组件。正式业务页面保持到 Phase 4 开始。
+
+### ADR-006：单一图标源和最小客户端边界
+
+公共组件统一使用 `lucide-react` 线性图标。纯展示组件保持服务端兼容，只有依赖路由、输入、滚动、焦点或图片错误状态的叶子组件进入客户端，避免把完整推荐数据发送到浏览器。

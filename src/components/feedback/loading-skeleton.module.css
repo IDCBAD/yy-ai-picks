@@ -1,0 +1,129 @@
+.container {
+  display: grid;
+  width: 100%;
+  gap: var(--space-6);
+}
+
+.card {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.list,
+.title {
+  grid-template-columns: 1fr;
+}
+
+.item {
+  min-width: 0;
+}
+
+.card .item {
+  min-height: 300px;
+  padding: var(--space-5);
+  border: var(--border-strong) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.list .item {
+  display: flex;
+  min-height: 88px;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+.title .item {
+  padding-block: var(--space-2);
+}
+
+.block {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-md);
+  background: var(--color-border);
+}
+
+.block::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-surface) 72%, transparent),
+    transparent
+  );
+  content: "";
+  transform: translateX(-100%);
+  animation: shimmer calc(var(--duration-normal) * 5) var(--ease-out) infinite;
+}
+
+.cardMedia {
+  height: 120px;
+  margin-bottom: var(--space-6);
+}
+
+.primaryLine {
+  width: 72%;
+  height: 18px;
+  margin-bottom: var(--space-3);
+}
+
+.secondaryLine {
+  width: 100%;
+  height: 13px;
+  margin-bottom: var(--space-2);
+}
+
+.shortLine {
+  width: 58%;
+  height: 13px;
+}
+
+.listIcon {
+  width: 48px;
+  height: 48px;
+  flex: none;
+}
+
+.listContent {
+  display: block;
+  min-width: 0;
+  flex: 1;
+}
+
+.titleLine {
+  width: min(70%, 480px);
+  height: 40px;
+  margin-bottom: var(--space-4);
+}
+
+.subtitleLine {
+  width: min(88%, 640px);
+  height: 16px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block::after {
+    animation: none;
+  }
+}

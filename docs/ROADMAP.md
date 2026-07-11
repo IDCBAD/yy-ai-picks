@@ -39,11 +39,11 @@
 
 ## Phase 3：设计系统和公共组件
 
-- [ ] 固化颜色、字体、字号、间距、圆角、边框、阴影、焦点和动效令牌。
-- [ ] 创建 SiteHeader、SiteFooter、MobileNavigation、Button、Tag、StatusBadge。
-- [ ] 创建 Breadcrumb、SearchBar、SectionHeader、RecommendationCard、EmptyState。
-- [ ] 创建其余清单中的公共组件，保持每种业务概念一套核心组件。
-- [ ] 添加组件测试、键盘操作和 reduced motion 检查。
+- [x] 固化颜色、字体、字号、间距、圆角、边框、阴影、焦点和动效令牌。
+- [x] 创建 SiteHeader、SiteFooter、MobileNavigation、Button、Tag、StatusBadge。
+- [x] 创建 Breadcrumb、SearchBar、SectionHeader、RecommendationCard、EmptyState。
+- [x] 创建其余清单中的公共组件，保持每种业务概念一套核心组件。
+- [x] 添加组件测试、键盘操作和 reduced motion 检查。
 
 完成标准：核心组件稳定后才进入页面开发，移动端关闭卡片旋转，无重复卡片实现。
 
@@ -79,4 +79,4 @@
 
 ## 本轮边界
 
-Phase 0、Phase 1 和 Phase 2 已完成。Phase 3 及以后任务保持待办；当前没有公共业务组件或正式业务路由。
+Phase 0、Phase 1、Phase 2 和 Phase 3 已完成。Phase 4 及以后任务保持待办；当前只有中性根页面和不索引的内部组件预览，没有正式业务路由。

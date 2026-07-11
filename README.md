@@ -1,6 +1,6 @@
 # 余一的 AI 推荐清单
 
-当前完成 Phase 0 至 Phase 2：参考分析、项目文档、Next.js 基础结构、统一数据模型、本地内容、Repository、Service、搜索筛选和 URL 参数规则。Phase 3 创建共享组件，Phase 4–5 创建公开页面。
+当前完成 Phase 0 至 Phase 3：参考分析、项目文档、Next.js 基础结构、数据层、设计系统、全局布局和公共组件。Phase 4–5 创建公开页面。
 
 需要 Node.js 20.19+、22.13+ 或 24+。
 
@@ -8,8 +8,44 @@
 
 ```bash
 npm install
-npx playwright install chromium
 npm run dev
+```
+
+Playwright 固定使用本机系统 Chrome，不需要下载 Chromium。
+
+## 公共组件
+
+公共组件按职责位于 `src/components/ui`、`layout`、`recommendation`、`search`、`filters` 和 `feedback`，可从各目录入口或 `src/components/index.ts` 导入。
+
+页面使用 `PageContainer`、`PageHeader` 和 `SectionHeader` 组合结构，不重复定义容器宽度。交互组件接收受控参数，不在内部读取 URL 或调用 Service。
+
+## 扩展 RecommendationCard
+
+`RecommendationCard` 接收 Phase 2 的 `Recommendation`，以及已经解析的 `Category` 和 `Tag[]`。显示差异使用 `default`、`compact`、`featured` 三种 variant；新增页面不得复制卡片。确实需要新的跨页面显示差异时，先扩展同一组件和测试。
+
+## 增加推荐状态
+
+推荐关系枚举定义在 `src/types/enums.ts`，文字、图标和视觉映射统一位于 `src/components/recommendation/recommendation-status.tsx`。增加状态时必须同时更新类型、数据校验、映射和组件测试，页面不能自行定义状态颜色。
+
+## 使用设计令牌
+
+全局令牌位于 `src/app/globals.css`。组件样式只能引用这些颜色、间距、圆角、边框、阴影、焦点和动效变量；新的共享值先加入令牌，再用于组件。
+
+## 组件预览
+
+运行开发服务器后访问：
+
+```text
+http://127.0.0.1:3000/dev/components
+```
+
+该页面只用于检查组件，设置为不索引，也不出现在正式导航中。
+
+组件测试和浏览器测试：
+
+```bash
+npm run test
+npm run test:e2e
 ```
 
 ## 数据目录

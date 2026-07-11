@@ -1,0 +1,45 @@
+.preview {
+  padding-block: var(--space-8) var(--space-16);
+}
+
+.section {
+  padding-block: var(--space-10);
+  border-top: var(--border-thin) solid var(--color-border);
+}
+
+.controlRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.sampleCard {
+  max-width: 30rem;
+}
+
+.feedbackGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 64rem) {
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 48rem) {
+  .feedbackGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -12,22 +12,22 @@
 
 ## 颜色令牌
 
-| Token                | 值        | 用途                     |
-| -------------------- | --------- | ------------------------ |
-| `--color-background` | `#FFF8EC` | 页面纸张背景             |
-| `--color-surface`    | `#FFFFFF` | 卡片、输入框、浮层       |
-| `--color-foreground` | `#1A1A1A` | 主文字、粗边框、硬阴影   |
-| `--color-muted`      | `#6B6357` | 辅助文字与次级信息       |
-| `--color-border`     | `#E0D8C8` | 柔和分隔线与非重点边框   |
-| `--color-accent`     | `#E8C547` | 重点、选中、主操作       |
-| `--color-accent-ink` | `#8A7300` | 黄色背景上的深色补充文字 |
+| Token                | 值        | 用途                   |
+| -------------------- | --------- | ---------------------- |
+| `--color-background` | `#FFF8EC` | 页面纸张背景           |
+| `--color-surface`    | `#FFFFFF` | 卡片、输入框、浮层     |
+| `--color-foreground` | `#1A1A1A` | 主文字、粗边框、硬阴影 |
+| `--color-muted`      | `#6B6357` | 辅助文字与次级信息     |
+| `--color-border`     | `#E0D8C8` | 柔和分隔线与非重点边框 |
+| `--color-accent`     | `#E8C547` | 重点、选中、主操作     |
+| `--color-accent-ink` | `#8A7300` | 大字号辅助强调文字     |
 
-状态色必须通过统一映射使用，并验证与背景的对比度。页面不得散落重复十六进制颜色。
+状态色必须通过统一映射使用，并验证与背景的对比度。黄色按钮、筛选项和徽标使用 `--color-foreground`，不使用对比度不足的 `--color-accent-ink` 作为普通字号文字。页面不得散落重复十六进制颜色。
 
 ## 字体规则
 
 - 展示文字：优先采用具有圆润、编辑感的无衬线字体；原型声明 `cereal`，若无可合法分发的字体文件则使用系统无衬线回退，不依赖运行时远程字体。
-- 正文与界面：Inter 或系统无衬线字体，中文回退到 `PingFang SC`、`Microsoft YaHei`、`Noto Sans SC`。
+- 正文与界面：系统无衬线字体，中文回退到 `PingFang SC`、`Microsoft YaHei`、`Source Han Sans SC`、`Noto Sans SC`。
 - 编号、日期、状态和短标签：JetBrains Mono 或系统等宽字体。
 - 正文保持舒适行高，中文段落不使用过窄字宽或过密字距。
 
@@ -113,3 +113,13 @@
 - 把 `category.html`、`scenario.html`、`detail.html` 的查询参数导航替换为语义化 slug 路由。
 - 统一原型中不一致的卡片、状态文字、图标来源和空状态。
 - 对字体授权、外部链接、缺失文章链接、动态内容转义和移动菜单焦点进行正式检查。
+
+## Phase 3 实现
+
+- 全部颜色、字号、行高、间距、圆角、边框、阴影、焦点、动效、内容宽度和层级令牌统一定义于 `src/app/globals.css`。
+- 页面使用 `PageContainer` 控制最大宽度和响应式边距；页面区块保持无外层卡片。
+- `Button`、`Tag`、`Badge`、`IconButton`、`Card` 与 `ExternalLink` 是基础控件，不按页面复制样式。
+- `RecommendationCard` 只有 `default`、`compact`、`featured` 三种密度，移动端与 reduced motion 下取消装饰旋转。
+- `StatusBadge` 的六种推荐关系由 `RECOMMENDATION_STATUS` 一处映射文字、色调和 Lucide 图标。
+- 图标只使用 `lucide-react`；装饰图标隐藏于辅助技术，图标按钮必须有可访问名称。
+- `/dev/components` 是内部组件预览，设置 `noindex`，不加入正式导航，也不承担业务页面职责。

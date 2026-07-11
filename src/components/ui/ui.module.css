@@ -1,0 +1,359 @@
+.button,
+.iconButton,
+.tagButton {
+  appearance: none;
+  font: inherit;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: var(--border-strong) solid var(--color-foreground);
+  border-radius: 9999px;
+  color: var(--color-foreground);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.button:hover:not(:disabled):not([aria-disabled="true"]) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--color-foreground);
+}
+
+.button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0 var(--color-foreground);
+}
+
+.buttonPrimary {
+  background: var(--color-accent);
+  box-shadow: var(--shadow-hard);
+}
+
+.buttonSecondary {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-hard);
+}
+
+.buttonGhost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.buttonGhost:hover:not(:disabled):not([aria-disabled="true"]) {
+  border-color: var(--color-foreground);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+  box-shadow: none;
+}
+
+.buttonIcon,
+.externalIcon,
+.badgeIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonIcon > svg,
+.externalIcon > svg,
+.badgeIcon > svg {
+  width: 1em;
+  height: 1em;
+}
+
+.buttonLabel {
+  min-width: 0;
+}
+
+.spinner {
+  animation: spin 800ms linear infinite;
+}
+
+.externalLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: inherit;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.externalLink:hover {
+  color: var(--color-foreground);
+  text-decoration-line: underline;
+}
+
+.externalIcon {
+  align-self: center;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tag,
+.tagButton {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 5px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.tagButton {
+  min-height: 44px;
+  padding-inline: 16px;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.tagButton:hover:not(:disabled) {
+  border-color: var(--color-foreground);
+  color: var(--color-foreground);
+  transform: translateY(-1px);
+}
+
+.tagSelected {
+  border-color: var(--color-foreground);
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+.tagButton:disabled {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.tagCount {
+  opacity: 0.7;
+}
+
+.badge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 3px 10px;
+  border: 1.5px solid var(--color-foreground);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.badgeDefault {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+}
+
+.badgeAccent {
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+.badgeDark {
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
+.badgeMuted {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-muted);
+}
+
+.iconButton {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: var(--border-strong) solid var(--color-foreground);
+  border-radius: var(--radius-control);
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.iconButton > svg {
+  width: 20px;
+  height: 20px;
+}
+
+.iconButtonPrimary {
+  background: var(--color-accent);
+  box-shadow: var(--shadow-hard);
+}
+
+.iconButtonSecondary {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-hard);
+}
+
+.iconButtonGhost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.iconButton:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--color-foreground);
+}
+
+.iconButtonGhost:hover:not(:disabled) {
+  border-color: var(--color-foreground);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.iconButton:disabled {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+.card {
+  position: relative;
+  min-width: 0;
+  border: var(--border-strong) solid var(--color-foreground);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  box-shadow: var(--shadow-hard), var(--shadow-soft);
+  overflow-wrap: anywhere;
+}
+
+.cardDefault {
+  padding: 24px;
+}
+
+.cardCompact {
+  padding: 16px;
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-hard);
+}
+
+.cardFeatured {
+  padding: 32px;
+  box-shadow:
+    var(--shadow-hard),
+    var(--shadow-soft),
+    inset 0 7px 0 var(--color-accent);
+}
+
+.cardInteractive {
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.cardInteractive:hover,
+.cardInteractive:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow:
+    6px 6px 0 var(--color-foreground),
+    var(--shadow-soft);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .button {
+    white-space: normal;
+  }
+
+  .card,
+  .cardFeatured {
+    padding: 20px;
+    border-radius: var(--radius-control);
+  }
+
+  .cardInteractive:hover,
+  .cardInteractive:focus-within {
+    transform: none;
+    box-shadow: var(--shadow-hard), var(--shadow-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .iconButton,
+  .tagButton,
+  .cardInteractive {
+    transition: none;
+  }
+
+  .button:hover,
+  .iconButton:hover,
+  .tagButton:hover,
+  .cardInteractive:hover,
+  .cardInteractive:focus-within {
+    transform: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}

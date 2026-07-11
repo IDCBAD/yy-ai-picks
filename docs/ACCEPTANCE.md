@@ -1,17 +1,17 @@
 # 验收标准
 
-## 本轮验收
+## 基础验收
 
 - [x] `docs` 中六份指定文档与实施计划存在且内容完整。
 - [x] 根目录 `AGENTS.md` 包含所有强制工作规则。
 - [x] `reference/opendesign` 全部文件已分析且没有被修改。
 - [x] Next.js App Router 项目可运行，TypeScript strict 已开启。
 - [x] 基础目录、全局布局、全局样式和中性根页面存在。
-- [x] 没有实现具体业务路由、业务数据或业务组件。
+- [x] 没有实现具体业务路由。
 - [x] ESLint、Prettier、Vitest、Testing Library、Playwright 配置存在。
 - [x] `npm run lint`、`npm run typecheck`、`npm run test`、`npm run test:e2e`、`npm run build` 全部退出码为 0。
 
-Playwright 优先使用其管理的 Chromium；新环境在首次执行 E2E 前需要运行 `npx playwright install chromium`，本地未安装时可回退到系统 Chrome。
+Playwright 固定使用本机系统 Chrome，不执行 Chromium 下载。
 
 ## Phase 2 数据层验收
 
@@ -25,11 +25,25 @@ Playwright 优先使用其管理的 Chromium；新环境在首次执行 E2E 前�
 - [x] 构建配置在页面加载前导入并校验本地内容。
 - [x] 没有新增正式业务页面或 Phase 3 UI 组件。
 
+## Phase 3 设计系统验收
+
+- [x] 颜色、字体、字号、行高、间距、圆角、边框、阴影、焦点、动效、断点和层级由全局令牌控制。
+- [x] 根布局具备 Skip Link，以及语义化 Header、Nav、Main 和 Footer。
+- [x] 完成 PageContainer、Header、Footer、MobileNavigation、Breadcrumb、SectionHeader、BackToTop。
+- [x] 完成 Button、Tag、Badge、Card、IconButton、ExternalLink 和六种 StatusBadge 映射。
+- [x] 完成 SearchBar、FilterPill、FilterBar、EmptyState、ErrorState、LoadingSkeleton。
+- [x] RecommendationCard 基于 Phase 2 类型，统一支持三种 variant、Logo 回退、标签 `+N` 和安全外链。
+- [x] 移动菜单支持当前路由、Esc、点击外部关闭、焦点限制、焦点归还和背景滚动锁定。
+- [x] 1440px、1024px、768px、390px 的组件预览没有页面级横向溢出。
+- [x] 移动端与 reduced motion 下关闭卡片旋转，骨架屏停止非必要动画。
+- [x] `/dev/components` 可供人工检查，设置 noindex，不在正式导航中。
+- [x] 没有新增正式首页、分类、场景、推荐详情、搜索结果、项目或关于页面。
+
 ## 页面验收
 
 完整版本需要覆盖首页、分类、场景、推荐详情、搜索、项目、关于七类公开页面。每页具备正确标题、描述、canonical、Open Graph、Twitter Card 和 robots 策略；无效 slug 返回真正的 404。
 
-本轮只验收中性根页面能打开，不验收业务内容。
+Phase 3 验收中性根页面和内部组件预览，不验收正式业务内容。
 
 ## 组件复用验收
 
@@ -56,13 +70,13 @@ Playwright 优先使用其管理的 Chromium；新环境在首次执行 E2E 前�
 
 ## 组件测试
 
-完整版本至少覆盖 RecommendationCard、SearchBar、FilterBar、EmptyState、StatusBadge，并检查可见内容、交互、键盘行为和可访问名称。本轮未创建业务组件，不提前编写这些测试。
+Phase 3 已覆盖 RecommendationCard、RecommendationLogo、SearchBar、FilterBar、EmptyState、StatusBadge、Button、Tag、Breadcrumb、移动导航、BackToTop 和外链安全属性。
 
 ## E2E 测试
 
 完整版本至少覆盖：首页打开、分类入口、场景入口、推荐详情、外部官网、搜索结果、无结果、筛选写入 URL、无效 slug 404、移动导航开关。
 
-本轮 Playwright 只验证根页面可以由真实浏览器打开，后续逐阶段扩展，不用占位测试冒充业务覆盖。
+Phase 3 Playwright 验证根页面和组件预览、桌面导航、移动菜单、Esc、键盘焦点、外链安全、四个目标宽度、横向溢出和 reduced motion。业务流程从 Phase 4 开始扩展。
 
 ## 响应式测试
 
