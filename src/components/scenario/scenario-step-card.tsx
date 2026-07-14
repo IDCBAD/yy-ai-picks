@@ -66,12 +66,12 @@ export function ScenarioStepCard({
 
         <div className={styles.recommendations}>
           <RecommendationList
-            label="首选"
+            label="主要工具"
             recommendations={primaryRecommendations}
             variant="primary"
           />
           <RecommendationList
-            label="替代"
+            label="可选路径"
             recommendations={alternativeRecommendations}
             variant="alternative"
           />

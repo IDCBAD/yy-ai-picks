@@ -44,7 +44,7 @@ describe("FilterService", () => {
       tagIds: ["tag-open-source", "tag-self-hostable"],
     });
 
-    expect(result.map((item) => item.slug)).toEqual(["supabase", "dify", "n8n", "rsshub"]);
+    expect(result.map((item) => item.slug)).toEqual(["supabase", "dify", "rsshub"]);
   });
 
   it("combines different filters with intersection semantics", () => {
@@ -55,7 +55,7 @@ describe("FilterService", () => {
       platform: "web",
     });
 
-    expect(result.map((item) => item.slug)).toEqual(["dify", "n8n"]);
+    expect(result.map((item) => item.slug)).toEqual(["dify"]);
   });
 
   it("sorts by recently updated and recently added dates", () => {

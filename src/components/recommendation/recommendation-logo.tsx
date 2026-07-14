@@ -39,16 +39,16 @@ export function RecommendationLogo({
     <span className={`${styles.logo} ${styles[`logo${size}`]}`}>
       {showImage ? (
         <Image
-          alt={alt ?? `${name} Logo`}
+          alt={alt ?? ""}
           height={72}
           onError={() => setFailedSrc(src)}
           src={src ?? ""}
           width={72}
         />
       ) : CategoryIcon ? (
-        <CategoryIcon aria-label={`${name} 分类图标占位`} role="img" />
+        <CategoryIcon aria-hidden="true" />
       ) : (
-        <span aria-label={`${name} 首字母占位`} className={styles.logoLetter} role="img">
+        <span aria-hidden="true" className={styles.logoLetter}>
           {name.trim().charAt(0).toLocaleUpperCase() || "?"}
         </span>
       )}

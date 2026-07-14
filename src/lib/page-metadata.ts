@@ -28,11 +28,13 @@ export function createPageMetadata({
       title,
       description,
       siteName: siteConfig.name,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
+      images: ["/opengraph-image"],
     },
   };
 }

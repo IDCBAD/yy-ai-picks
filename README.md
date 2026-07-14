@@ -1,13 +1,14 @@
 # 余一的 AI 推荐清单
 
-当前完成 Phase 0 至 Phase 5：参考分析、项目基础、数据层、设计系统、全部公开页面、搜索筛选、SEO 与导航闭环。
+当前完成 Phase 0 至 Phase 6：参考分析、项目基础、数据层、设计系统、全部公开页面、搜索筛选、SEO、导航闭环与发布前质量检查。
 
 需要 Node.js 20.19+、22.13+ 或 24+。
 
 ## 本地运行
 
 ```bash
-npm install
+npm ci
+npm run validate:content
 npm run dev
 ```
 
@@ -27,7 +28,7 @@ Playwright 固定使用本机系统 Chrome，不需要下载 Chromium。
 /robots.txt                    搜索引擎规则
 ```
 
-`/dev/components` 仅用于本地组件检查，设置为 `noindex, nofollow`，不会进入 sitemap 或正式导航。
+`/dev/components` 仅用于本地组件检查，设置为 `noindex, nofollow`，不会进入 sitemap 或正式导航；生产环境访问时返回 404。
 
 ## 公共组件
 
@@ -169,6 +170,46 @@ npm run test
 npm run test:e2e
 npm run build
 ```
+
+## 环境变量与域名
+
+复制 `.env.example` 的字段到本地环境配置。项目不需要客户端密钥；唯一公开变量是：
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://你的正式域名
+```
+
+该地址用于 canonical、Open Graph、sitemap 和 robots。Vercel 可读取生产域名变量，本地开发缺失时回退到 `http://localhost:3000`；生产或 CI 地址必须使用 HTTPS。
+
+## Logo 与图片
+
+产品 Logo 只保存到 `public/assets/logos`，使用小写产品 slug 命名并优先采用确认可用的 SVG。位图使用压缩后的 WebP 或 PNG。推荐数据的 `logo` 只能填写 `/assets/...` 本地路径；没有可靠资源时保留分类图标或首字母回退，不使用第三方热链。
+
+站点 favicon 位于 `src/app/icon.svg`，Web App Manifest 位于 `src/app/manifest.ts`，社交分享图由 `src/app/opengraph-image.tsx` 本地生成。
+
+## 内容复核流程
+
+1. 对照产品官网核对名称、地址、平台、定价、开源和自托管状态。
+2. 未得到作者确认的关系、用法、理由、优缺点和适用人群保持 `needs-review`。
+3. 在 `docs/CONTENT_REVIEW.md` 记录客观检查日期与待确认项。
+4. 作者确认全部主观字段后再改为 `verified`；关系徽标和首页关系区块才会公开。
+5. 运行 `npm run validate:content` 和全部质量命令。
+
+## 部署流程
+
+1. 使用符合 `package.json` 的 Node.js 版本执行 `npm ci`。
+2. 设置正式 `NEXT_PUBLIC_SITE_URL`，运行全部检查和 `npm run build`。
+3. 部署生产构建，不公开 `/dev/components`。
+4. 按 `docs/RELEASE_CHECKLIST.md` 检查正式域名、sitemap、robots、分享图、404 和 Windows Chrome 1080P 字体。
+5. 将实际结果记录到 `docs/RELEASE_REPORT.md`。
+
+## Windows 换行
+
+`.gitattributes` 统一文本文件使用 LF，`.bat` 和 `.cmd` 使用 CRLF；Prettier 同样输出 LF。Windows 上不需要关闭 Git 的全局 `core.autocrlf`，仓库属性会覆盖文本文件策略。出现大量仅换行变化时，先检查 `git diff --ignore-space-at-eol`，不要格式化整个仓库。
+
+## 发布状态
+
+当前为 **Technically ready, content approval pending**。技术检查完成，20 条推荐的个人关系和主观评价仍需作者确认；确认前不能标记为 `Ready for release`。
 
 ## 迁移 Supabase
 

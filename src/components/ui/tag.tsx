@@ -19,9 +19,12 @@ function TagContent({ children, count }: Pick<TagProps, "children" | "count">) {
     <>
       <span>{children}</span>
       {count !== undefined ? (
-        <span aria-label={`${count} 个`} className={styles.tagCount}>
-          {count}
-        </span>
+        <>
+          <span aria-hidden="true" className={styles.tagCount}>
+            {count}
+          </span>
+          <span className={styles.visuallyHidden}>{count} 个</span>
+        </>
       ) : null}
     </>
   );
@@ -61,8 +64,17 @@ export function Tag({
   }
 
   return (
-    <span aria-label={ariaLabel} className={tagClassName} data-selected={selected || undefined}>
-      <TagContent count={count}>{children}</TagContent>
+    <span className={tagClassName} data-selected={selected || undefined}>
+      {ariaLabel ? (
+        <>
+          <span aria-hidden="true">
+            <TagContent count={count}>{children}</TagContent>
+          </span>
+          <span className={styles.visuallyHidden}>{ariaLabel}</span>
+        </>
+      ) : (
+        <TagContent count={count}>{children}</TagContent>
+      )}
     </span>
   );
 }

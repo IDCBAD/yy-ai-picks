@@ -22,18 +22,15 @@
   overflow-wrap: anywhere;
   cursor: pointer;
   transition:
-    transform 150ms ease,
     box-shadow 150ms ease,
     background-color 150ms ease;
 }
 
 .button:hover:not(:disabled):not([aria-disabled="true"]) {
-  transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--color-foreground);
 }
 
 .button:active:not(:disabled):not([aria-disabled="true"]) {
-  transform: translate(0, 0);
   box-shadow: 2px 2px 0 var(--color-foreground);
 }
 
@@ -64,7 +61,6 @@
   color: var(--color-muted);
   cursor: not-allowed;
   opacity: 0.55;
-  transform: none;
   box-shadow: none;
 }
 
@@ -147,7 +143,6 @@
   padding-inline: 16px;
   cursor: pointer;
   transition:
-    transform 150ms ease,
     border-color 150ms ease,
     background-color 150ms ease;
 }
@@ -155,7 +150,6 @@
 .tagButton:hover:not(:disabled) {
   border-color: var(--color-foreground);
   color: var(--color-foreground);
-  transform: translateY(-1px);
 }
 
 .tagSelected {
@@ -168,7 +162,6 @@
   color: var(--color-muted);
   cursor: not-allowed;
   opacity: 0.5;
-  transform: none;
 }
 
 .tagCount {
@@ -225,7 +218,6 @@
   color: var(--color-foreground);
   cursor: pointer;
   transition:
-    transform 150ms ease,
     box-shadow 150ms ease,
     background-color 150ms ease;
 }
@@ -252,7 +244,6 @@
 }
 
 .iconButton:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
   box-shadow: 5px 5px 0 var(--color-foreground);
 }
 
@@ -266,7 +257,6 @@
   color: var(--color-muted);
   cursor: not-allowed;
   opacity: 0.5;
-  transform: none;
   box-shadow: none;
 }
 
@@ -300,14 +290,11 @@
 }
 
 .cardInteractive {
-  transition:
-    transform 250ms ease,
-    box-shadow 250ms ease;
+  transition: box-shadow 250ms ease;
 }
 
 .cardInteractive:hover,
 .cardInteractive:focus-within {
-  transform: translate(-2px, -2px);
   box-shadow:
     6px 6px 0 var(--color-foreground),
     var(--shadow-soft);
@@ -332,7 +319,6 @@
 
   .cardInteractive:hover,
   .cardInteractive:focus-within {
-    transform: none;
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
 }
@@ -343,14 +329,6 @@
   .tagButton,
   .cardInteractive {
     transition: none;
-  }
-
-  .button:hover,
-  .iconButton:hover,
-  .tagButton:hover,
-  .cardInteractive:hover,
-  .cardInteractive:focus-within {
-    transform: none;
   }
 
   .spinner {

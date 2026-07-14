@@ -58,13 +58,11 @@
   line-height: 1.25;
   white-space: nowrap;
   transition:
-    transform var(--duration-fast) var(--ease-out),
     background var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .pill:hover:not(:disabled) {
-  transform: translateY(-1px);
   background: var(--color-background);
 }
 
@@ -105,9 +103,5 @@
 @media (prefers-reduced-motion: reduce) {
   .pill {
     transition: none;
-  }
-
-  .pill:hover:not(:disabled) {
-    transform: none;
   }
 }

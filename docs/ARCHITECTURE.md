@@ -59,7 +59,7 @@ reference/opendesign/  只读视觉参考
 /dev/components        内部组件预览，noindex，不进入正式导航
 ```
 
-全局 `loading.tsx`、`error.tsx` 和 `not-found.tsx` 复用 Phase 3 反馈组件。Phase 5 已完成全部公开路由；`/dev/components` 只用于组件人工检查，不属于公开信息架构。
+全局 `loading.tsx`、`error.tsx`、`global-error.tsx` 和 `not-found.tsx` 复用反馈组件，错误页不展示异常对象或堆栈。Phase 5 已完成全部公开路由；`/dev/components` 只在开发环境用于组件人工检查，`src/proxy.ts` 保证生产环境返回真实 404。
 
 ## 公共组件边界
 
@@ -139,9 +139,13 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 - `sitemap.ts` 只列出首页、可见分类、已发布场景、已发布推荐、项目和关于页；`robots.ts` 排除开发预览。搜索页使用 `noindex, follow`。
 - 无效 slug 调用 `notFound()`，不渲染伪 404。
 
-站点地址由 `NEXT_PUBLIC_SITE_URL` 提供；本地缺失时使用 `http://localhost:3000`，正式发布前必须设置真实域名。
+站点地址由 `NEXT_PUBLIC_SITE_URL` 提供，Vercel 部署可回退到生产域名变量；本地缺失时使用 `http://localhost:3000`。生产和 CI 地址必须使用 HTTPS。favicon、manifest 和社交分享图均由 App Router 本地生成，不依赖第三方热链。
+
+所有推荐仍通过 Service 和 Repository 获取。`editorialStatus !== "verified"` 的关系计数、首页关系筛选和长期使用区块不会公开；客观产品字段与主观个人关系分开审核。
 
 `next.config.ts` 导入 `src/content/index.ts`。该入口在配置加载时执行 `validateContentData()`，因此无效内容在正式页面生成前就会阻止开发服务或生产构建。
+
+`next.config.ts` 同时为所有路由设置来源策略、MIME 嗅探保护、禁止 iframe 嵌入和摄像头/麦克风/定位权限。当前没有第三方脚本或远程图片白名单。
 
 ## 错误、加载与空状态
 

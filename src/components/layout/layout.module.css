@@ -13,8 +13,7 @@
   top: 0;
   z-index: var(--z-header);
   border-bottom: var(--border-strong) solid var(--color-foreground);
-  background: color-mix(in srgb, var(--color-background) 96%, transparent);
-  backdrop-filter: blur(12px);
+  background: var(--color-background);
 }
 
 .headerInner {

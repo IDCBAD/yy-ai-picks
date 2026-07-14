@@ -101,7 +101,7 @@ export default async function RecommendationPage({ params }: RecommendationPageP
         />
         <div className={styles.headerCopy}>
           <div className={styles.headerBadges}>
-            <StatusBadge relationship={recommendation.relationship} />
+            {isVerified ? <StatusBadge relationship={recommendation.relationship} /> : null}
             {!isVerified ? <Badge variant="muted">内容待复核</Badge> : null}
           </div>
           <h1>{recommendation.name}</h1>

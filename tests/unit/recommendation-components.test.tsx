@@ -25,7 +25,7 @@ describe("recommendation components", () => {
   });
 
   it("falls back to the category icon when a logo fails", () => {
-    render(
+    const { container } = render(
       <RecommendationLogo
         categoryIconKey="coding"
         name="Broken Tool"
@@ -33,9 +33,12 @@ describe("recommendation components", () => {
       />,
     );
 
-    fireEvent.error(screen.getByRole("img", { name: "Broken Tool Logo" }));
+    const image = container.querySelector("img");
+    expect(image).not.toBeNull();
+    fireEvent.error(image!);
 
-    expect(screen.getByRole("img", { name: "Broken Tool 分类图标占位" })).toBeInTheDocument();
+    expect(container.querySelector("img")).toBeNull();
+    expect(container.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders typed fields, a +N tag summary, and safe links", () => {
@@ -50,7 +53,8 @@ describe("recommendation components", () => {
 
     expect(screen.getByRole("heading", { name: recommendation.name })).toBeInTheDocument();
     expect(screen.getByText(recommendation.shortDescription)).toBeInTheDocument();
-    expect(screen.getByLabelText("另有 2 个标签")).toHaveTextContent("+2");
+    expect(screen.getByText("另有 2 个标签")).toBeInTheDocument();
+    expect(screen.getByText("+2")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /查看详情/ })).toHaveAttribute(
       "href",
       `/recommendations/${recommendation.slug}`,

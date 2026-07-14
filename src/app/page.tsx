@@ -18,7 +18,7 @@ import { parseRecommendationQuery } from "@/services";
 import styles from "./home.module.css";
 
 const homeDescription =
-  "收录 AI 编程、Agent 开发、自动化、知识管理和内容创作中的工具与项目。不是 AI 工具大全，而是我的真实工作台。";
+  "整理 AI 编程、Agent 开发、自动化、知识管理和内容创作中的工具与项目，并明确标注内容审核状态。";
 
 export const metadata: Metadata = {
   title: { absolute: siteConfig.name },
@@ -30,11 +30,13 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: homeDescription,
     siteName: siteConfig.name,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: homeDescription,
+    images: ["/opengraph-image"],
   },
 };
 
@@ -54,10 +56,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <p className={styles.heroKicker}>CURATED AI WORKBENCH</p>
           <h1 id="home-title">余一的 AI 推荐清单</h1>
           <p className={styles.heroLead}>
-            收录我在 AI 编程、Agent
-            开发、自动化、知识管理和内容创作中，真正使用过、认真体验过或持续关注的工具与项目。
+            整理 AI 编程、Agent 开发、自动化、知识管理和内容创作中的工具、项目与工作流资料。
           </p>
-          <p className={styles.heroNote}>不是 AI 工具大全，而是我的真实工作台。</p>
+          <p className={styles.heroNote}>不是 AI 工具大全；未完成个人确认的内容会明确标注。</p>
           <dl className={styles.heroStats}>
             <div>
               <dt>已发布推荐</dt>
@@ -136,25 +137,27 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         </section>
 
-        <section aria-labelledby="long-term-title" className={styles.section}>
-          <SectionHeader
-            description="只使用现有的每天使用与长期使用关系，不为了填满版面修改数据。"
-            id="long-term-title"
-            meta={`${data.longTerm.length} 条`}
-            title="我长期在用"
-          />
-          <RecommendationGrid ariaLabel="长期使用推荐">
-            {data.longTerm.map(({ category, recommendation, tags }) => (
-              <RecommendationCard
-                category={category}
-                key={recommendation.id}
-                recommendation={recommendation}
-                tags={tags}
-                variant="featured"
-              />
-            ))}
-          </RecommendationGrid>
-        </section>
+        {data.longTerm.length > 0 ? (
+          <section aria-labelledby="long-term-title" className={styles.section}>
+            <SectionHeader
+              description="只展示已经完成内容确认的每天使用与长期使用关系。"
+              id="long-term-title"
+              meta={`${data.longTerm.length} 条`}
+              title="我长期在用"
+            />
+            <RecommendationGrid ariaLabel="长期使用推荐">
+              {data.longTerm.map(({ category, recommendation, tags }) => (
+                <RecommendationCard
+                  category={category}
+                  key={recommendation.id}
+                  recommendation={recommendation}
+                  tags={tags}
+                  variant="featured"
+                />
+              ))}
+            </RecommendationGrid>
+          </section>
+        ) : null}
 
         <section
           aria-labelledby="all-recommendations-title"

@@ -94,8 +94,6 @@ body {
   font-family: var(--font-body);
   font-size: var(--font-size-md);
   line-height: var(--line-normal);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -172,7 +170,7 @@ h3 {
 
 .skip-link {
   position: fixed;
-  top: var(--space-3);
+  top: -5rem;
   left: var(--space-3);
   z-index: var(--z-toast);
   padding: var(--space-3) var(--space-4);
@@ -182,12 +180,11 @@ h3 {
   box-shadow: var(--shadow-hard);
   color: var(--color-foreground);
   font-weight: 800;
-  transform: translateY(calc(-100% - var(--space-8)));
-  transition: transform var(--duration-fast) var(--ease-out);
+  transition: top var(--duration-fast) var(--ease-out);
 }
 
 .skip-link:focus {
-  transform: translateY(0);
+  top: var(--space-3);
 }
 
 .site-frame {

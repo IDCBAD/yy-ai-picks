@@ -59,8 +59,8 @@ describe("Phase 5 shared display components", () => {
     expect(
       within(workflowItems[0]).getByRole("heading", { name: "Evaluate the tool" }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("首选").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("替代").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("主要工具").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("可选路径").length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /查看详情/ })[0]).toHaveAttribute(
       "href",
       "/recommendations/tool-one",

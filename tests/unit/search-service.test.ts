@@ -57,9 +57,9 @@ describe("SearchService", () => {
   });
 
   it("searches recommendation reasons", async () => {
-    const result = await createService().search("终端编程 Agent");
+    const result = await createService().search("主观评价仍待作者确认");
 
-    expect(result.recommendations.map(({ item }) => item.slug)).toContain("claude-code");
+    expect(result.recommendations).toHaveLength(20);
   });
 
   it("searches scenarios and makes scenario names discover related recommendations", async () => {

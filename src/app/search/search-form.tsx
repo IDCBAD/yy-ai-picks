@@ -15,6 +15,7 @@ export function SearchForm({ query }: SearchFormProps) {
   return (
     <SearchBar
       defaultValue={query}
+      key={query}
       onClear={() => router.push("/search")}
       onSubmit={(value) => router.push(buildSearchHref(value))}
       placeholder="搜索推荐、场景、项目或文章……"

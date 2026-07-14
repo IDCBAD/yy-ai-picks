@@ -33,7 +33,7 @@ describe("RecommendationService", () => {
       "category-indie": 3,
     });
     await expect(service.getTagCounts()).resolves.toMatchObject({
-      "tag-open-source": 10,
+      "tag-open-source": 9,
       "tag-conversation": 2,
     });
   });

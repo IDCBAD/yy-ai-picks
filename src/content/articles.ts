@@ -18,7 +18,7 @@ export const articles: ArticleReference[] = [
   {
     id: "article-obsidian-help",
     title: "Obsidian Help",
-    url: "https://help.obsidian.md",
+    url: "https://obsidian.md/help/",
     type: "documentation",
     description: "Obsidian 笔记与知识管理的官方帮助。",
   },

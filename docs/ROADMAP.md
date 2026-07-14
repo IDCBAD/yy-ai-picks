@@ -64,11 +64,14 @@
 
 ## Phase 6：测试和质量检查
 
-- [ ] 完成单元、组件和十项 E2E Smoke Test。
-- [ ] 在 1440px、1024px、768px、390px 检查布局与截图。
-- [ ] 检查键盘、焦点、语义、对比度、链接安全和 reduced motion。
-- [ ] 检查加载、错误、空状态和 404。
-- [ ] 通过 lint、typecheck、test、test:e2e 和 build。
+- [x] 完成内容客观事实复核；个人使用关系和评价保留待作者确认。
+- [x] 修复 Windows Chrome 1080P 下由文字父容器 transform 引起的模糊风险。
+- [x] 完成 Logo 回退、favicon、manifest、社交分享图和生产站点配置。
+- [x] 完成单元、组件、链接、响应式、无障碍、安全和 E2E 检查。
+- [x] 在 1920×1080、2560×1440、3840×2160、1440、1024、768、390 检查重点页面。
+- [x] 通过 format、lint、typecheck、test、test:e2e 和 build。
+
+阶段结论：**Technically ready, content approval pending**。技术准备完成，待作者确认 20 条推荐的使用关系和主观评价后才能改为 `Ready for release`。
 
 ## Future：Supabase 与后台
 
@@ -79,4 +82,4 @@
 
 ## 本轮边界
 
-Phase 0 至 Phase 5 已完成。全部公开页面和导航已闭环；后台、Supabase、登录、收藏、评论与投稿保持在 Future 范围。Phase 6 保留为发布前的持续质量加固阶段。
+Phase 0 至 Phase 6 已完成。全部公开页面、导航和发布检查已闭环；后台、Supabase、登录、收藏、评论与投稿保持在 Future 范围。

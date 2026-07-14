@@ -6,7 +6,7 @@ export const projects: Project[] = [
   {
     id: "project-personal-blog",
     slug: "personal-blog",
-    name: "个人博客",
+    name: "余一的 AI 观察备忘录",
     shortDescription: "记录技术探索、项目开发和思考的个人空间。",
     problem: "需要一个长期保存和组织个人公开内容的空间。",
     coreFeatures: ["文章发布", "主题归档", "项目记录"],
@@ -32,8 +32,8 @@ export const projects: Project[] = [
   {
     id: "project-recommendation-list",
     slug: "ai-recommendation-list",
-    name: "推荐清单",
-    shortDescription: "基于真实使用关系组织工具、场景和项目的推荐清单。",
+    name: "余一的 AI 推荐清单",
+    shortDescription: "按使用关系、审核状态和工作流组织工具、场景与项目的推荐清单。",
     problem: "普通工具目录缺少使用关系、选择理由和限制说明。",
     coreFeatures: ["分类浏览", "场景工作流", "推荐关系"],
     techStack: ["Next.js", "TypeScript", "Vitest"],

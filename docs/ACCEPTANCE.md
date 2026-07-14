@@ -73,6 +73,20 @@ Playwright 固定使用本机系统 Chrome，不执行 Chromium 下载。
 
 Phase 3 验收中性根页面和内部组件预览，不验收正式业务内容。
 
+## Phase 6 发布验收
+
+- [x] 20 条推荐、6 个场景、4 个项目和 4 条资料完成客观字段检查，待作者确认项有独立清单。
+- [x] 未确认推荐不公开关系徽标、关系筛选、长期使用区块或个人使用占位。
+- [x] 含文字卡片和控件不再整体旋转、缩放或位移；1080P 专项截图已纳入检查。
+- [x] favicon、manifest、Open Graph 图片、Twitter Card、HTTPS 站点配置和根级错误页完整。
+- [x] `/dev/components` 开发环境 noindex，生产环境返回 404；搜索页保持 noindex。
+- [x] sitemap 的 35 个地址全部通过浏览器测试，代表页面无无效链接或页面级横向溢出。
+- [x] 搜索输入与浏览器前进后退同步，每个重点页面只有一个主 `h1`，外链属性和新窗口提示正确。
+- [x] `.gitattributes` 与 Prettier 统一 LF，未产生无意义的全仓换行变化。
+- [x] 新增可复用发布清单和本轮发布报告。
+
+发布状态：**Technically ready, content approval pending**。
+
 ## 组件复用验收
 
 - 同一业务概念只有一套核心组件，显示差异使用少量明确 variant。

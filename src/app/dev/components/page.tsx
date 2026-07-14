@@ -1,5 +1,6 @@
 import { ArrowRight, RotateCcw, Search, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { ComponentPreviewInteractions } from "@/components/dev/component-preview-interactions";
 import { EmptyState, ErrorState, LoadingSkeleton } from "@/components/feedback";
@@ -25,11 +26,17 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+export const dynamic = "force-dynamic";
+
 const recommendationRepository = new LocalRecommendationRepository();
 const categoryRepository = new LocalCategoryRepository();
 const tagRepository = new LocalTagRepository();
 
 export default async function ComponentPreviewPage() {
+  if (process.env.NODE_ENV === "production") {
+    notFound();
+  }
+
   const [recommendations, categories, tags] = await Promise.all([
     recommendationRepository.getAllPublished(),
     categoryRepository.getAllVisible(),

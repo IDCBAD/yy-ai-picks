@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import type { Category, Recommendation, Tag as RecommendationTag } from "@/types";
+import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "@/components/ui/external-link";
 import { Tag } from "@/components/ui/tag";
 
@@ -54,7 +55,11 @@ export function RecommendationCard({
         <p className={styles.reason}>{recommendation.recommendationReason}</p>
       ) : null}
       <div className={styles.cardTags}>
-        <StatusBadge compact relationship={recommendation.relationship} />
+        {recommendation.editorialStatus === "verified" ? (
+          <StatusBadge compact relationship={recommendation.relationship} />
+        ) : (
+          <Badge variant="muted">内容待确认</Badge>
+        )}
         {visibleTags.map((tag) => (
           <Tag key={tag.id}>{tag.name}</Tag>
         ))}

@@ -9,10 +9,11 @@ import {
 describe("Phase 4 metadata", () => {
   it("defines the home title, description and canonical metadata", () => {
     expect(homeMetadata.title).toEqual({ absolute: "余一的 AI 推荐清单" });
-    expect(homeMetadata.description).toContain("真实工作台");
+    expect(homeMetadata.description).toContain("审核状态");
     expect(homeMetadata.alternates?.canonical).toBe("/");
     expect(homeMetadata.openGraph).toMatchObject({ type: "website" });
     expect(homeMetadata.twitter).toMatchObject({ card: "summary_large_image" });
+    expect(homeMetadata.openGraph).toMatchObject({ images: expect.any(Array) });
   });
 
   it("generates product-specific metadata for a published recommendation", async () => {

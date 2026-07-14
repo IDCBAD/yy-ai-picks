@@ -33,6 +33,11 @@ export interface HomeFiltersProps {
 
 export function HomeFilters({ categories, query, relationshipCounts }: HomeFiltersProps) {
   const router = useRouter();
+  const relationshipOptions = RECOMMENDATION_RELATIONSHIPS.map((relationship) => ({
+    value: relationship,
+    label: RECOMMENDATION_STATUS[relationship].label,
+    count: relationshipCounts[relationship],
+  })).filter((option) => option.count > 0);
 
   function update(nextQuery: RecommendationQuery) {
     const params = serializeRecommendationQuery(nextQuery);
@@ -73,16 +78,14 @@ export function HomeFilters({ categories, query, relationshipCounts }: HomeFilte
         ]}
         selectedValues={[query.category ?? "all"]}
       />
-      <FilterBar
-        label="使用关系"
-        onSelect={updateRelationship}
-        options={RECOMMENDATION_RELATIONSHIPS.map((relationship) => ({
-          value: relationship,
-          label: RECOMMENDATION_STATUS[relationship].label,
-          count: relationshipCounts[relationship],
-        }))}
-        selectedValues={query.relationship ? [query.relationship] : []}
-      />
+      {relationshipOptions.length > 0 ? (
+        <FilterBar
+          label="使用关系"
+          onSelect={updateRelationship}
+          options={relationshipOptions}
+          selectedValues={query.relationship ? [query.relationship] : []}
+        />
+      ) : null}
       <div className={styles.filterCommands}>
         <label className={styles.sortControl}>
           <span>排序</span>

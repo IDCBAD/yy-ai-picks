@@ -95,7 +95,7 @@ export default async function ScenarioPage({ params }: ScenarioPageProps) {
       </aside>
 
       <ScenarioWorkflow
-        description="每一步的工具均由 ScenarioService 从场景数据解析，首选与替代可直接进入推荐详情。"
+        description="每一步的工具均由 ScenarioService 从场景数据解析，主要工具与可选路径可直接进入推荐详情。"
         id="workflow"
         steps={steps}
         title="场景步骤"

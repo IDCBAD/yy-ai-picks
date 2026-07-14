@@ -45,7 +45,7 @@ describe("CategoryService", () => {
       result?.tags.every((tag) => result.recommendations.some(({ tags }) => tags.includes(tag))),
     ).toBe(true);
     expect(result?.tagSummaries.find(({ tag }) => tag.slug === "code-generation")?.count).toBe(2);
-    expect(result?.tagSummaries.find(({ tag }) => tag.slug === "web")?.count).toBe(2);
+    expect(result?.tagSummaries.find(({ tag }) => tag.slug === "web")?.count).toBe(3);
   });
 
   it("filters by category tag, sorts results and ignores unknown tags", async () => {

@@ -6,13 +6,10 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-hard);
   overflow-wrap: anywhere;
-  transition:
-    transform var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+  transition: box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .card:has(.cardLink:hover) {
-  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-hard-hover);
 }
 
@@ -155,11 +152,9 @@ p.description {
 @media (max-width: 48rem) {
   .card {
     padding: var(--space-4);
-    transform: none;
   }
 
   .card:has(.cardLink:hover) {
-    transform: none;
     box-shadow: var(--shadow-hard);
   }
 }

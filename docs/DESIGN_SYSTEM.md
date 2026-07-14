@@ -131,3 +131,12 @@
 - 搜索结果按内容类型分成独立章节，推荐继续复用 RecommendationCard，场景、项目和文章使用统一 SearchResultCard。
 - 项目状态分组是无外层卡片的页面章节；无项目的状态不显示空装饰区块。
 - 关于页使用窄阅读宽度和编号章节，收录与排除标准在桌面双列、移动端单列。
+
+## Phase 6 字体清晰度规则
+
+- 含标题或正文的卡片、按钮、标签和输入框父容器不得整体 rotate 或 scale。
+- Hover 反馈使用边框、背景和整数像素硬阴影，不对文字容器进行小数像素位移。
+- 剪贴簿旋转只放在不含文字的伪元素、胶带背景或图形装饰上。
+- 不使用 `will-change: transform`、`translateZ(0)`、`backface-visibility` 或全局字体平滑属性掩盖问题。
+- 在 `max-resolution: 1.5dppx` 下关闭可能影响清晰度的装饰旋转；移动端和 reduced motion 继续停用非必要运动。
+- Header 使用不透明纸张背景，不在文字后使用 `backdrop-filter`。

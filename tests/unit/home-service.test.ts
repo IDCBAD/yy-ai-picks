@@ -55,7 +55,7 @@ describe("HomeService", () => {
     expect(result.categorySummaries.find((item) => item.category.slug === "ai-coding")?.count).toBe(
       4,
     );
-    expect(result.relationshipCounts["daily-use"]).toBe(7);
+    expect(result.relationshipCounts["daily-use"]).toBe(0);
   });
 
   it("returns exactly four recently updated recommendations in date order", async () => {
@@ -69,21 +69,10 @@ describe("HomeService", () => {
     ]);
   });
 
-  it("uses only real daily or long-term relationships for featured workflow tools", async () => {
+  it("hides unverified daily and long-term relationships from featured workflow tools", async () => {
     const result = await createService().getPageData(defaultQuery);
 
-    expect(result.longTerm).toHaveLength(6);
-    expect(
-      result.longTerm.every((item) =>
-        ["daily-use", "long-term-use"].includes(item.recommendation.relationship),
-      ),
-    ).toBe(true);
-    expect(result.longTerm.slice(0, 4).map((item) => item.recommendation.slug)).toEqual([
-      "claude",
-      "vercel",
-      "n8n",
-      "obsidian",
-    ]);
+    expect(result.longTerm).toEqual([]);
   });
 
   it("applies category, relationship and sort from the parsed URL query", async () => {
@@ -94,7 +83,7 @@ describe("HomeService", () => {
       sort: "name",
     });
 
-    expect(result.filtered.map((item) => item.recommendation.slug)).toEqual(["n8n"]);
+    expect(result.filtered).toEqual([]);
   });
 
   it("maps recommendation cards to resolved categories and tags", async () => {

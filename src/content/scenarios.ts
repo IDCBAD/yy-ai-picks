@@ -164,7 +164,7 @@ export const scenarios: Scenario[] = [
         description: "将分散来源转换为稳定订阅。",
         primaryRecommendationIds: ["rec-rsshub"],
         alternativeRecommendationIds: [],
-        selectionReason: "RSSHub 用于生成和聚合 RSS 入口。",
+        selectionReason: "RSSHub 将多类网站内容转换为 RSS 订阅源。",
         notes: [],
       },
       {

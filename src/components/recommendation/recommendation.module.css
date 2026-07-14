@@ -109,6 +109,7 @@
 
 .card {
   position: relative;
+  isolation: isolate;
   display: flex;
   min-width: 0;
   height: 100%;
@@ -118,34 +119,42 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-hard), var(--shadow-soft);
-  transition:
-    transform var(--duration-normal) var(--ease-out),
-    box-shadow var(--duration-normal) var(--ease-out);
+  transition: box-shadow var(--duration-normal) var(--ease-out);
 }
 
 .card:hover {
-  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-hard-hover), var(--shadow-soft-raised);
 }
 
-.featured {
+.featured::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0.35rem -0.3rem -0.3rem 0.35rem;
+  border: var(--border-thin) solid var(--color-accent);
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
   transform: rotate(-0.55deg);
-}
-
-.featured:hover {
-  transform: rotate(-0.55deg) translate(-2px, -2px);
 }
 
 .featuredTape {
   position: absolute;
+  isolation: isolate;
   top: -0.8rem;
   right: var(--space-5);
   padding: var(--space-1) var(--space-3);
-  border: var(--border-thin) solid var(--color-foreground);
-  background: var(--color-accent);
   font-family: var(--font-mono);
   font-size: var(--font-size-xs);
   font-weight: 800;
+}
+
+.featuredTape::before {
+  position: absolute;
+  z-index: -1;
+  inset: -0.1rem -0.2rem;
+  border: var(--border-thin) solid var(--color-foreground);
+  background: var(--color-accent);
+  content: "";
   transform: rotate(2deg);
 }
 
@@ -261,12 +270,6 @@
     grid-template-columns: 1fr;
   }
 
-  .card,
-  .featured,
-  .featured:hover {
-    transform: none;
-  }
-
   .card:hover {
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
@@ -278,18 +281,21 @@
 }
 
 @media (hover: none) {
-  .card:hover,
-  .featured:hover {
-    transform: none;
+  .card:hover {
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card,
-  .featured,
-  .featured:hover,
-  .featuredTape {
+  .featured::before,
+  .featuredTape::before {
+    transform: none;
+  }
+}
+
+@media (max-resolution: 1.5dppx) {
+  .featured::before,
+  .featuredTape::before {
     transform: none;
   }
 }

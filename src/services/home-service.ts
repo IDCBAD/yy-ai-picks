@@ -101,7 +101,11 @@ export class HomeService {
       ? categories.find((item) => item.slug === query.category)
       : undefined;
     const tagsBySlug = new Map(tags.map((item) => [item.slug, item.id]));
-    const filtered = this.dependencies.filterService.apply(recommendations, {
+    const verifiedRecommendations = recommendations.filter(
+      (item) => item.editorialStatus === "verified",
+    );
+    const filterSource = query.relationship ? verifiedRecommendations : recommendations;
+    const filtered = this.dependencies.filterService.apply(filterSource, {
       categoryId: category?.id,
       relationship: query.relationship,
       pricing: query.pricing,
@@ -115,13 +119,13 @@ export class HomeService {
       sort: query.sort,
     });
     const longTerm = this.dependencies.filterService
-      .apply(recommendations, { sort: "featured" })
+      .apply(verifiedRecommendations, { sort: "featured" })
       .filter((item) => item.relationship === "daily-use" || item.relationship === "long-term-use")
       .slice(0, 6);
     const relationshipCounts = Object.fromEntries(
       RECOMMENDATION_RELATIONSHIPS.map((relationship) => [
         relationship,
-        recommendations.filter((item) => item.relationship === relationship).length,
+        verifiedRecommendations.filter((item) => item.relationship === relationship).length,
       ]),
     ) as Record<RecommendationRelationship, number>;
 
