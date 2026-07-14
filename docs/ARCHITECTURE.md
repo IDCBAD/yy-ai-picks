@@ -59,7 +59,7 @@ reference/opendesign/  只读视觉参考
 /dev/components        内部组件预览，noindex，不进入正式导航
 ```
 
-全局 `loading.tsx`、`error.tsx`、`global-error.tsx` 和 `not-found.tsx` 复用反馈组件，错误页不展示异常对象或堆栈。Phase 5 已完成全部公开路由；`/dev/components` 只在开发环境用于组件人工检查，`src/proxy.ts` 保证生产环境返回真实 404。
+全局 `loading.tsx`、`error.tsx`、`global-error.tsx` 和 `not-found.tsx` 复用反馈组件，错误页不展示异常对象或堆栈。Phase 5 已完成全部公开路由；`/dev/components` 只在开发环境用于组件人工检查，页面自身在生产环境返回真实 404。
 
 ## 公共组件边界
 
@@ -188,3 +188,7 @@ Phase 0/1 建立文档、项目骨架和质量工具；Phase 2 完成数据层�
 ### ADR-006：单一图标源和最小客户端边界
 
 公共组件统一使用 `lucide-react` 线性图标。纯展示组件保持服务端兼容，只有依赖路由、输入、滚动、焦点或图片错误状态的叶子组件进入客户端，避免把完整推荐数据发送到浏览器。
+
+### ADR-007：Cloudflare Workers 部署
+
+生产环境通过 OpenNext 适配器部署到 Cloudflare Workers，保留 Next.js 的服务端渲染、动态路由和生产环境访问控制。Worker 名称为 `yy-ai-picks`，自定义域名为 `picks.yuyi-ai.top`；`NEXT_PUBLIC_SITE_URL` 统一使用该 HTTPS 地址生成 canonical、sitemap 与分享元数据。增量缓存使用绑定的 R2 存储桶，静态 Next.js 资源使用一年不可变缓存。
