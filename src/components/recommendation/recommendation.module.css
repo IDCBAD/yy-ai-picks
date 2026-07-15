@@ -119,11 +119,29 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-hard), var(--shadow-soft);
-  transition: box-shadow var(--duration-normal) var(--ease-out);
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    background var(--duration-normal) var(--ease-out);
 }
 
-.card:hover {
+.card:hover,
+.card:focus-within {
+  transform: translate(var(--motion-card-lift), var(--motion-card-lift));
   box-shadow: var(--shadow-hard-hover), var(--shadow-soft-raised);
+}
+
+.featured {
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+  --spotlight-opacity: 0;
+  background:
+    radial-gradient(
+      circle 11rem at var(--spotlight-x) var(--spotlight-y),
+      rgb(232 197 71 / var(--spotlight-opacity)),
+      transparent 72%
+    ),
+    var(--color-surface);
 }
 
 .featured::before {
@@ -240,6 +258,15 @@
   font-weight: 800;
 }
 
+.detailLink svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.card:hover .detailLink svg,
+.card:focus-within .detailLink svg {
+  transform: translateX(var(--motion-action-nudge));
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -257,6 +284,23 @@
   min-width: 0;
 }
 
+.grid[data-reveal="true"] > li {
+  animation: card-reveal var(--duration-reveal) var(--ease-out) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-reveal-distance));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 64rem) {
   .grid,
   .grid[data-columns="4"] {
@@ -270,7 +314,9 @@
     grid-template-columns: 1fr;
   }
 
-  .card:hover {
+  .card:hover,
+  .card:focus-within {
+    transform: none;
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
 
@@ -281,12 +327,33 @@
 }
 
 @media (hover: none) {
-  .card:hover {
+  .card:hover,
+  .card:focus-within {
+    transform: none;
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .card,
+  .detailLink svg {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+    box-shadow: var(--shadow-hard), var(--shadow-soft);
+  }
+
+  .featured {
+    background: var(--color-surface);
+  }
+
+  .grid[data-reveal="true"] > li {
+    animation: none;
+  }
+
   .featured::before,
   .featuredTape::before {
     transform: none;

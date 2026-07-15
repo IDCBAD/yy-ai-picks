@@ -1,0 +1,18 @@
+.magnetic {
+  --magnetic-x: 0px;
+  --magnetic-y: 0px;
+  display: inline-flex;
+  transform: translate(var(--magnetic-x), var(--magnetic-y));
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.spotlight {
+  height: 100%;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .magnetic {
+    transform: none;
+    transition: none;
+  }
+}

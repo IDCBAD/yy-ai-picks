@@ -1,4 +1,4 @@
-import { Children, type ReactNode } from "react";
+import { Children, type CSSProperties, type ReactNode } from "react";
 
 import styles from "./recommendation.module.css";
 
@@ -7,6 +7,7 @@ export interface RecommendationGridProps {
   emptyState?: ReactNode;
   ariaLabel?: string;
   columns?: 3 | 4;
+  reveal?: boolean;
 }
 
 export function RecommendationGrid({
@@ -14,6 +15,7 @@ export function RecommendationGrid({
   children,
   columns = 3,
   emptyState,
+  reveal = true,
 }: RecommendationGridProps) {
   const items = Children.toArray(children);
   if (items.length === 0) {
@@ -21,9 +23,14 @@ export function RecommendationGrid({
   }
 
   return (
-    <ul aria-label={ariaLabel} className={styles.grid} data-columns={columns}>
+    <ul aria-label={ariaLabel} className={styles.grid} data-columns={columns} data-reveal={reveal}>
       {items.map((item, index) => (
-        <li key={index}>{item}</li>
+        <li
+          key={index}
+          style={{ "--reveal-delay": `${Math.min(index, 8) * 50}ms` } as CSSProperties}
+        >
+          {item}
+        </li>
       ))}
     </ul>
   );

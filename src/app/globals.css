@@ -65,7 +65,11 @@
   --control-min: 2.75rem;
   --duration-fast: 140ms;
   --duration-normal: 260ms;
+  --duration-reveal: 420ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-card-lift: -2px;
+  --motion-action-nudge: 4px;
+  --motion-reveal-distance: 0.75rem;
   --breakpoint-mobile: 48rem;
   --breakpoint-desktop: 64rem;
   --z-header: 40;

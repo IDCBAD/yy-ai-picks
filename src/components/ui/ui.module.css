@@ -22,15 +22,18 @@
   overflow-wrap: anywhere;
   cursor: pointer;
   transition:
+    transform var(--duration-fast) var(--ease-out),
     box-shadow 150ms ease,
     background-color 150ms ease;
 }
 
 .button:hover:not(:disabled):not([aria-disabled="true"]) {
+  transform: translate(var(--motion-card-lift), var(--motion-card-lift));
   box-shadow: 6px 6px 0 var(--color-foreground);
 }
 
 .button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: translate(1px, 1px);
   box-shadow: 2px 2px 0 var(--color-foreground);
 }
 
@@ -218,6 +221,7 @@
   color: var(--color-foreground);
   cursor: pointer;
   transition:
+    transform var(--duration-fast) var(--ease-out),
     box-shadow 150ms ease,
     background-color 150ms ease;
 }
@@ -244,6 +248,7 @@
 }
 
 .iconButton:hover:not(:disabled) {
+  transform: translate(var(--motion-card-lift), var(--motion-card-lift));
   box-shadow: 5px 5px 0 var(--color-foreground);
 }
 
@@ -290,11 +295,14 @@
 }
 
 .cardInteractive {
-  transition: box-shadow 250ms ease;
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
 }
 
 .cardInteractive:hover,
 .cardInteractive:focus-within {
+  transform: translate(var(--motion-card-lift), var(--motion-card-lift));
   box-shadow:
     6px 6px 0 var(--color-foreground),
     var(--shadow-soft);
@@ -319,6 +327,7 @@
 
   .cardInteractive:hover,
   .cardInteractive:focus-within {
+    transform: none;
     box-shadow: var(--shadow-hard), var(--shadow-soft);
   }
 }
@@ -329,6 +338,14 @@
   .tagButton,
   .cardInteractive {
     transition: none;
+  }
+
+  .button:hover:not(:disabled):not([aria-disabled="true"]),
+  .button:active:not(:disabled):not([aria-disabled="true"]),
+  .iconButton:hover:not(:disabled),
+  .cardInteractive:hover,
+  .cardInteractive:focus-within {
+    transform: none;
   }
 
   .spinner {

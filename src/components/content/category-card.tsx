@@ -1,4 +1,13 @@
-import { Bot, Boxes, BookOpen, Code2, Layers3, Palette, type LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Boxes,
+  BookOpen,
+  Code2,
+  Layers3,
+  Palette,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 import type { Category } from "@/types";
@@ -33,7 +42,10 @@ export function CategoryCard({ category, count, headingLevel = 3 }: CategoryCard
         <span className={styles.cardBody}>
           <Heading>{category.name}</Heading>
           <span className={styles.description}>{category.shortDescription}</span>
-          <span className={styles.meta}>{count} 条推荐</span>
+          <span className={styles.meta}>
+            {count} 条推荐
+            <ArrowRight aria-hidden="true" />
+          </span>
         </span>
       </Link>
     </article>

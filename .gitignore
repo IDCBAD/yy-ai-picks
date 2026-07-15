@@ -15,7 +15,15 @@
 
 # next.js
 /.next/
+/\.open-next/
 /out/
+
+# local deployment state
+/.wrangler/
+/.dev.vars
+
+# accidental nested working copy
+/yy-ai-picks/
 
 # production
 /build

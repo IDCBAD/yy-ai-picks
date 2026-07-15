@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import type { Category, Recommendation, Tag as RecommendationTag } from "@/types";
+import { Spotlight } from "@/components/motion";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "@/components/ui/external-link";
 import { Tag } from "@/components/ui/tag";
@@ -33,7 +34,7 @@ export function RecommendationCard({
   const remainingTagCount = Math.max(0, tags.length - visibleTags.length);
   const detailHref = `/recommendations/${recommendation.slug}`;
 
-  return (
+  const card = (
     <article className={`${styles.card} ${styles[variant]}`} data-variant={variant}>
       {variant === "featured" ? <span className={styles.featuredTape}>重点推荐</span> : null}
       <div className={styles.cardHeader}>
@@ -77,4 +78,6 @@ export function RecommendationCard({
       </div>
     </article>
   );
+
+  return variant === "featured" ? <Spotlight>{card}</Spotlight> : card;
 }

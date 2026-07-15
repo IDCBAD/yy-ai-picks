@@ -106,10 +106,19 @@
   border: var(--border-thin) solid var(--color-foreground);
   border-radius: var(--radius-md);
   background: var(--color-surface-subtle);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .recommendationItem[data-role="primary"] {
   background: var(--color-accent);
+}
+
+.recommendationItem:hover,
+.recommendationItem:focus-within {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-foreground);
 }
 
 .recommendationHeader {
@@ -217,5 +226,17 @@
   .stepContent {
     padding: var(--space-4);
     border-radius: var(--radius-md);
+  }
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .recommendationItem {
+    transition: none;
+  }
+
+  .recommendationItem:hover,
+  .recommendationItem:focus-within {
+    transform: none;
+    box-shadow: none;
   }
 }

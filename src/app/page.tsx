@@ -8,6 +8,7 @@ import { PageContainer } from "@/components/layout/page-container";
 import { SectionHeader } from "@/components/layout/section-header";
 import { RecommendationCard } from "@/components/recommendation/recommendation-card";
 import { RecommendationGrid } from "@/components/recommendation/recommendation-grid";
+import { Magnetic } from "@/components/motion";
 import { Button } from "@/components/ui";
 import { homeService } from "@/lib/content-services";
 import { formatDisplayDate } from "@/lib/presentation";
@@ -75,12 +76,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </dl>
           <HomeSearch hotKeywords={data.popularTags.map((tag) => tag.name)} />
           <div className={styles.heroActions}>
-            <Button endIcon={<ArrowDown />} href="#all-recommendations">
-              浏览全部推荐
-            </Button>
-            <Button href="#scenarios" startIcon={<Workflow />} variant="secondary">
-              按场景查找
-            </Button>
+            <Magnetic>
+              <Button endIcon={<ArrowDown />} href="#all-recommendations">
+                浏览全部推荐
+              </Button>
+            </Magnetic>
+            <Magnetic strength={4}>
+              <Button href="#scenarios" startIcon={<Workflow />} variant="secondary">
+                按场景查找
+              </Button>
+            </Magnetic>
           </div>
         </section>
 
@@ -205,9 +210,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <section aria-labelledby="projects-title" className={styles.section}>
           <SectionHeader
             action={
-              <Button href="/projects" variant="secondary">
-                查看全部项目
-              </Button>
+              <Magnetic strength={4}>
+                <Button href="/projects" variant="secondary">
+                  查看全部项目
+                </Button>
+              </Magnetic>
             }
             description="正在构建、维护或验证中的个人项目。"
             id="projects-title"
