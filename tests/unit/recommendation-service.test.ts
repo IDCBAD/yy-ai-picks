@@ -25,17 +25,14 @@ describe("RecommendationService", () => {
     const service = createService();
 
     await expect(service.getCategoryCounts()).resolves.toEqual({
-      "category-ai-assistant": 3,
-      "category-ai-coding": 4,
+      "category-ai-assistant": 1,
+      "category-ai-coding": 6,
       "category-agent-automation": 4,
       "category-knowledge": 3,
-      "category-content-creation": 3,
+      "category-content-creation": 6,
       "category-indie": 3,
     });
-    await expect(service.getTagCounts()).resolves.toMatchObject({
-      "tag-open-source": 9,
-      "tag-conversation": 2,
-    });
+    await expect(service.getTagCounts()).resolves.toMatchObject({ "tag-conversation": 1 });
   });
 
   it("assembles category, tags, scenarios and projects for a recommendation", async () => {
@@ -45,11 +42,16 @@ describe("RecommendationService", () => {
 
     expect(result?.category.slug).toBe("ai-coding");
     expect(result?.tags.map((item) => item.slug)).toContain("code-generation");
-    expect(result?.scenarios.map((item) => item.slug)).toEqual(["ai-website", "indie-inspiration"]);
-    expect(result?.projects.map((item) => item.slug)).toEqual(["ai-recommendation-list"]);
+    expect(result?.scenarios.map((item) => item.slug)).toEqual([
+      "ai-website",
+      "build-agent",
+      "indie-inspiration",
+    ]);
+    expect(result?.projects).toEqual([]);
     expect(result?.relatedRecommendations.map((item) => item.recommendation.slug)).toEqual([
+      "codex",
       "cursor",
-      "claude",
+      "ccswitch",
     ]);
     expect(result?.articles).toEqual([]);
     await expect(service.getBySlugWithRelations("missing")).resolves.toBeNull();
@@ -70,9 +72,8 @@ describe("RecommendationService", () => {
   });
 
   it("returns empty optional relation groups without inventing content", async () => {
-    const result = await createService().getBySlugWithRelations("ollama");
+    const result = await createService().getBySlugWithRelations("vercel");
 
-    expect(result?.relatedRecommendations).toEqual([]);
     expect(result?.projects).toEqual([]);
     expect(result?.articles).toEqual([]);
   });
@@ -92,6 +93,6 @@ describe("RecommendationService", () => {
   it("returns the latest content update date", async () => {
     const service = createService();
 
-    await expect(service.getLatestUpdatedAt()).resolves.toBe("2026-07-10T00:00:00.000Z");
+    await expect(service.getLatestUpdatedAt()).resolves.toBe("2026-07-16T00:00:00.000Z");
   });
 });

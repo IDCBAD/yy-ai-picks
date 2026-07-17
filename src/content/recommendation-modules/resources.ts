@@ -1,0 +1,56 @@
+import { defineRecommendation } from "./definition";
+
+export const resourceTools = [
+  defineRecommendation({
+    slug: "awesome-design-md",
+    name: "awesome-design-md",
+    url: "https://github.com/VoltAgent/awesome-design-md",
+    categoryId: "category-indie",
+    tagIds: ["tag-ui-design", "tag-design-system", "tag-open-source", "tag-creative-research"],
+    shortDescription: "收集知名产品设计语言、界面模式和设计规范的开源资料库。",
+    recommendationReason:
+      "适合在做界面之前，先看成熟产品是怎么处理层级、排版、交互和视觉语言的——找的是能解释的原则，不是直接搬的成品。",
+    usageDescription:
+      "从相近产品里提取能说清的设计原则，再结合自己的内容、品牌和设备场景重新做。",
+    suitableFor: ["要找设计参考、并想看懂其规律的人", "想把视觉研究转成设计约束的人"],
+    unsuitableFor: ["想直接复制界面当成品的人", "没时间判断参考适不适合自己内容的人"],
+    strengths: ["能快速浏览多个成熟产品的设计资料", "适合给设计讨论提供具体参考"],
+    limitations: ["参考不等于可直接复用的方案", "资料完整度和版权边界得自己判断"],
+    pricing: "open-source",
+    platforms: ["web"],
+    isOpenSource: true,
+    selfHostable: false,
+    relationship: "long-term-use",
+    featured: false,
+    relatedScenarioIds: ["scenario-ai-website", "scenario-indie-inspiration"],
+    relatedRecommendationIds: ["rec-open-design", "rec-catchmeta", "rec-midjourney"],
+    relatedProjectIds: [],
+    relatedArticles: [],
+  }),
+  defineRecommendation({
+    slug: "catchmeta",
+    name: "catchmeta",
+    url: "https://catchmeta.com",
+    categoryId: "category-indie",
+    tagIds: ["tag-prompt-library", "tag-creative-research", "tag-web"],
+    shortDescription: "收集、分类和复用 AI 创作提示词的资料库。",
+    recommendationReason:
+      "适合不想每次都从空白开始描述创作要求的人——把零散看到的提示词攒成可检索的参考，用的时候直接调。",
+    usageDescription:
+      "把提示词当起点，记下适用模型、输入素材和产出的结果；别假设同一条提示词换个模型或版本还能出一样的东西。",
+    suitableFor: ["要积累和检索创作提示词的人", "想从案例里学描述方式的人"],
+    unsuitableFor: ["指望一条提示词稳定产出相同结果的人", "要完整追踪每个素材来源和授权的人"],
+    strengths: ["让提示词和案例更容易被重新找到", "适合建个人创作参考清单"],
+    limitations: ["效果高度依赖模型、版本和输入素材", "公开案例的版权和适用条件必须自己确认"],
+    pricing: "free",
+    platforms: ["web"],
+    isOpenSource: false,
+    selfHostable: false,
+    relationship: "long-term-use",
+    featured: false,
+    relatedScenarioIds: ["scenario-media-production", "scenario-indie-inspiration"],
+    relatedRecommendationIds: ["rec-midjourney", "rec-aihot", "rec-awesome-design-md"],
+    relatedProjectIds: [],
+    relatedArticles: [],
+  }),
+];

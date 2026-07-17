@@ -25,12 +25,12 @@ describe("ScenarioService", () => {
   it("resolves primary and alternative recommendations for every step", async () => {
     const result = await createService().getBySlugWithRecommendations("build-agent");
 
-    expect(result?.steps[0].primaryRecommendations.map((item) => item.slug)).toEqual(["claude"]);
-    expect(result?.steps[0].alternativeRecommendations.map((item) => item.slug)).toEqual([
-      "chatgpt",
-      "ollama",
+    expect(result?.steps[0].primaryRecommendations.map((item) => item.slug)).toEqual(["chatgpt"]);
+    expect(result?.steps[0].alternativeRecommendations).toEqual([]);
+    expect(result?.steps[1].primaryRecommendations.map((item) => item.slug)).toEqual([
+      "codex",
+      "claude-code",
     ]);
-    expect(result?.steps[1].primaryRecommendations.map((item) => item.slug)).toEqual(["langgraph"]);
     expect(result?.recommendations[0].category.slug).toBe("ai-assistant");
     expect(result?.recommendations[0].tags.length).toBeGreaterThan(0);
   });
@@ -43,38 +43,40 @@ describe("ScenarioService", () => {
     const result = await createService().getUniqueRecommendations("build-agent");
 
     expect(result.map((item) => item.slug)).toEqual([
-      "claude",
       "chatgpt",
-      "ollama",
-      "langgraph",
+      "codex",
+      "claude-code",
+      "ccswitch",
+      "hermes-agent",
       "dify",
-      "browser-use",
       "n8n",
+      "agent-reach",
     ]);
     expect(new Set(result.map((item) => item.id)).size).toBe(result.length);
   });
 
   it("computes the scenario tool count", async () => {
-    await expect(createService().getRecommendationCount("build-agent")).resolves.toBe(7);
+    await expect(createService().getRecommendationCount("build-agent")).resolves.toBe(8);
     await expect(createService().getRecommendationCount("missing")).resolves.toBe(0);
   });
 
   it("derives the tool summary from scenario steps", async () => {
     const data = structuredClone(contentData);
-    data.scenarios[0].recommendationIds = ["rec-claude"];
+    data.scenarios[0].recommendationIds = ["rec-chatgpt"];
     const service = createService(data);
 
     const result = await service.getUniqueRecommendations("ai-website");
 
     expect(result.map((item) => item.slug)).toEqual([
-      "claude",
       "chatgpt",
-      "figma",
-      "excalidraw",
+      "open-design",
+      "awesome-design-md",
+      "codex",
       "claude-code",
       "cursor",
-      "supabase",
+      "ccswitch",
       "vercel",
+      "cloudflare",
     ]);
   });
 
@@ -88,7 +90,7 @@ describe("ScenarioService", () => {
 
     expect(scenarios).toHaveLength(6);
     expect(scenarios.every((scenario) => scenario.publishStatus === "published")).toBe(true);
-    expect(result?.steps.map(({ step }) => step.order)).toEqual([1, 2, 3, 4, 5]);
+    expect(result?.steps.map(({ step }) => step.order)).toEqual([1, 2, 3, 4]);
   });
 
   it("returns deduplicated related categories and canonical related articles", async () => {

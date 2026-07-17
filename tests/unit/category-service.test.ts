@@ -29,13 +29,15 @@ describe("CategoryService", () => {
       sort: "recently-updated",
     });
 
-    expect(result?.publishedCount).toBe(4);
-    expect(result?.filteredCount).toBe(4);
+    expect(result?.publishedCount).toBe(6);
+    expect(result?.filteredCount).toBe(6);
     expect(result?.recommendations.map(({ recommendation }) => recommendation.slug)).toEqual([
+      "codex",
       "claude-code",
       "cursor",
-      "supabase",
+      "ccswitch",
       "vercel",
+      "cloudflare",
     ]);
     expect(
       result?.recommendations.every(({ category }) => category.id === result.category.id),
@@ -44,7 +46,7 @@ describe("CategoryService", () => {
     expect(
       result?.tags.every((tag) => result.recommendations.some(({ tags }) => tags.includes(tag))),
     ).toBe(true);
-    expect(result?.tagSummaries.find(({ tag }) => tag.slug === "code-generation")?.count).toBe(2);
+    expect(result?.tagSummaries.find(({ tag }) => tag.slug === "code-generation")?.count).toBe(3);
     expect(result?.tagSummaries.find(({ tag }) => tag.slug === "web")?.count).toBe(3);
   });
 
@@ -60,18 +62,18 @@ describe("CategoryService", () => {
 
     expect(filtered?.query.tags).toEqual(["open-source"]);
     expect(filtered?.recommendations.map(({ recommendation }) => recommendation.slug)).toEqual([
-      "supabase",
+      "ccswitch",
     ]);
     expect(unknown?.query.tags).toEqual([]);
-    expect(unknown?.filteredCount).toBe(4);
-    expect(filtered?.tagSummaries.find(({ tag }) => tag.slug === "code-generation")?.count).toBe(2);
+    expect(unknown?.filteredCount).toBe(6);
+    expect(filtered?.tagSummaries.find(({ tag }) => tag.slug === "code-generation")?.count).toBe(3);
   });
 
   it("computes the latest update and related scenarios and articles from category content", async () => {
     const data = structuredClone(contentData);
     const recommendation = data.recommendations.find((item) => item.slug === "claude-code");
     if (!recommendation) throw new Error("Missing test recommendation");
-    recommendation.updatedAt = "2026-07-11T00:00:00.000Z";
+    recommendation.updatedAt = "2026-07-16T00:00:00.000Z";
     recommendation.relatedArticles = [data.articles[0]];
 
     const result = await createService(data).getPageData("ai-coding", {
@@ -79,9 +81,11 @@ describe("CategoryService", () => {
       sort: "recently-updated",
     });
 
-    expect(result?.lastUpdatedAt).toBe("2026-07-11T00:00:00.000Z");
+    expect(result?.lastUpdatedAt).toBe("2026-07-16T00:00:00.000Z");
     expect(result?.relatedScenarios.map((scenario) => scenario.slug)).toEqual([
       "ai-website",
+      "build-agent",
+      "automation",
       "indie-inspiration",
     ]);
     expect(result?.relatedArticles.map((article) => article.id)).toEqual(["article-nextjs-docs"]);

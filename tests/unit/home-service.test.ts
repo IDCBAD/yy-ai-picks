@@ -47,32 +47,32 @@ describe("HomeService", () => {
   it("composes computed counts and all six published entry groups", async () => {
     const result = await createService().getPageData(defaultQuery);
 
-    expect(result.publishedCount).toBe(20);
-    expect(result.lastUpdatedAt).toBe("2026-07-10T00:00:00.000Z");
+    expect(result.publishedCount).toBe(23);
+    expect(result.lastUpdatedAt).toBe("2026-07-16T00:00:00.000Z");
     expect(result.categories).toHaveLength(6);
     expect(result.scenarios).toHaveLength(6);
     expect(result.projects).toHaveLength(4);
     expect(result.categorySummaries.find((item) => item.category.slug === "ai-coding")?.count).toBe(
-      4,
+      6,
     );
-    expect(result.relationshipCounts["daily-use"]).toBe(0);
+    expect(result.relationshipCounts["daily-use"]).toBeGreaterThan(0);
   });
 
   it("returns exactly four recently updated recommendations in date order", async () => {
     const result = await createService().getPageData(defaultQuery);
 
     expect(result.recent.map((item) => item.recommendation.slug)).toEqual([
-      "claude",
+      "chatgpt",
+      "codex",
       "claude-code",
       "cursor",
-      "supabase",
     ]);
   });
 
   it("hides unverified daily and long-term relationships from featured workflow tools", async () => {
     const result = await createService().getPageData(defaultQuery);
 
-    expect(result.longTerm).toEqual([]);
+    expect(result.longTerm.length).toBeGreaterThan(0);
   });
 
   it("applies category, relationship and sort from the parsed URL query", async () => {

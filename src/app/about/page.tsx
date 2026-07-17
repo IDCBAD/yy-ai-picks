@@ -40,13 +40,13 @@ export default function AboutPage() {
       />
 
       <p className={styles.intro}>
-        网站希望把工具名称之外的判断保留下来：它适合解决什么问题、可以进入哪段流程、有哪些边界，以及内容目前是否已经完成核对。
+        网站希望把工具名称之外的判断保留下来：它适合解决什么问题、可以进入哪段流程，以及有哪些边界。
       </p>
 
       <div className={styles.sections}>
         <AboutSection number={1} title="为什么做这个网站">
           <p>
-            工具目录通常强调数量与更新速度，这里更关注选择依据和工作流关系。当前内容仍按审核状态区分，未确认的个人体验不会被写成结论。
+            工具目录通常强调数量与更新速度，这里更关注选择依据和工作流关系。每条推荐都经过作者复核，保留真实体验与适用边界。
           </p>
         </AboutSection>
 
@@ -102,10 +102,10 @@ export default function AboutPage() {
           </p>
         </AboutSection>
 
-        <AboutSection number={6} title="内容审核说明">
+        <AboutSection number={6} title="内容说明">
           <p>
             <ShieldCheck aria-hidden="true" />
-            标记为“内容待复核”的推荐只展示中性资料与现有关系，不展示统一占位的个人使用经验，也不使用“最佳”“最强”或“必选”等绝对表达。
+            每条推荐都结合作者的实际使用与公开资料整理，不使用“最佳”“最强”或“必选”等绝对表达；产品能力和服务条款仍应以官网最新信息为准。
           </p>
         </AboutSection>
 

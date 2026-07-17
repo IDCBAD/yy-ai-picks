@@ -64,14 +64,14 @@
 
 ## Phase 6：测试和质量检查
 
-- [x] 完成内容客观事实复核；个人使用关系和评价保留待作者确认。
+- [x] 完成内容客观事实与个人使用关系复核，并公开作者确认后的推荐判断。
 - [x] 修复 Windows Chrome 1080P 下由文字父容器 transform 引起的模糊风险。
 - [x] 完成 Logo 回退、favicon、manifest、社交分享图和生产站点配置。
 - [x] 完成单元、组件、链接、响应式、无障碍、安全和 E2E 检查。
 - [x] 在 1920×1080、2560×1440、3840×2160、1440、1024、768、390 检查重点页面。
 - [x] 通过 format、lint、typecheck、test、test:e2e 和 build。
 
-阶段结论：**Technically ready, content approval pending**。技术准备完成，待作者确认 20 条推荐的使用关系和主观评价后才能改为 `Ready for release`。
+阶段结论：**Ready for release**。技术与内容均已完成复核，可进入发布流程。
 
 ## Future：Supabase 与后台
 

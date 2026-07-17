@@ -29,7 +29,7 @@ describe("local content", () => {
       expect(recommendation.url).toMatch(/^https:\/\//);
       expect(recommendation.url).not.toContain("#");
       expect(recommendation.url).not.toContain("—");
-      expect(recommendation.editorialStatus).toBe("needs-review");
+      expect(recommendation.editorialStatus).toBe("verified");
     }
   });
 

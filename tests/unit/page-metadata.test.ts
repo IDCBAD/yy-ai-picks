@@ -18,12 +18,12 @@ describe("Phase 4 metadata", () => {
 
   it("generates product-specific metadata for a published recommendation", async () => {
     const metadata = await generateRecommendationMetadata({
-      params: Promise.resolve({ slug: "claude" }),
+      params: Promise.resolve({ slug: "codex" }),
     });
 
-    expect(metadata.title).toContain("Claude");
-    expect(metadata.description).toContain("长文本");
-    expect(metadata.alternates?.canonical).toBe("/recommendations/claude");
+    expect(metadata.title).toContain("Codex");
+    expect(metadata.description).toContain("验收标准");
+    expect(metadata.alternates?.canonical).toBe("/recommendations/codex");
     expect(metadata.robots).toMatchObject({ index: true, follow: true });
   });
 
@@ -39,7 +39,7 @@ describe("Phase 4 metadata", () => {
   it("generates static params only for published recommendations", async () => {
     const params = await generateStaticParams();
 
-    expect(params).toHaveLength(20);
-    expect(params).toContainEqual({ slug: "claude" });
+    expect(params).toHaveLength(23);
+    expect(params).toContainEqual({ slug: "codex" });
   });
 });

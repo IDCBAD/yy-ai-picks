@@ -27,6 +27,7 @@ src/
   app/                 App Router、全局布局和路由状态
   components/          UI、布局、推荐、搜索筛选和反馈公共组件
   content/             经过校验的本地内容源
+    recommendation-modules/  按用途拆分、可单独编辑的推荐内容模块
   lib/                 无业务归属的纯工具与配置
   repositories/        数据访问接口及实现
   services/            搜索、筛选和页面用例
@@ -50,7 +51,7 @@ reference/opendesign/  只读视觉参考
 /                              正式首页
 /categories/[slug]             6 个分类 slug，筛选请求由服务端渲染
 /scenarios/[slug]              6 个静态场景页
-/recommendations/[slug]        20 个静态推荐详情
+/recommendations/[slug]        23 个静态推荐详情
 /search
 /projects
 /about
@@ -141,7 +142,9 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 
 站点地址由 `NEXT_PUBLIC_SITE_URL` 提供，Vercel 部署可回退到生产域名变量；本地缺失时使用 `http://localhost:3000`。生产和 CI 地址必须使用 HTTPS。favicon、manifest 和社交分享图均由 App Router 本地生成，不依赖第三方热链。
 
-所有推荐仍通过 Service 和 Repository 获取。`editorialStatus !== "verified"` 的关系计数、首页关系筛选和长期使用区块不会公开；客观产品字段与主观个人关系分开审核。
+所有推荐仍通过 Service 和 Repository 获取。已复核推荐参与关系计数、首页关系筛选和长期使用区块；未来暂存未确认内容时，`editorialStatus !== "verified"` 的条目不会进入这些区块。
+
+推荐内容不再集中写在一个大文件中：`src/content/recommendation-modules/` 按用途拆分模块，`index.ts` 统一汇总，`definition.ts` 只补充审核状态、日期和更新记录等公共字段。编辑单个工具时只需要修改对应模块；新增工具复制模块结构并更新关联场景，随后运行内容校验。
 
 `next.config.ts` 导入 `src/content/index.ts`。该入口在配置加载时执行 `validateContentData()`，因此无效内容在正式页面生成前就会阻止开发服务或生产构建。
 

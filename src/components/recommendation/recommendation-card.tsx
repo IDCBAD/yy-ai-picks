@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import type { Category, Recommendation, Tag as RecommendationTag } from "@/types";
 import { Spotlight } from "@/components/motion";
-import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "@/components/ui/external-link";
 import { Tag } from "@/components/ui/tag";
 
@@ -56,11 +55,7 @@ export function RecommendationCard({
         <p className={styles.reason}>{recommendation.recommendationReason}</p>
       ) : null}
       <div className={styles.cardTags}>
-        {recommendation.editorialStatus === "verified" ? (
-          <StatusBadge compact relationship={recommendation.relationship} />
-        ) : (
-          <Badge variant="muted">内容待确认</Badge>
-        )}
+        <StatusBadge compact relationship={recommendation.relationship} />
         {visibleTags.map((tag) => (
           <Tag key={tag.id}>{tag.name}</Tag>
         ))}

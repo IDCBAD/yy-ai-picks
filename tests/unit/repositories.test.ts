@@ -16,38 +16,39 @@ describe("LocalRecommendationRepository", () => {
   it("returns all published recommendations", async () => {
     const result = await repository.getAllPublished();
 
-    expect(result).toHaveLength(20);
+    expect(result).toHaveLength(23);
     expect(result.every((item) => item.publishStatus === "published")).toBe(true);
   });
 
   it("gets a recommendation by slug and returns null for an invalid slug", async () => {
-    await expect(repository.getBySlug("claude")).resolves.toMatchObject({ id: "rec-claude" });
+    await expect(repository.getBySlug("codex")).resolves.toMatchObject({ id: "rec-codex" });
     await expect(repository.getBySlug("missing")).resolves.toBeNull();
   });
 
   it("filters published recommendations by category", async () => {
     const result = await repository.getByCategory("category-ai-assistant");
 
-    expect(result.map((item) => item.slug)).toEqual(["chatgpt", "claude", "ollama"]);
+    expect(result.map((item) => item.slug)).toEqual(["chatgpt"]);
   });
 
   it("sorts featured recommendations by featured order", async () => {
     const result = await repository.getFeatured();
 
     expect(result.map((item) => item.slug)).toEqual([
-      "claude",
+      "chatgpt",
+      "codex",
+      "claude-code",
+      "cursor",
       "vercel",
-      "n8n",
       "obsidian",
-      "figma",
-      "excalidraw",
+      "cloudflare",
     ]);
   });
 
   it("sorts recently updated recommendations and applies a limit", async () => {
     const result = await repository.getRecentlyUpdated(3);
 
-    expect(result.map((item) => item.slug)).toEqual(["claude", "claude-code", "cursor"]);
+    expect(result.map((item) => item.slug)).toEqual(["chatgpt", "codex", "claude-code"]);
   });
 });
 

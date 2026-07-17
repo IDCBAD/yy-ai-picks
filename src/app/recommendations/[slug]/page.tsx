@@ -1,4 +1,4 @@
-import { Check, CircleX, ExternalLink as ExternalLinkIcon, Info, ShieldCheck } from "lucide-react";
+import { Check, CircleX, ExternalLink as ExternalLinkIcon, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -10,7 +10,7 @@ import { RecommendationCard } from "@/components/recommendation/recommendation-c
 import { RecommendationGrid } from "@/components/recommendation/recommendation-grid";
 import { RecommendationLogo } from "@/components/recommendation/recommendation-logo";
 import { StatusBadge } from "@/components/recommendation/recommendation-status";
-import { Badge, Button, ExternalLink, Tag } from "@/components/ui";
+import { Button, ExternalLink, Tag } from "@/components/ui";
 import { recommendationService } from "@/lib/content-services";
 import { formatDisplayDate, PLATFORM_LABELS, PRICING_LABELS } from "@/lib/presentation";
 import { siteConfig } from "@/lib/site-config";
@@ -69,7 +69,6 @@ export default async function RecommendationPage({ params }: RecommendationPageP
 
   const { articles, category, projects, recommendation, relatedRecommendations, scenarios, tags } =
     result;
-  const isVerified = recommendation.editorialStatus === "verified";
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -101,8 +100,7 @@ export default async function RecommendationPage({ params }: RecommendationPageP
         />
         <div className={styles.headerCopy}>
           <div className={styles.headerBadges}>
-            {isVerified ? <StatusBadge relationship={recommendation.relationship} /> : null}
-            {!isVerified ? <Badge variant="muted">内容待复核</Badge> : null}
+            <StatusBadge relationship={recommendation.relationship} />
           </div>
           <h1>{recommendation.name}</h1>
           <p>{recommendation.shortDescription}</p>
@@ -152,22 +150,12 @@ export default async function RecommendationPage({ params }: RecommendationPageP
         ) : null}
       </dl>
 
-      {!isVerified ? (
-        <aside className={styles.reviewNotice}>
-          <Info aria-hidden="true" />
-          <div>
-            <strong>内容审核中</strong>
-            <p>以下说明按现有资料中性呈现，不代表已经完成个人体验核验。</p>
-          </div>
-        </aside>
-      ) : null}
-
       <div className={styles.content}>
-        <RecommendationDetailSection title={isVerified ? "我为什么推荐" : "收录说明"}>
+        <RecommendationDetailSection title="我为什么推荐">
           <p className={styles.leadBlock}>{recommendation.recommendationReason}</p>
         </RecommendationDetailSection>
 
-        {isVerified && recommendation.usageDescription ? (
+        {recommendation.usageDescription ? (
           <RecommendationDetailSection title="我怎么使用">
             <p>{recommendation.usageDescription}</p>
           </RecommendationDetailSection>

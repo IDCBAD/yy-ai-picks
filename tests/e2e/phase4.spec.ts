@@ -7,30 +7,30 @@ test.describe("Phase 4 home and recommendation details", () => {
     const hero = page.locator("section").filter({
       has: page.getByRole("heading", { name: "余一的 AI 推荐清单", level: 1 }),
     });
-    await expect(hero).toContainText("20");
-    await expect(hero).toContainText("2026/07/10");
+    await expect(hero).toContainText("23");
+    await expect(hero).toContainText("2026/07/16");
     await expect(page.getByRole("search", { name: "搜索推荐清单" })).toBeVisible();
   });
 
   test("opens a real recommendation detail from a reused card", async ({ page }) => {
     await page.goto("/");
-    await page.locator('a[href="/recommendations/claude"]').first().click();
+    await page.locator('a[href="/recommendations/codex"]').first().click();
 
-    await expect(page).toHaveURL(/\/recommendations\/claude$/);
-    await expect(page.getByRole("heading", { name: "Claude", level: 1 })).toBeVisible();
-    await expect(
-      page.getByRole("paragraph").filter({ hasText: "支持长文本理解与代码生成的 AI 助手。" }),
-    ).toBeVisible();
+    await expect(page).toHaveURL(/\/recommendations\/codex$/);
+    await expect(page.getByRole("heading", { name: "Codex", level: 1 })).toBeVisible();
+    await expect(page.getByRole("paragraph").filter({ hasText: /从头做到尾/ })).toBeVisible();
   });
 
   test("renders distinct content for different slugs", async ({ page }) => {
-    await page.goto("/recommendations/claude");
-    await expect(page.getByRole("heading", { name: "Claude", level: 1 })).toBeVisible();
+    await page.goto("/recommendations/codex");
+    await expect(page.getByRole("heading", { name: "Codex", level: 1 })).toBeVisible();
 
     await page.goto("/recommendations/cursor");
     await expect(page.getByRole("heading", { name: "Cursor", level: 1 })).toBeVisible();
-    await expect(page.getByRole("paragraph").filter({ hasText: /代码库上下文/ })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Claude", level: 1 })).toHaveCount(0);
+    await expect(
+      page.getByText("把代码编辑、项目上下文和 AI 协作放在一个编辑器里的开发工具。"),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Codex", level: 1 })).toHaveCount(0);
   });
 
   test("returns a real 404 for an invalid recommendation slug", async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe("Phase 4 home and recommendation details", () => {
   });
 
   test("uses safe attributes for the official website action", async ({ page }) => {
-    await page.goto("/recommendations/claude");
+    await page.goto("/recommendations/codex");
 
     const official = page.getByRole("link", { name: /访问官网/ }).first();
     await expect(official).toHaveAttribute("target", "_blank");
@@ -62,13 +62,13 @@ test.describe("Phase 4 home and recommendation details", () => {
     );
     await expect(
       page.getByRole("list", { name: "全部推荐结果" }).getByRole("listitem"),
-    ).toHaveCount(4);
+    ).toHaveCount(6);
   });
 
   for (const width of [1440, 1024, 768, 390]) {
     test(`keeps the home and detail layouts within ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
-      for (const path of ["/", "/recommendations/claude"]) {
+      for (const path of ["/", "/recommendations/codex"]) {
         await page.goto(path);
         const sizes = await page.evaluate(() => ({
           viewport: document.documentElement.clientWidth,

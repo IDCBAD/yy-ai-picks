@@ -1,0 +1,58 @@
+import { defineRecommendation } from "./definition";
+
+export const aiAssistants = [
+  defineRecommendation({
+    slug: "chatgpt",
+    name: "ChatGPT",
+    url: "https://chatgpt.com",
+    categoryId: "category-ai-assistant",
+    tagIds: ["tag-conversation", "tag-code-generation", "tag-search", "tag-web", "tag-desktop"],
+    shortDescription: "把模糊想法聊成可交付成果的通用 AI 入口。",
+    recommendationReason:
+      "很多事不是一开始想清楚的，而是边问边改才理出头绪。它适合承担“第一版”——先帮你把问题拆开、补材料、出初稿，剩下的再交给专门的工具收尾。",
+    usageDescription:
+      "拿它做需求拆解、方案比较和初稿；涉及关键事实、代码执行和最终发布的内容，回到原始资料和真实环境里确认，而不是直接用它的结论。",
+    suitableFor: ["经常要从零拆需求、查资料、出初稿的人", "喜欢在一个对话里把事聊完、聊透再动手的人"],
+    unsuitableFor: ["把每个答案都当事实结论、不查原话的人", "材料敏感到不能上云、需要离线处理的人"],
+    strengths: ["覆盖从想清楚到出第一版的整段任务", "适合靠多轮追问把模糊问题收敛清楚"],
+    limitations: ["可能漏条件或编引用，关键结论要自己核", "不同模型、套餐和地区能用的能力会变"],
+    pricing: "freemium",
+    platforms: ["web", "macos", "windows", "ios", "android"],
+    isOpenSource: false,
+    selfHostable: false,
+    relationship: "daily-use",
+    featured: true,
+    featuredOrder: 1,
+    relatedScenarioIds: ["scenario-ai-website", "scenario-build-agent", "scenario-knowledge-base"],
+    relatedRecommendationIds: ["rec-codex", "rec-claude-code"],
+    relatedProjectIds: [],
+    relatedArticles: [],
+  }),
+  defineRecommendation({
+    slug: "codex",
+    name: "Codex",
+    url: "https://openai.com/codex/",
+    categoryId: "category-ai-coding",
+    tagIds: ["tag-agent", "tag-code-generation", "tag-cli", "tag-web"],
+    shortDescription: "把带明确验收标准的开发任务交给它跑、人保留最终审核的编码 Agent。",
+    recommendationReason:
+      "适合那种“目标清楚、怎么改也知道、改完怎么验证也有标准”的任务——丢给它跑完整段，你集中精力审结果。比一条条指挥它省事得多。",
+    usageDescription:
+      "先把目标、限制和验收方式说死，让它在现有项目里做小范围改动；涉及架构、权限和上线的操作，逐项过一遍再放行。",
+    suitableFor: ["有现成代码库、愿意审改动的开发者", "想把重复排查、实现和测试外包出去的人"],
+    unsuitableFor: ["没有任何审核条件的生产环境", "指望一句话就替自己做完所有产品和技术决策的人"],
+    strengths: ["能围绕项目上下文处理多文件任务", "把实现和验证放进同一个循环"],
+    limitations: ["要清晰的任务边界和可验证的验收标准", "生成的改动仍可能带回归或错误假设"],
+    pricing: "paid",
+    platforms: ["web", "cli", "macos", "windows", "linux"],
+    isOpenSource: false,
+    selfHostable: false,
+    relationship: "daily-use",
+    featured: true,
+    featuredOrder: 2,
+    relatedScenarioIds: ["scenario-ai-website", "scenario-build-agent", "scenario-automation"],
+    relatedRecommendationIds: ["rec-claude-code", "rec-cursor", "rec-ccswitch"],
+    relatedProjectIds: [],
+    relatedArticles: [],
+  }),
+];

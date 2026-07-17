@@ -14,7 +14,7 @@ const scenarios = [
   ["build-agent", "搭建一个 Agent"],
   ["knowledge-base", "建立个人知识库"],
   ["automation", "自动化重复工作"],
-  ["media-production", "生产图片和视频"],
+  ["media-production", "生产图片、视频与演示"],
   ["indie-inspiration", "寻找独立产品灵感"],
 ] as const;
 
@@ -42,9 +42,9 @@ test.describe("Phase 5 public pages", () => {
     await expect(page.getByRole("heading", { name: "知识与信息管理", level: 1 })).toBeVisible();
 
     await page.goto("/scenarios/ai-website");
-    await expect(page.getByRole("heading", { name: "整理需求", level: 3 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "梳理需求", level: 3 })).toBeVisible();
     await page.goto("/scenarios/media-production");
-    await expect(page.getByRole("heading", { name: "生成图像", level: 3 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "探索视觉与动态画面", level: 3 })).toBeVisible();
   });
 
   test("returns real 404 responses for invalid dynamic slugs", async ({ page }) => {
@@ -71,7 +71,7 @@ test.describe("Phase 5 public pages", () => {
 
     await expect(page.getByText(/“Claude”的搜索结果/)).toBeVisible();
     await expect(page.getByRole("heading", { name: "推荐", level: 2 })).toBeVisible();
-    await expect(page.locator('a[href="/recommendations/claude"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/recommendations/claude-code"]').first()).toBeVisible();
   });
 
   test("shows the search no-results state", async ({ page }) => {
@@ -108,10 +108,10 @@ test.describe("Phase 5 public pages", () => {
 
   test("opens a recommendation detail from a scenario tool", async ({ page }) => {
     await page.goto("/scenarios/build-agent");
-    await page.locator('a[href="/recommendations/claude"]').first().click();
+    await page.locator('a[href="/recommendations/codex"]').first().click();
 
-    await expect(page).toHaveURL(/\/recommendations\/claude$/);
-    await expect(page.getByRole("heading", { name: "Claude", level: 1 })).toBeVisible();
+    await expect(page).toHaveURL(/\/recommendations\/codex$/);
+    await expect(page.getByRole("heading", { name: "Codex", level: 1 })).toBeVisible();
   });
 
   for (const width of [1440, 1024, 768, 390]) {
@@ -138,10 +138,10 @@ test.describe("Phase 5 public pages", () => {
     await page.goto("/search");
     const input = page.getByRole("searchbox", { name: "搜索全部公开内容" });
     await input.focus();
-    await input.fill("LangGraph");
+    await input.fill("Codex");
     await page.keyboard.press("Enter");
 
-    await expect(page).toHaveURL(/q=LangGraph/);
-    await expect(page.locator('a[href="/recommendations/langgraph"]').first()).toBeVisible();
+    await expect(page).toHaveURL(/q=Codex/);
+    await expect(page.locator('a[href="/recommendations/codex"]').first()).toBeVisible();
   });
 });

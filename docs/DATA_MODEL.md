@@ -8,6 +8,7 @@
 - Zod Schema：`src/lib/validation/content-schemas.ts`
 - 跨实体校验：`src/lib/validation/validate-content-data.ts`
 - 本地内容：`src/content`
+- 推荐内容模块：`src/content/recommendation-modules`，按用途拆分，统一由 `index.ts` 汇总
 
 页面不得复制或补全这些数据，只能通过 Repository 和 Service 获取稳定领域模型。
 
@@ -131,10 +132,10 @@ recently-updated | recently-added | featured | name
 ## 当前本地数据
 
 - 6 个固定分类。
-- 30 个分组标签。
-- 20 条具有真实 HTTPS URL 的代表性推荐，覆盖全部分类。
+- 39 个分组标签。
+- 23 条具有真实 HTTPS URL 的推荐，覆盖全部分类。
 - 6 个场景及其步骤工具关系。
 - 4 个项目，不包含原型中的 `#` 占位地址。
 - 4 条独立文档引用。
 
-所有推荐个人评价均标记为 `needs-review`，没有编造原型未提供的深度使用经历。
+所有推荐已标记为 `verified`。基础信息来自官方资料；实际使用方式、推荐判断和边界由作者逐条复核。

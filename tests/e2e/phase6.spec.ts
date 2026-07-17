@@ -4,8 +4,8 @@ const keyPages = [
   "/",
   "/categories/ai-coding",
   "/scenarios/ai-website",
-  "/recommendations/claude",
-  "/search?q=Claude",
+  "/recommendations/codex",
+  "/search?q=Codex",
   "/projects",
   "/about",
 ] as const;
@@ -17,7 +17,7 @@ test.describe("Phase 6 release checks", () => {
     const xml = await response.text();
     const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 
-    expect(urls).toHaveLength(35);
+    expect(urls).toHaveLength(38);
     expect(urls.some((url) => url.includes("/search"))).toBe(false);
     expect(urls.some((url) => url.includes("/dev/"))).toBe(false);
 
@@ -28,9 +28,9 @@ test.describe("Phase 6 release checks", () => {
   });
 
   test("keeps search input synchronized with browser history", async ({ page }) => {
-    await page.goto("/search?q=Claude");
+    await page.goto("/search?q=Codex");
     const input = page.getByRole("searchbox", { name: "搜索全部公开内容" });
-    await expect(input).toHaveValue("Claude");
+    await expect(input).toHaveValue("Codex");
 
     await input.fill("ChatGPT");
     await page.keyboard.press("Enter");
@@ -38,8 +38,8 @@ test.describe("Phase 6 release checks", () => {
     await expect(input).toHaveValue("ChatGPT");
 
     await page.goBack();
-    await expect(page).toHaveURL(/q=Claude/);
-    await expect(input).toHaveValue("Claude");
+    await expect(page).toHaveURL(/q=Codex/);
+    await expect(input).toHaveValue("Codex");
   });
 
   test("has one main heading and safe external links on key pages", async ({ page }) => {

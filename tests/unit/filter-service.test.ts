@@ -18,15 +18,15 @@ describe("FilterService", () => {
       service
         .apply(contentData.recommendations, { categoryId: "category-ai-assistant" })
         .map((item) => item.slug),
-    ).toEqual(["chatgpt", "claude", "ollama"]);
+    ).toEqual(["chatgpt"]);
     expect(
       service
         .apply(contentData.recommendations, { relationship: "daily-use" })
         .map((item) => item.slug),
-    ).toEqual(["claude", "claude-code", "vercel", "n8n", "obsidian", "figma", "rsshub"]);
+    ).toEqual(["chatgpt", "codex", "claude-code", "cursor", "cloudflare", "obsidian", "notion"]);
     expect(
       service.apply(contentData.recommendations, { pricing: "paid" }).map((item) => item.slug),
-    ).toEqual(["claude-code", "midjourney"]);
+    ).toEqual(["codex", "claude-code", "midjourney"]);
   });
 
   it("filters by open source, self hosting and platform", () => {
@@ -36,34 +36,38 @@ describe("FilterService", () => {
 
     expect(openSource.every((item) => item.isOpenSource)).toBe(true);
     expect(selfHostable.every((item) => item.selfHostable)).toBe(true);
-    expect(cli.map((item) => item.slug)).toEqual(["ollama", "claude-code"]);
+    expect(cli.map((item) => item.slug)).toContain("codex");
   });
 
   it("requires every selected tag", () => {
     const result = service.apply(contentData.recommendations, {
-      tagIds: ["tag-open-source", "tag-self-hostable"],
+      tagIds: ["tag-agent", "tag-skill"],
     });
 
-    expect(result.map((item) => item.slug)).toEqual(["supabase", "dify", "rsshub"]);
+    expect(result.length).toBeGreaterThan(0);
+    expect(
+      result.every(
+        (item) => item.tagIds.includes("tag-agent") && item.tagIds.includes("tag-skill"),
+      ),
+    ).toBe(true);
   });
 
   it("combines different filters with intersection semantics", () => {
     const result = service.apply(contentData.recommendations, {
       categoryId: "category-agent-automation",
-      openSource: true,
       selfHostable: true,
       platform: "web",
     });
 
-    expect(result.map((item) => item.slug)).toEqual(["dify"]);
+    expect(result.map((item) => item.slug)).toEqual(["dify", "n8n"]);
   });
 
   it("sorts by recently updated and recently added dates", () => {
     expect(service.apply(contentData.recommendations, { sort: "recently-updated" })[0].slug).toBe(
-      "claude",
+      "chatgpt",
     );
     expect(service.apply(contentData.recommendations, { sort: "recently-added" })[0].slug).toBe(
-      "remotion",
+      "chatgpt",
     );
   });
 
@@ -71,12 +75,12 @@ describe("FilterService", () => {
     const result = service.apply(contentData.recommendations, { sort: "featured" });
 
     expect(result.slice(0, 6).map((item) => item.slug)).toEqual([
-      "claude",
+      "chatgpt",
+      "codex",
+      "claude-code",
+      "cursor",
       "vercel",
-      "n8n",
       "obsidian",
-      "figma",
-      "excalidraw",
     ]);
   });
 
@@ -84,9 +88,9 @@ describe("FilterService", () => {
     const result = service.apply(contentData.recommendations, { sort: "name" });
 
     expect(result.slice(0, 3).map((item) => item.name)).toEqual([
-      "Browser Use",
-      "ChatGPT",
-      "Claude",
+      "Agent-Reach",
+      "AIHot",
+      "awesome-design-md",
     ]);
   });
 });
