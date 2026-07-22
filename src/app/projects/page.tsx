@@ -10,7 +10,7 @@ import styles from "./projects-page.module.css";
 
 export const metadata: Metadata = createPageMetadata({
   title: "我的项目",
-  description: "按当前状态整理正在构建、维护、验证或暂停的公开项目。",
+  description: "按已上线和原型两种状态整理作者正在维护与规划中的项目。",
   path: "/projects",
 });
 
@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
     <PageContainer className={styles.page}>
       <Breadcrumb items={[{ label: "首页", href: "/" }, { label: "我的项目" }]} />
       <PageHeader
-        description="这里记录正在建设、持续调整或用于验证想法的公开项目。只有数据中确认的内容与链接会被展示。"
+        description="已上线项目可以直接访问，且仍在持续更新；原型项目保留当前的构思和方向，暂不提供虚假地址。"
         eyebrow="PROJECT LOG"
         title="我的项目"
       />

@@ -27,7 +27,7 @@ describe("RecommendationService", () => {
     await expect(service.getCategoryCounts()).resolves.toEqual({
       "category-ai-assistant": 1,
       "category-ai-coding": 6,
-      "category-agent-automation": 4,
+      "category-agent-automation": 7,
       "category-knowledge": 3,
       "category-content-creation": 6,
       "category-indie": 3,
@@ -83,16 +83,13 @@ describe("RecommendationService", () => {
 
     const result = await service.getProjectStatusGroups();
 
-    expect(result.launched).toHaveLength(1);
-    expect(result.iterating).toHaveLength(2);
+    expect(result.launched).toHaveLength(2);
     expect(result.prototype).toHaveLength(1);
-    expect(result.experiment).toEqual([]);
-    expect(result.paused).toEqual([]);
   });
 
   it("returns the latest content update date", async () => {
     const service = createService();
 
-    await expect(service.getLatestUpdatedAt()).resolves.toBe("2026-07-16T00:00:00.000Z");
+    await expect(service.getLatestUpdatedAt()).resolves.toBe("2026-07-22T00:00:00.000Z");
   });
 });

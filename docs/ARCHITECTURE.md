@@ -51,7 +51,7 @@ reference/opendesign/  只读视觉参考
 /                              正式首页
 /categories/[slug]             6 个分类 slug，筛选请求由服务端渲染
 /scenarios/[slug]              6 个静态场景页
-/recommendations/[slug]        23 个静态推荐详情
+/recommendations/[slug]        26 个静态推荐详情
 /search
 /projects
 /about
@@ -116,7 +116,7 @@ Phase 2 已实现 Recommendation、Category、Tag、Scenario、Project 和 Artic
 - `ScenarioService`：场景步骤的首选/替代工具解析，并直接从步骤去重计算工具汇总和数量，不依赖手工统计。
 - `HomeService`：组合首页发布数量、最近更新、分类与关系数量、长期关系、筛选结果、场景和项目。
 - `CategoryService`：组合可见分类、分类内标签计数、筛选排序、推荐卡片数据、相关场景与文章。
-- `ProjectService`：组合公开项目、五种状态分组、数量和项目更新时间。
+- `ProjectService`：组合公开项目、已上线与原型两种状态分组、数量和项目更新时间。
 
 `src/lib/content-services.ts` 是服务端组合入口，负责连接全部 Local Repository 与 Service。正式页面只导入组合后的 Service，不直接导入 `src/content` 或具体 Repository。
 

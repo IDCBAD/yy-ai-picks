@@ -62,13 +62,13 @@ describe("SearchService", () => {
     const result = await createService().search("自动化重复工作");
 
     expect(result.scenarios.map(({ item }) => item.slug)).toContain("automation");
-    expect(result.recommendations.map(({ item }) => item.slug)).toContain("n8n");
+    expect(result.recommendations.map(({ item }) => item.slug)).toContain("colaos");
   });
 
   it("searches projects and project names discover related recommendations", async () => {
-    const result = await createService().search("会话分析");
+    const result = await createService().search("小工具");
 
-    expect(result.projects.map(({ item }) => item.slug)).toContain("agent-session-analysis");
+    expect(result.projects.map(({ item }) => item.slug)).toContain("ai-mini-tools");
     expect(result.recommendations).toEqual([]);
   });
 

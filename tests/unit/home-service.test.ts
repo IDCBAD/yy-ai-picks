@@ -47,15 +47,15 @@ describe("HomeService", () => {
   it("composes computed counts and all six published entry groups", async () => {
     const result = await createService().getPageData(defaultQuery);
 
-    expect(result.publishedCount).toBe(23);
-    expect(result.lastUpdatedAt).toBe("2026-07-16T00:00:00.000Z");
+    expect(result.publishedCount).toBe(26);
+    expect(result.lastUpdatedAt).toBe("2026-07-22T00:00:00.000Z");
     expect(result.categories).toHaveLength(6);
     expect(result.scenarios).toHaveLength(6);
-    expect(result.projects).toHaveLength(4);
+    expect(result.projects).toHaveLength(2);
     expect(result.categorySummaries.find((item) => item.category.slug === "ai-coding")?.count).toBe(
       6,
     );
-    expect(result.relationshipCounts["daily-use"]).toBeGreaterThan(0);
+    expect(result.relationshipCounts["daily-use"]).toBe(6);
   });
 
   it("returns exactly four recently updated recommendations in date order", async () => {
@@ -83,7 +83,7 @@ describe("HomeService", () => {
       sort: "name",
     });
 
-    expect(result.filtered).toEqual([]);
+    expect(result.filtered.map((item) => item.recommendation.slug)).toEqual(["hermes-agent"]);
   });
 
   it("maps recommendation cards to resolved categories and tags", async () => {

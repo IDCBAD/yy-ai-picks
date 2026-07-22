@@ -62,7 +62,7 @@
 
 ## Scenario 与 ScenarioStep
 
-Scenario 字段：`id`、`slug`、`title`、`shortDescription`、`longDescription`、`audience`、`recommendationIds`、`steps`、`relatedArticles`、`publishStatus`、`publishedAt`、`updatedAt`。
+Scenario 字段：`id`、`slug`、`iconKey`、`title`、`shortDescription`、`longDescription`、`audience`、`recommendationIds`、`steps`、`relatedArticles`、`publishStatus`、`publishedAt`、`updatedAt`。
 
 ScenarioStep 字段：`id`、`order`、`title`、`description`、`primaryRecommendationIds`、`alternativeRecommendationIds`、`selectionReason`、`notes`。
 
@@ -98,7 +98,7 @@ PricingType:
 free | freemium | paid | open-source
 
 ProjectStatus:
-launched | iterating | prototype | experiment | paused
+launched | prototype
 
 TagGroup:
 capability | scenario | attribute
@@ -133,9 +133,9 @@ recently-updated | recently-added | featured | name
 
 - 6 个固定分类。
 - 39 个分组标签。
-- 23 条具有真实 HTTPS URL 的推荐，覆盖全部分类。
+- 26 条具有真实 HTTPS URL 的推荐，覆盖全部分类。
 - 6 个场景及其步骤工具关系。
-- 4 个项目，不包含原型中的 `#` 占位地址。
+- 3 个项目；已上线项目提供真实 HTTPS 访问地址，原型项目不编造未公开链接。
 - 4 条独立文档引用。
 
 所有推荐已标记为 `verified`。基础信息来自官方资料；实际使用方式、推荐判断和边界由作者逐条复核。

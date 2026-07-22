@@ -32,7 +32,12 @@ function RecommendationList({ label, recommendations, variant }: RecommendationL
           <li className={styles.recommendationItem} data-role={variant} key={recommendation.id}>
             <div className={styles.recommendationHeader}>
               <strong>{recommendation.name}</strong>
-              <Badge variant={variant === "primary" ? "dark" : "default"}>{label}</Badge>
+              <Badge
+                className={styles.recommendationBadge}
+                variant={variant === "primary" ? "dark" : "default"}
+              >
+                {label}
+              </Badge>
             </div>
             <p>{recommendation.shortDescription}</p>
             <Link href={`/recommendations/${recommendation.slug}`}>

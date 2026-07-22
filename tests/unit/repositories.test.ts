@@ -16,7 +16,7 @@ describe("LocalRecommendationRepository", () => {
   it("returns all published recommendations", async () => {
     const result = await repository.getAllPublished();
 
-    expect(result).toHaveLength(23);
+    expect(result).toHaveLength(26);
     expect(result.every((item) => item.publishStatus === "published")).toBe(true);
   });
 
@@ -37,11 +37,10 @@ describe("LocalRecommendationRepository", () => {
     expect(result.map((item) => item.slug)).toEqual([
       "chatgpt",
       "codex",
-      "claude-code",
-      "cursor",
-      "vercel",
+      "ccswitch",
       "obsidian",
-      "cloudflare",
+      "hermes-agent",
+      "open-design",
     ]);
   });
 
@@ -74,7 +73,7 @@ describe("other local repositories", () => {
       id: "scenario-build-agent",
     });
     await expect(scenarioRepository.getBySlug("missing")).resolves.toBeNull();
-    await expect(projectRepository.getAllPublished()).resolves.toHaveLength(4);
+    await expect(projectRepository.getAllPublished()).resolves.toHaveLength(3);
     await expect(projectRepository.getBySlug("personal-blog")).resolves.toMatchObject({
       id: "project-personal-blog",
     });

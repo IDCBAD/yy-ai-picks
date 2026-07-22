@@ -19,6 +19,35 @@ export type RecommendationModule = Omit<
 
 const contentDate = "2026-07-16T00:00:00.000Z";
 
+const RECOMMENDATION_LOGOS: Record<string, string> = {
+  chatgpt: "/assets/icons/openai.svg",
+  codex: "/assets/icons/openai.svg",
+  "claude-code": "/assets/icons/claude-code.svg",
+  cursor: "/assets/icons/cursor.svg",
+  ccswitch: "/assets/icons/ccswitch.png",
+  vercel: "/assets/icons/vercel.svg",
+  cloudflare: "/assets/icons/cloudflare.svg",
+  "hermes-agent": "/assets/icons/hermes-agent.png",
+  "agent-reach": "/assets/icons/agent-reach.png",
+  colaos: "/assets/icons/colaos.png",
+  bloome: "/assets/icons/bloome.png",
+  happycapy: "/assets/icons/happycapy.svg",
+  newmax: "/assets/icons/newmax.png",
+  "kimi-work": "/assets/icons/kimi-work.png",
+  obsidian: "/assets/icons/obsidian.svg",
+  notion: "/assets/icons/notion.svg",
+  youmind: "/assets/icons/youmind.png",
+  aihot: "/assets/icons/aihot.png",
+  "open-design": "/assets/icons/open-design.png",
+  kling: "/assets/icons/kling.png",
+  midjourney: "/assets/icons/midjourney.svg",
+  remotion: "/assets/icons/remotion.svg",
+  "ppt-master": "/assets/icons/ppt-master.png",
+  "guizang-ppt-skill": "/assets/icons/guizang-ppt-skill.png",
+  "awesome-design-md": "/assets/icons/awesome-design-md.png",
+  catchmeta: "/assets/icons/catchmeta.png",
+};
+
 export function defineRecommendation(module: RecommendationModule): Recommendation {
   const {
     editorialStatus = "verified",
@@ -30,6 +59,7 @@ export function defineRecommendation(module: RecommendationModule): Recommendati
 
   return {
     ...content,
+    logo: content.logo ?? RECOMMENDATION_LOGOS[content.slug],
     id: `rec-${content.slug}`,
     availabilityStatus: "available",
     publishStatus: "published",

@@ -84,7 +84,11 @@ test.describe("Phase 5 public pages", () => {
   test("opens projects and about pages", async ({ page }) => {
     await page.goto("/projects");
     await expect(page.getByRole("heading", { name: "我的项目", level: 1 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "持续迭代", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "已上线", level: 2 })).toBeVisible();
+    await expect(page.getByRole("link", { name: /打开项目：余一的 AI 观察备忘录/ })).toHaveAttribute(
+      "href",
+      "https://blog.yuyi-ai.top/",
+    );
 
     await page.goto("/about");
     await expect(page.getByRole("heading", { name: "关于这份清单", level: 1 })).toBeVisible();

@@ -1,8 +1,9 @@
-import { ArrowRight, Workflow } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import type { Scenario } from "@/types";
 
+import { ContentEntryIcon } from "./content-entry-icon";
 import styles from "./content-card.module.css";
 
 export interface ScenarioCardProps {
@@ -17,7 +18,7 @@ export function ScenarioCard({ headingLevel = 3, scenario }: ScenarioCardProps) 
     <article className={styles.card}>
       <Link className={styles.cardLink} href={`/scenarios/${scenario.slug}`}>
         <span aria-hidden="true" className={styles.iconBox}>
-          <Workflow />
+          <ContentEntryIcon iconKey={scenario.iconKey} kind="scenario" />
         </span>
         <span className={styles.cardBody}>
           <Heading>{scenario.title}</Heading>

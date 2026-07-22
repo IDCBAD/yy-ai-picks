@@ -39,7 +39,7 @@ describe("Phase 4 metadata", () => {
   it("generates static params only for published recommendations", async () => {
     const params = await generateStaticParams();
 
-    expect(params).toHaveLength(23);
+    expect(params).toHaveLength(26);
     expect(params).toContainEqual({ slug: "codex" });
   });
 });

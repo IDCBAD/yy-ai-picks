@@ -70,7 +70,7 @@ describe("Phase 5 page metadata and indexing", () => {
     const entries = await sitemap();
     const urls = entries.map((entry) => entry.url);
 
-    expect(entries).toHaveLength(38);
+    expect(entries).toHaveLength(41);
     expect(urls.some((url) => url.endsWith("/categories/ai-coding"))).toBe(true);
     expect(urls.some((url) => url.endsWith("/scenarios/build-agent"))).toBe(true);
     expect(urls.some((url) => url.endsWith("/recommendations/codex"))).toBe(true);

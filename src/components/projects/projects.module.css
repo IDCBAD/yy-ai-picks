@@ -50,13 +50,7 @@
   background: var(--color-accent);
 }
 
-.groupIcon[data-status="iterating"] {
-  background: var(--color-foreground);
-  color: var(--color-background);
-}
-
-.groupIcon[data-status="experiment"],
-.groupIcon[data-status="paused"] {
+.groupIcon[data-status="prototype"] {
   border-style: dashed;
   color: var(--color-muted);
 }

@@ -41,6 +41,20 @@ describe("recommendation components", () => {
     expect(container.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("plays a laser flash when a logo is activated", () => {
+    const { container } = render(
+      <RecommendationLogo
+        categoryIconKey="coding"
+        name="Demo Tool"
+        src="/assets/icons/cursor.svg"
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "播放 Demo Tool Logo 的镭射效果" }));
+
+    expect(container.querySelector('[data-flashing="true"]')).not.toBeNull();
+  });
+
   it("renders typed fields, a +N tag summary, and safe links", () => {
     render(
       <RecommendationCard

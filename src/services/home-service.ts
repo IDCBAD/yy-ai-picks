@@ -146,7 +146,7 @@ export class HomeService {
         .slice(0, 5),
       longTerm: resolveCards(longTerm, categories, tags),
       filtered: resolveCards(filtered, categories, tags),
-      projects: projects.slice(0, 4),
+      projects: projects.slice(0, 2),
     };
   }
 }

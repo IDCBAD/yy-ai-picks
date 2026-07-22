@@ -37,13 +37,10 @@
 }
 
 .brandMark {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
   flex: 0 0 auto;
-  border: var(--border-thin) solid var(--color-foreground);
-  border-radius: 0.2rem;
-  background: var(--color-accent);
-  transform: rotate(45deg);
+  object-fit: contain;
 }
 
 .desktopNavigation {
@@ -185,10 +182,6 @@
   max-width: 36rem;
   margin: var(--space-4) 0 0;
   color: var(--color-border);
-}
-
-.footerBrand .brandMark {
-  border-color: var(--color-background);
 }
 
 .footerLinks,
@@ -403,7 +396,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brandMark,
   .backToTop {
     transform: none;
   }

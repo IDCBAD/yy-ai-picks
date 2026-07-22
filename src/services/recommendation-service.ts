@@ -137,10 +137,7 @@ export class RecommendationService {
     const projects = await this.dependencies.projects.getAllPublished();
     const groups: Record<ProjectStatus, Project[]> = {
       launched: [],
-      iterating: [],
       prototype: [],
-      experiment: [],
-      paused: [],
     };
 
     for (const project of projects) {

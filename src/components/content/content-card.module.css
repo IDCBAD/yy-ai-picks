@@ -1,5 +1,6 @@
 .card {
   min-width: 0;
+  height: 100%;
   padding: var(--space-5);
   border: var(--border-strong) solid var(--color-foreground);
   border-radius: var(--radius-card);
@@ -19,6 +20,7 @@
 
 .cardLink {
   display: flex;
+  height: 100%;
   align-items: flex-start;
   gap: var(--space-4);
   color: inherit;
@@ -36,15 +38,23 @@
   background: var(--color-accent);
 }
 
-.iconBox svg {
-  width: 1.4rem;
-  height: 1.4rem;
+.iconBox :global(.contentEntryIcon) {
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+}
+
+.projectLogo {
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
 }
 
 .cardBody {
   display: flex;
   min-width: 0;
   flex: 1;
+  align-self: stretch;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -79,6 +89,11 @@ p.description {
   border: var(--border-thin) solid var(--color-foreground);
   border-radius: var(--radius-pill);
   background: var(--color-accent);
+}
+
+.meta,
+.action {
+  margin-top: auto;
 }
 
 .action,
@@ -161,6 +176,85 @@ p.description {
   gap: var(--space-4);
 }
 
+.projectVisit {
+  position: relative;
+  min-height: var(--control-min);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  overflow: hidden;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border: var(--border-strong) solid var(--color-foreground);
+  border-radius: var(--radius-control);
+  background: var(--color-accent);
+  box-shadow: var(--shadow-hard);
+  color: var(--color-foreground);
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.projectVisit::after {
+  position: absolute;
+  inset: -30% auto -30% -42%;
+  width: 30%;
+  background: rgb(255 255 255 / 72%);
+  content: "";
+  pointer-events: none;
+  transform: skewX(-22deg);
+}
+
+.projectVisit:hover,
+.projectVisit:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 88%, white);
+  box-shadow: var(--shadow-hard-hover);
+  transform: translate(var(--motion-card-lift), var(--motion-card-lift));
+}
+
+.projectVisit:active {
+  box-shadow: 1px 1px 0 var(--color-foreground);
+  transform: translate(2px, 2px);
+}
+
+.projectVisitActivated::after {
+  animation: project-visit-sheen 480ms var(--ease-out);
+}
+
+.projectVisitIcon {
+  display: inline-grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: var(--border-thin) solid var(--color-foreground);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-subtle);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.projectVisitIcon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.projectVisit:hover .projectVisitIcon,
+.projectVisit:focus-visible .projectVisitIcon {
+  transform: translateX(var(--motion-action-nudge)) rotate(-8deg);
+}
+
+@keyframes project-visit-sheen {
+  from {
+    left: -42%;
+  }
+
+  to {
+    left: 118%;
+  }
+}
+
 @media (max-width: 48rem) {
   .card {
     padding: var(--space-4);
@@ -188,7 +282,9 @@ p.description {
 @media (prefers-reduced-motion: reduce) {
   .card,
   .action svg,
-  .links svg {
+  .links svg,
+  .projectVisit,
+  .projectVisitIcon {
     transition: none;
   }
 
@@ -196,5 +292,18 @@ p.description {
   .card:focus-within {
     transform: none;
     box-shadow: var(--shadow-hard);
+  }
+
+  .projectVisit:hover,
+  .projectVisit:focus-visible,
+  .projectVisit:active,
+  .projectVisit:hover .projectVisitIcon,
+  .projectVisit:focus-visible .projectVisitIcon {
+    box-shadow: var(--shadow-hard);
+    transform: none;
+  }
+
+  .projectVisitActivated::after {
+    animation: none;
   }
 }

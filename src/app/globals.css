@@ -66,6 +66,7 @@
   --duration-fast: 140ms;
   --duration-normal: 260ms;
   --duration-reveal: 420ms;
+  --duration-logo-flash: 560ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-card-lift: -2px;
   --motion-action-nudge: 4px;

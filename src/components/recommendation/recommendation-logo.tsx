@@ -31,12 +31,18 @@ export function RecommendationLogo({
   src,
 }: RecommendationLogoProps) {
   const [failedSrc, setFailedSrc] = useState<string>();
+  const [flashKey, setFlashKey] = useState(0);
 
   const CategoryIcon = categoryIconKey ? CATEGORY_ICONS[categoryIconKey] : undefined;
   const showImage = Boolean(src) && failedSrc !== src;
 
   return (
-    <span className={`${styles.logo} ${styles[`logo${size}`]}`}>
+    <button
+      aria-label={`播放 ${name} Logo 的镭射效果`}
+      className={`${styles.logo} ${styles[`logo${size}`]}`}
+      onClick={() => setFlashKey((current) => current + 1)}
+      type="button"
+    >
       {showImage ? (
         <Image
           alt={alt ?? ""}
@@ -52,6 +58,9 @@ export function RecommendationLogo({
           {name.trim().charAt(0).toLocaleUpperCase() || "?"}
         </span>
       )}
-    </span>
+      {flashKey > 0 ? (
+        <span aria-hidden="true" className={styles.logoFlash} data-flashing="true" key={flashKey} />
+      ) : null}
+    </button>
   );
 }

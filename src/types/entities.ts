@@ -102,6 +102,7 @@ export interface ScenarioStep {
 export interface Scenario {
   id: string;
   slug: string;
+  iconKey: string;
   title: string;
   shortDescription: string;
   longDescription: string;

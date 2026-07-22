@@ -1,4 +1,5 @@
-import { ArrowRight, Code2 } from "lucide-react";
+import { ArrowRight, Lightbulb } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { ExternalLink } from "@/components/ui/external-link";
@@ -6,6 +7,7 @@ import { PROJECT_STATUS_LABELS } from "@/lib/presentation";
 import type { Project } from "@/types";
 
 import styles from "./content-card.module.css";
+import { ProjectVisitLink } from "./project-visit-link";
 
 export interface ProjectCardProps {
   project: Project;
@@ -27,7 +29,17 @@ export function ProjectCard({
     <article className={styles.card}>
       <div className={styles.projectHeader}>
         <span aria-hidden="true" className={styles.iconBox}>
-          <Code2 />
+          {project.coverImage ? (
+            <Image
+              alt=""
+              className={styles.projectLogo}
+              height={48}
+              src={project.coverImage}
+              width={48}
+            />
+          ) : (
+            <Lightbulb />
+          )}
         </span>
         <span className={styles.status}>{PROJECT_STATUS_LABELS[project.status]}</span>
       </div>
@@ -56,7 +68,7 @@ export function ProjectCard({
       </ul>
       <div className={styles.links}>
         {project.projectUrl ? (
-          <ExternalLink href={project.projectUrl}>查看项目</ExternalLink>
+          <ProjectVisitLink href={project.projectUrl} projectName={project.name} />
         ) : null}
         {project.developmentLogUrl ? (
           <ExternalLink href={project.developmentLogUrl}>开发记录</ExternalLink>

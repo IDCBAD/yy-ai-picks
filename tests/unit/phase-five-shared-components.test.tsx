@@ -102,15 +102,15 @@ describe("Phase 5 shared display components", () => {
       <ProjectGroup headingLevel={3} projects={data.projects} status="prototype" />,
     );
 
-    expect(screen.getByRole("heading", { level: 3, name: "原型阶段" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: "原型" })).toBeInTheDocument();
     expect(screen.getByText("1 个项目")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Project One" })).toBeInTheDocument();
     expect(screen.getByText(data.projects[0].problem)).toBeInTheDocument();
     expect(screen.getByText(data.projects[0].coreFeatures[0])).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /查看项目/ })).not.toBeInTheDocument();
 
-    rerender(<ProjectGroup projects={[]} status="paused" />);
-    expect(screen.queryByRole("heading", { name: "暂停维护" })).not.toBeInTheDocument();
+    rerender(<ProjectGroup projects={[]} status="prototype" />);
+    expect(screen.queryByRole("heading", { name: "原型" })).not.toBeInTheDocument();
   });
 
   it("renders configurable about-section headings and numbering", () => {

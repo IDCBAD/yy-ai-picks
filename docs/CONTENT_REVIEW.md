@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-- 全部 23 条推荐均已完成作者复核，并以已确认状态公开展示。
+- 全部 26 条推荐均已完成作者复核，并以已确认状态公开展示。
 - 基础定位、官网、平台、开源与自托管信息优先来自官方站点或官方仓库，最近一次内容检查为 2026-07-16。
 - 推荐理由、使用方式、适合与不适合的人、优点和限制均以作者复核后的判断为准。
 - 工具能力、套餐、可用地区、授权与商用规则可能变化，实际使用前仍应查看官网最新说明。
@@ -21,7 +21,7 @@
 | `ai-assistants.ts` | ChatGPT、Codex                                                         | 常用任务与选择边界                         |
 | `development.ts`   | Claude Code、Cursor、CCSwitch、Vercel、Cloudflare                      | 开发流程、发布方式与成本边界               |
 | `knowledge.ts`     | Obsidian、Notion、YouMind、AIHot                                       | 信息从收集到沉淀的真实路径                 |
-| `automation.ts`    | Hermes Agent、Dify、n8n、Agent-Reach                                   | 自动化权限、异常处理与自托管成本           |
+| `automation.ts`    | Hermes Agent、Agent-Reach、ColaOS、Bloome、Happycapy、NewMax、Kimi Work | 自动化权限、异常处理与试用边界             |
 | `creation.ts`      | OpenDesign、Kling、Midjourney、Remotion、PPT Master、guizang-ppt-skill | 产出质量、版权、授权、设备兼容性与交付方式 |
 | `resources.ts`     | awesome-design-md、catchmeta                                           | 参考资料的用途、版权边界与复用方式         |
 
@@ -36,4 +36,4 @@
 
 - `OpenDesign` 指向 `open-design.ai`。
 - `AIHot` 指向 `aihot.virxact.com`。
-- Remotion、Dify 与 n8n 存在特定许可证或商业使用条件，描述保持谨慎并以官方当前规则为准。
+- Remotion 存在特定许可证或商业使用条件，描述保持谨慎并以官方当前规则为准。

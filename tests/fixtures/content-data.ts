@@ -18,7 +18,7 @@ export function createValidContentData(): ContentData {
         name: "Category One",
         shortDescription: "A short category description.",
         longDescription: "A longer category description for published content.",
-        iconKey: "category",
+        iconKey: "assistant",
         order: 1,
         visible: true,
         createdAt: "2026-01-01T00:00:00.000Z",
@@ -76,6 +76,7 @@ export function createValidContentData(): ContentData {
       {
         id: "scenario-one",
         slug: "scenario-one",
+        iconKey: "ai-website",
         title: "Scenario One",
         shortDescription: "A short scenario description.",
         longDescription: "A complete scenario description.",

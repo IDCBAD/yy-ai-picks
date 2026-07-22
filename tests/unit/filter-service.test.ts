@@ -23,10 +23,10 @@ describe("FilterService", () => {
       service
         .apply(contentData.recommendations, { relationship: "daily-use" })
         .map((item) => item.slug),
-    ).toEqual(["chatgpt", "codex", "claude-code", "cursor", "cloudflare", "obsidian", "notion"]);
+    ).toEqual(["chatgpt", "codex", "ccswitch", "obsidian", "hermes-agent", "open-design"]);
     expect(
       service.apply(contentData.recommendations, { pricing: "paid" }).map((item) => item.slug),
-    ).toEqual(["codex", "claude-code", "midjourney"]);
+    ).toEqual(["codex", "claude-code", "newmax", "midjourney"]);
   });
 
   it("filters by open source, self hosting and platform", () => {
@@ -56,10 +56,10 @@ describe("FilterService", () => {
     const result = service.apply(contentData.recommendations, {
       categoryId: "category-agent-automation",
       selfHostable: true,
-      platform: "web",
+      platform: "macos",
     });
 
-    expect(result.map((item) => item.slug)).toEqual(["dify", "n8n"]);
+    expect(result.map((item) => item.slug)).toEqual(["hermes-agent"]);
   });
 
   it("sorts by recently updated and recently added dates", () => {
@@ -77,10 +77,10 @@ describe("FilterService", () => {
     expect(result.slice(0, 6).map((item) => item.slug)).toEqual([
       "chatgpt",
       "codex",
-      "claude-code",
-      "cursor",
-      "vercel",
+      "ccswitch",
       "obsidian",
+      "hermes-agent",
+      "open-design",
     ]);
   });
 

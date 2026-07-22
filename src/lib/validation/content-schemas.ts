@@ -134,6 +134,7 @@ export const scenarioStepSchema: z.ZodType<ScenarioStep> = z.object({
 export const scenarioSchema: z.ZodType<Scenario> = z.object({
   id: idSchema,
   slug: slugSchema,
+  iconKey: slugSchema,
   title: textSchema,
   shortDescription: textSchema,
   longDescription: textSchema,

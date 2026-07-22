@@ -6,6 +6,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-ai-website",
     slug: "ai-website",
+    iconKey: "ai-website",
     title: "用 AI 做一个网站",
     shortDescription: "从需求、设计到代码和发布的一组实际工具入口。",
     longDescription: "按网站交付流程组织工具；步骤顺序与选择理由仍等待作者结合真实工作方式复核。",
@@ -71,6 +72,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-build-agent",
     slug: "build-agent",
+    iconKey: "build-agent",
     title: "搭建一个 Agent",
     shortDescription: "从定义任务到接入工具和工作流的探索路径。",
     longDescription: "将模型协作、编码 Agent、通用 Agent 和工作流工具拆分为可单独验证的步骤。",
@@ -81,8 +83,8 @@ export const scenarios: Scenario[] = [
       "rec-claude-code",
       "rec-ccswitch",
       "rec-hermes-agent",
-      "rec-dify",
-      "rec-n8n",
+      "rec-bloome",
+      "rec-happycapy",
       "rec-agent-reach",
     ],
     steps: [
@@ -111,9 +113,9 @@ export const scenarios: Scenario[] = [
         order: 3,
         title: "组织运行流程",
         description: "验证 Agent、AI 应用和自动化工作流的职责边界。",
-        primaryRecommendationIds: ["rec-hermes-agent", "rec-dify"],
-        alternativeRecommendationIds: ["rec-n8n"],
-        selectionReason: "覆盖通用 Agent、AI 应用与跨服务自动化。",
+        primaryRecommendationIds: ["rec-hermes-agent", "rec-bloome"],
+        alternativeRecommendationIds: ["rec-happycapy"],
+        selectionReason: "分别试通用 Agent、对话协作和浏览器内任务环境。",
         notes: [],
       },
       {
@@ -135,6 +137,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-knowledge-base",
     slug: "knowledge-base",
+    iconKey: "knowledge-base",
     title: "建立个人知识库",
     shortDescription: "从信息发现到长期笔记整理的工具组合。",
     longDescription: "区分资料发现、主题整理、本地笔记和协作空间，避免把所有信息塞进同一个系统。",
@@ -180,6 +183,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-automation",
     slug: "automation",
+    iconKey: "automation",
     title: "自动化重复工作",
     shortDescription: "把重复、可定义且可验证的步骤组织成自动化流程。",
     longDescription: "先明确风险和人工确认点，再选择 Agent、流程工具和资料获取能力。",
@@ -189,8 +193,9 @@ export const scenarios: Scenario[] = [
       "rec-ccswitch",
       "rec-aihot",
       "rec-hermes-agent",
-      "rec-dify",
-      "rec-n8n",
+      "rec-colaos",
+      "rec-happycapy",
+      "rec-newmax",
       "rec-agent-reach",
     ],
     steps: [
@@ -209,9 +214,9 @@ export const scenarios: Scenario[] = [
         order: 2,
         title: "搭建流程",
         description: "连接 AI 能力、服务接口和规则步骤。",
-        primaryRecommendationIds: ["rec-n8n", "rec-dify"],
-        alternativeRecommendationIds: ["rec-hermes-agent"],
-        selectionReason: "覆盖工作流、AI 应用和 Agent 三种组织方式。",
+        primaryRecommendationIds: ["rec-colaos", "rec-happycapy"],
+        alternativeRecommendationIds: ["rec-newmax", "rec-hermes-agent"],
+        selectionReason: "用桌面 Agent、浏览器任务环境和本地工作台试不同的组织方式。",
         notes: [],
       },
       {
@@ -233,6 +238,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-media-production",
     slug: "media-production",
+    iconKey: "media-production",
     title: "生产图片、视频与演示",
     shortDescription: "从资料、视觉探索到视频和演示输出的创作路径。",
     longDescription: "将素材整理、图像和视频生成、程序化视频与演示文稿制作拆分为独立环节。",
@@ -287,6 +293,7 @@ export const scenarios: Scenario[] = [
   {
     id: "scenario-indie-inspiration",
     slug: "indie-inspiration",
+    iconKey: "indie-inspiration",
     title: "寻找独立产品灵感",
     shortDescription: "从动态、参考、原型到发布的独立产品探索路径。",
     longDescription:

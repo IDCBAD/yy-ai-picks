@@ -17,7 +17,7 @@ test.describe("Phase 6 release checks", () => {
     const xml = await response.text();
     const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 
-    expect(urls).toHaveLength(38);
+    expect(urls).toHaveLength(41);
     expect(urls.some((url) => url.includes("/search"))).toBe(false);
     expect(urls.some((url) => url.includes("/dev/"))).toBe(false);
 

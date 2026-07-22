@@ -18,13 +18,7 @@ export const RECOMMENDATION_AVAILABILITIES = [
 
 export const PRICING_TYPES = ["free", "freemium", "paid", "open-source"] as const;
 
-export const PROJECT_STATUSES = [
-  "launched",
-  "iterating",
-  "prototype",
-  "experiment",
-  "paused",
-] as const;
+export const PROJECT_STATUSES = ["launched", "prototype"] as const;
 
 export const TAG_GROUPS = ["capability", "scenario", "attribute"] as const;
 

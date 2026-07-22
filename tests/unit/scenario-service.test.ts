@@ -48,8 +48,8 @@ describe("ScenarioService", () => {
       "claude-code",
       "ccswitch",
       "hermes-agent",
-      "dify",
-      "n8n",
+      "bloome",
+      "happycapy",
       "agent-reach",
     ]);
     expect(new Set(result.map((item) => item.id)).size).toBe(result.length);

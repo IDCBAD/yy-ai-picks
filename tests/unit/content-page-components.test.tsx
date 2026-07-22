@@ -11,7 +11,7 @@ const data = createValidContentData();
 
 describe("content page components", () => {
   it("renders category and scenario cards with typed content and valid route links", () => {
-    render(
+    const { container } = render(
       <>
         <CategoryCard category={data.categories[0]} count={7} />
         <ScenarioCard scenario={data.scenarios[0]} />
@@ -28,12 +28,20 @@ describe("content page components", () => {
       "/scenarios/scenario-one",
     );
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
+    expect(container.querySelector('[data-entry-icon="category"]')).toHaveAttribute(
+      "src",
+      expect.stringContaining("category-assistant.png"),
+    );
+    expect(container.querySelector('[data-entry-icon="scenario"]')).toHaveAttribute(
+      "src",
+      expect.stringContaining("scenario-ai-website.png"),
+    );
   });
 
   it("renders project metadata with a valid fallback link", () => {
     render(<ProjectCard project={data.projects[0]} />);
 
-    expect(screen.getByText("原型阶段")).toBeInTheDocument();
+    expect(screen.getByText("原型")).toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Project One 技术栈" })).toHaveTextContent(
       "TypeScript",
     );
@@ -48,12 +56,27 @@ describe("content page components", () => {
     };
     const { container } = render(<ProjectCard project={project} />);
 
-    expect(screen.getByRole("link", { name: /查看项目/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /打开项目：Project One/ })).toHaveAttribute(
       "rel",
       "noopener noreferrer",
     );
     expect(screen.getByRole("link", { name: /开发记录/ })).toHaveAttribute("target", "_blank");
     expect(container.querySelector("a a")).toBeNull();
+  });
+
+  it("renders a project-owned logo when a local image is provided", () => {
+    const project = {
+      ...data.projects[0],
+      coverImage: "/assets/icons/project-personal-blog.png",
+      projectUrl: "https://blog.yuyi-ai.top/",
+    };
+    const { container } = render(<ProjectCard project={project} />);
+
+    expect(container.querySelector('img[src*="project-personal-blog.png"]')).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /打开项目：Project One/ })).toHaveAttribute(
+      "href",
+      "https://blog.yuyi-ai.top/",
+    );
   });
 
   it("hides a detail section when content is absent", () => {
