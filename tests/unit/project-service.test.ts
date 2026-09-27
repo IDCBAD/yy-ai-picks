@@ -10,11 +10,12 @@ describe("ProjectService", () => {
 
     const result = await service.getPageData();
 
-    expect(result.projectCount).toBe(3);
+    expect(result.projectCount).toBe(4);
     expect(result.groups.map((group) => group.status)).toEqual(["launched", "prototype"]);
-    expect(result.groups.map((group) => group.count)).toEqual([2, 1]);
-    expect(result.groups.flatMap((group) => group.projects)).toHaveLength(3);
-    expect(result.lastUpdatedAt).toBe("2026-07-22T00:00:00.000Z");
+    expect(result.groups.map((group) => group.count)).toEqual([3, 1]);
+    expect(result.groups.flatMap((group) => group.projects)).toHaveLength(4);
+    expect(result.groups[0]?.projects[0]?.slug).toBe("yemai-reading-assistant");
+    expect(result.lastUpdatedAt).toBe("2026-09-27T00:00:00.000Z");
   });
 
   it("excludes unpublished projects from status groups", async () => {
@@ -24,6 +25,6 @@ describe("ProjectService", () => {
 
     const groups = await service.getStatusGroups();
 
-    expect(groups.flatMap((group) => group.projects)).toHaveLength(2);
+    expect(groups.flatMap((group) => group.projects)).toHaveLength(3);
   });
 });

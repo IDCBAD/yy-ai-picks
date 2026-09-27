@@ -48,10 +48,11 @@ describe("HomeService", () => {
     const result = await createService().getPageData(defaultQuery);
 
     expect(result.publishedCount).toBe(26);
-    expect(result.lastUpdatedAt).toBe("2026-07-22T00:00:00.000Z");
+    expect(result.lastUpdatedAt).toBe("2026-09-27T00:00:00.000Z");
     expect(result.categories).toHaveLength(6);
     expect(result.scenarios).toHaveLength(6);
     expect(result.projects).toHaveLength(2);
+    expect(result.projects[0]?.slug).toBe("yemai-reading-assistant");
     expect(result.categorySummaries.find((item) => item.category.slug === "ai-coding")?.count).toBe(
       6,
     );

@@ -73,7 +73,7 @@ describe("other local repositories", () => {
       id: "scenario-build-agent",
     });
     await expect(scenarioRepository.getBySlug("missing")).resolves.toBeNull();
-    await expect(projectRepository.getAllPublished()).resolves.toHaveLength(3);
+    await expect(projectRepository.getAllPublished()).resolves.toHaveLength(4);
     await expect(projectRepository.getBySlug("personal-blog")).resolves.toMatchObject({
       id: "project-personal-blog",
     });

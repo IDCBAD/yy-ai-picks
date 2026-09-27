@@ -48,7 +48,7 @@ describe("local content", () => {
     );
     const prototypes = contentData.projects.filter((project) => project.status === "prototype");
 
-    expect(launchedProjects).toHaveLength(2);
+    expect(launchedProjects).toHaveLength(3);
     expect(prototypes).toHaveLength(1);
     expect(prototypes[0]?.projectUrl).toBeUndefined();
 

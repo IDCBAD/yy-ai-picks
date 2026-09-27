@@ -4,6 +4,22 @@ const createdAt = "2026-07-10T00:00:00.000Z";
 
 export const projects: Project[] = [
   {
+    id: "project-yemai-reading-assistant",
+    slug: "yemai-reading-assistant",
+    name: "页脉 · AI 阅读助手",
+    shortDescription:
+      "在 Chrome 侧边栏中结合网页、划词和文件与 AI 连续对话，并收藏值得保留的回答。",
+    problem: "阅读材料与 AI 对话分散在不同位置，后续很难找到问题、来源和有价值的回答。",
+    coreFeatures: ["网页与划词引用", "连续对话与分支", "回答收藏与本地工作区"],
+    techStack: ["Chrome Extension", "WXT", "React", "TypeScript"],
+    status: "launched",
+    publishStatus: "published",
+    coverImage: "/assets/icons/project-yemai.png",
+    projectUrl: "https://github.com/IDCBAD/yemai-reading-assistant",
+    createdAt: "2026-08-09T00:00:00.000Z",
+    updatedAt: "2026-09-27T00:00:00.000Z",
+  },
+  {
     id: "project-personal-blog",
     slug: "personal-blog",
     name: "余一的 AI 观察备忘录",

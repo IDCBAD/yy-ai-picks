@@ -8,7 +8,7 @@ test.describe("Phase 4 home and recommendation details", () => {
       has: page.getByRole("heading", { name: "余一的 AI 推荐清单", level: 1 }),
     });
     await expect(hero).toContainText("26");
-    await expect(hero).toContainText("2026/07/22");
+    await expect(hero).toContainText("2026/09/27");
     await expect(page.getByRole("search", { name: "搜索推荐清单" })).toBeVisible();
   });
 
@@ -18,11 +18,15 @@ test.describe("Phase 4 home and recommendation details", () => {
     for (const kind of ["category", "scenario"] as const) {
       const icons = page.locator(`[data-entry-icon="${kind}"]`);
       await expect(icons).toHaveCount(6);
-      const sources = await icons.evaluateAll((items) => items.map((item) => item.getAttribute("src")));
+      const sources = await icons.evaluateAll((items) =>
+        items.map((item) => item.getAttribute("src")),
+      );
 
       expect(new Set(sources).size).toBe(6);
       expect(
-        sources.every((source) => decodeURIComponent(source ?? "").includes(`/assets/icons/${kind}-`)),
+        sources.every((source) =>
+          decodeURIComponent(source ?? "").includes(`/assets/icons/${kind}-`),
+        ),
       ).toBe(true);
     }
   });
